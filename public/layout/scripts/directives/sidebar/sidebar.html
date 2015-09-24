@@ -1,0 +1,34 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <!--<sidebar-icons></sidebar-icons>-->
+        <ul class="nav in" id="side-menu">
+            <!--<sidebar-search></sidebar-search>-->
+
+            <li ng-class="{active: collapseVar==1}">
+                <a href="" ng-click="check(1)">
+                    Cadastros
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=1">
+                    <li ui-sref-active="active" >
+                        <a ui-sref="dashboard.vendedores">Vendedores</a>
+                    </li>
+                    <li ui-sref-active="active" >
+                        <a ui-sref="dashboard.filiais">Filiais</a>
+                    </li>
+                    <li ui-sref-active="active" >
+                        <a ui-sref="dashboard.metas">Metas</a>
+                    </li>
+                    <li ui-sref-active="active" >
+                        <a ui-sref="dashboard.produtos">Produtos</a>
+                    </li>
+                    <li ui-sref-active="active" >
+                        <a ui-sref="dashboard.mensagens">Mensagens</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>

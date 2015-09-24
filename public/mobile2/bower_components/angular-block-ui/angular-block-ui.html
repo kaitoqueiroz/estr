@@ -1,0 +1,76 @@
+<style>
+    .block
+    {
+        background-color: rgba(0,0,0,0.8);
+        height: 100vh;
+        position: absolute;
+        width: 100vw;
+    }
+    .spinner
+    {
+        bottom: 0px;
+        font-size: 10px;
+        height: 40px;
+        left: 0px;
+        margin: auto;
+        position: absolute;
+        right: 0px;
+        text-align: center;
+        top: 0px;
+        width: 50px;
+    }
+    .spinner>div
+    {
+        animation: sk-stretchdelay 1.2s infinite ease-in-out;
+        background-color: #fff;
+        display: inline-block;
+        height: 100%;
+        webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+        width: 6px;
+    }
+    .spinner .rect2
+    {
+        animation-delay: -1.1s;
+        webkit-animation-delay: -1.1s;
+    }
+    .spinner .rect3
+    {
+        animation-delay: -1s;
+        webkit-animation-delay: -1s;
+    }
+    .spinner .rect4
+    {
+        animation-delay: -.9s;
+        webkit-animation-delay: -.9s;
+    }
+    .spinner .rect5
+    {
+        animation-delay: -.8s;
+        webkit-animation-delay: -.8s;
+    }
+    @-webkit-keyframes sk-stretchdelay
+    {
+        0%,100%,40%
+        {
+            webkit-transform: scaleY(.4);
+        }
+        20%
+        {
+            webkit-transform: scaleY(1);
+        }
+    }
+    @keyframes sk-stretchdelay
+    {
+        0%,100%,40%
+        {
+            transform: scaleY(.4);
+            webkit-transform: scaleY(.4);
+        }
+        20%
+        {
+            transform: scaleY(1);
+            webkit-transform: scaleY(1);
+        }
+    }
+</style>
+<div class="block"><div class="spinner"> <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div> </div></div>

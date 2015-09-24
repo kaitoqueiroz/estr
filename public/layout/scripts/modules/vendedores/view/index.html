@@ -1,0 +1,72 @@
+<div>
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header" >Vendedores</h1>
+
+            <div class="form-group col-xs-6 pull-left">
+                <a class="btn btn-success" href="#/vendedores/create">
+                    <i class="fa fa-plus"></i> Cadastrar
+                </a>
+            </div>
+            <div class="form-group col-xs-6 pull-right">
+                <label for="itensPerPage" class="col-xs-8 control-label" style="margin-top: 6px;text-align: right;">Registros por Página </label>
+                <div class="col-xs-4">
+                    <select id="itensPerPage" ng-model="itemsPerPage" ng-change="changeItensPerPage();" class="form-control col-xs-12">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-responsive col-xs-12">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1 order" ng-click="order('id');">
+                                <span>ID </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'id'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'id'" class="glyphicon glyphicon-triangle-top"></i>
+                            </th>
+                            <th class="col-md-5 order" ng-click="order('nome');">
+                                <span>Nome </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'nome'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'nome'" class="glyphicon glyphicon-triangle-top"></i>
+                            </th>
+                            <th class="col-md-4 order" ng-click="order('nome_filial');">
+                                <span>Filial </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'nome_filial'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'nome_filial'" class="glyphicon glyphicon-triangle-top"></i>
+                            </th>
+                            <th class="col-md-2">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="vendedor in vendedores track by vendedor.id">
+                            <td>{{vendedor.id}} </td>
+                            <td>{{vendedor.nome}} </td>
+                            <td>{{vendedor.nome_filial}}</td>
+                            <td>
+                            <center>
+                                <a href="#/vendedores/show/{{vendedor.id}}" class="btn btn-circle btn-primary hint hint--top" data-hint="Visualizar">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a href="#/vendedores/edit/{{vendedor.id}}" class="btn btn-circle btn-warning hint hint--top" data-hint="Editar">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a class="btn btn-circle btn-danger hint hint--top" ng-click="excluir(vendedor.id)" data-hint="Excluir">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </center>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination  previous-text="&lsaquo;" next-text="&rsaquo;" items-per-page="itemsPerPage" first-text="&laquo;" last-text="&raquo;" total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-lg pull-right" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
+            </div>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>

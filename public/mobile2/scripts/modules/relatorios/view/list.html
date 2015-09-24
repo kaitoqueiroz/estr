@@ -1,0 +1,14 @@
+<div class="pagina">
+	<div class="row">
+		<div class="col-lg-12 no-padding">
+            <a ng-repeat="meta in metas track by meta.id" href="#/relatorios_meta_{{tipo}}/{{meta.id}}">
+                <div class="box-container">
+                    {{(meta.data == null)?meta.mes:meta.data}}
+                    <i class="pull-right fa fa-angle-right"></i>
+                </div>
+            </a>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>

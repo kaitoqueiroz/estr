@@ -1,0 +1,68 @@
+<div class="pagina">
+	<div class="row">
+		<div class="col-lg-12 no-padding">
+			<div class="box-container" class="col-xs-12">
+                <div class="menu-interno">
+                    <div class="col-xs-4">
+                        <center>
+                            <a class="btn btn-primary btn-circle btn-lg" ui-sref="dashboard.mensagens">
+                                <i class="fa fa-bell-o" style="font-size:25px; margin-left: -4px;"></i>
+                            </a>
+                        </center>
+                    </div>
+                    <div class="col-xs-4">
+                        <center>
+                            <a class="btn btn-primary btn-circle btn-lg" ui-sref="dashboard.relatorios">
+                                <i class="fa fa-list-alt" style="font-size:25px; margin-left: -4px;"></i>
+                            </a>
+                        </center>
+                    </div>
+                    <div class="col-xs-4">
+                        <center>
+                            <a class="btn btn-primary btn-circle btn-lg" ui-sref="dashboard.lancar_venda">
+                                <i class="fa fa-check-square-o" style="font-size:25px; margin-left: -2px;"></i>
+                            </a>
+                        </center>
+                    </div>
+
+                    <a class="col-xs-4"><center style="font-size:9px">Mensagens</center></a>
+                    <a class="col-xs-4"><center style="font-size:9px">Relatórios</center></a>
+                    <a class="col-xs-4"><center style="font-size:9px">Lançar Venda</center></a>
+                </div>
+            </div>
+
+            <div class="box-container" ng-repeat="meta in metasDiarias" style="height: 77px;">
+                <a href="#/relatorios_meta_{{meta.tipoRelatorio}}/{{meta.id}}">
+                    <p>
+                        <strong>Meta: {{meta.dataMeta}}</strong>
+                        <span class="pull-right text-muted">{{meta.porcentagemMeta}}% Completo</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-{{meta.classBar}}" role="progressbar" aria-valuenow="{{meta.porcentagemMeta}}" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.porcentagemMeta}}%">
+                        </div>                        
+                    </div>
+                    <div ng-show="meta.porcentagemMeta >= 100" style="color: gold; font-weight: bold; margin-top: -40px; text-align: center;" class="mensagem-meta">
+                        <i class="fa fa-star"></i>Parabéns, meta atingida!
+                    </div>
+                </a>
+            </div>
+            <div class="box-container" ng-repeat="meta in metasMensais" style="height: 77px;">
+                <a href="#/relatorios_meta_{{meta.tipoRelatorio}}/{{meta.id}}">
+                    <p>
+                        <strong>Meta: {{meta.mesMeta}}</strong>
+                        <span class="pull-right text-muted">{{meta.porcentagemMeta}}% Completo</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-{{meta.classBar}}" role="progressbar" aria-valuenow="{{meta.porcentagemMeta}}" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.porcentagemMeta}}%">
+                        </div>                        
+                    </div>
+                    <div ng-show="meta.porcentagemMeta >= 100" style="color: gold; font-weight: bold; margin-top: -40px; text-align: center;" class="mensagem-meta">
+                        <i class="fa fa-star"></i>Parabéns, meta atingida!
+                    </div>
+                </a>
+            </div>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>

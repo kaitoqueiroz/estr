@@ -1,0 +1,19 @@
+<div class="pagina">
+	<div class="row">
+		<div class="col-lg-12 no-padding">
+            <div class="chat">
+                <ul>
+                    <li class="message-right" ng-repeat="mensagem in mensagens track by mensagem.id">
+                        <div class="message mdl-shadow--2dp mdl-color--primary mdl-color-text--white">
+                            <p>{{mensagem.mensagem}}</p> <!-- message text -->
+                            <span>{{mensagem.created_at}}</span> <!-- message time -->
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>

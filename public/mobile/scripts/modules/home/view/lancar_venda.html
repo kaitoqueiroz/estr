@@ -1,0 +1,60 @@
+<div class="pagina">
+	<div class="row">
+		<div class="col-lg-12 no-padding">
+            <div class="box-container">
+                Lançar Venda
+            </div>
+            <div class="box-container col-xs-12">
+                <div class="form-group col-xs-12">
+                    <label>Produto</label>
+                    <select ng-model="produto" type="text"
+                        ng-options="produto.descricao for produto in produtos track by produto.id" class="form-control">
+                     </select>
+                </div>
+
+                <div class="form-group col-xs-12">
+                    <label>Quantidade</label>
+                    <input ng-model="produto.quantidade" type="number" class="form-control"/>
+                </div>
+
+                <div class="form-group col-xs-12">
+                    <button type="button" ng-disabled="!produto.id || !produto.quantidade" class="btn btn-primary form-control" ng-click="adicionarProduto()">Adicionar produto</button>
+                </div>
+
+            </div>
+            <div class="box-container col-xs-12">
+                <p>Produtos da venda </p>
+                <table class="table table-bordered table-responsive table-striped" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtde</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="produto in produtos_venda track by produto.id">
+                            <td><b>Descrição:</b> {{produto.descricao}}<br><b>Valor:</b> {{produto.valor | currency:"R$ ":2}}<br></td>
+                            <td>{{produto.quantidade}}</td>
+                            <td>{{produto.valor*produto.quantidade | currency:"R$ ":2}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="success">
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{valor_total | currency:"R$ ":2}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="box-container col-xs-12">
+                <div class="form-group col-xs-12">
+                    <button ng-disabled="produtos_venda.length == 0" type="button" class="btn btn-success form-control" ng-click="finalizar()"><i class="fa fa-check"></i> Finalizar venda</button>
+                </div>
+            </div>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>

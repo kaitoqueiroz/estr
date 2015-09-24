@@ -1,0 +1,126 @@
+<div class="page-header">
+    <h1>Editar Meta</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="_token" value="{{  }}">
+
+            <div class="form-group">
+                <label>ID</label>
+                <p class="form-control-static">{{meta.id}}</p>
+            </div>
+            <div class="form-group">
+                 <label>Filial do vendedor</label>
+                 <select ng-required="true" type="text" ng-model="meta.filial" ng-change="selectFilial(filial)" 
+                    ng-options="filial.nome for filial in filiais track by filial.id" class="form-control">
+                 </select>
+            </div>
+            <div class="form-group">
+                 <label>Vendedor</label>
+                 <select ng-required="true" ng-disabled="!meta.filial" type="text" ng-model="meta.vendedor_id"  
+                    ng-options="vendedor.nome for vendedor in vendedores track by vendedor.id" class="form-control">
+                 </select>
+            </div>
+            <div class="form-group">
+                 <label>Tipo da Meta</label>
+                 <select ng-required="true" ng-model="meta.tipo" type="text"
+                    ng-options="tipo.descricao for tipo in tipos track by tipo.id" class="form-control">
+                 </select>
+            </div>
+            <div class="form-group" ng-show="meta.tipo.id == 'valor_diaria' || meta.tipo.id == 'produto_diaria'">
+                 <label>Data</label>
+                 <input ng-required="true" ui-mask="99/99/9999" ng-model="meta.data" type="text" class="form-control"/>
+            </div>
+            <div class="form-group" ng-show="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'produto_mensal'">
+                 <label>Mês/ANO</label>
+                 <input ng-required="true" ui-mask="99/9999" ng-model="meta.mes" type="text" class="form-control"/>
+            </div>
+            <div class="form-group" ng-show="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'valor_diaria' ">
+                <label>Valor</label>
+                <input ng-required="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'valor_diaria'" ng-model="meta.valor" type="text" class="form-control" ui-money-mask="2"/>
+            </div>
+
+            <div ng-show="meta.tipo.id == 'produto_mensal' || meta.tipo.id == 'produto_diaria'" class="col-xs-12 no-padding">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Adicionar produtos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group col-xs-5">
+                            <label>Produto</label>
+                            <select ng-model="produto" type="text"
+                                ng-options="produto.descricao for produto in produtos track by produto.id" class="form-control">
+                             </select>
+                        </div>
+
+                        <div class="form-group col-xs-5">
+                            <label>Quantidade</label>
+                            <input ng-model="produto.quantidade" type="number" class="form-control"/>
+                        </div>
+
+                        <div class="form-group col-xs-2">
+                            <label>&nbsp;</label>
+                            <button type="button" ng-disabled="!produto.id || !produto.quantidade" class="btn btn-primary form-control" ng-click="adicionarProduto()">Adicionar produto</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-show="produtos_meta.length > 0">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Produtos da meta</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-responsive table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cod. Produto</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Qtde</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="produto in produtos_meta track by produto.id">
+                                    <td>{{produto.id}}</td>
+                                    <td>{{produto.cod_produto}}</td>
+                                    <td>{{produto.descricao}}</td>
+                                    <td>{{produto.valor | currency:"R$ ":2}}</td>
+                                    <td>{{produto.quantidade}}</td>
+                                    <td>{{produto.quantidade*produto.valor | currency:"R$ ":2}}</td>
+                                    <td>
+                                        <center>
+                                            <a class="btn btn-circle btn-danger hint hint--top" ng-click="removerProduto(produto.id)" data-hint="Remover">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="success">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td>{{produtos_meta_total | currency:"R$ ":2}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-default" href="#/metas">Voltar</a>
+            <button class="btn btn-primary" type="submit" ng-click="salvar()">Salvar</a>
+        </form>
+    </div>
+</div>

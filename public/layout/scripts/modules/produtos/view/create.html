@@ -1,0 +1,29 @@
+<div class="page-header">
+    <h1>Cadastrar Produto</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="_token" value="{{  }}">
+
+            <div class="form-group">
+                 <label>Código do Produto</label>
+                 <input required ng-model="produto.cod_produto" type="text" class="form-control"/>
+            </div>
+            <div class="form-group">
+                 <label>Descrição</label>
+                 <input required ng-model="produto.descricao" type="text" class="form-control"/>
+            </div>
+            <div class="form-group">
+                 <label>Valor</label>
+                 <input required ng-model="produto.valor" type="text" class="form-control" ui-money-mask="2"/>
+            </div>
+
+            <a class="btn btn-default" href="#/produtos">Voltar</a>
+            <button class="btn btn-primary" type="submit" ng-click="salvar()">Salvar</a>
+        </form>
+    </div>
+</div>
