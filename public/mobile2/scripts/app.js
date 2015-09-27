@@ -21,6 +21,10 @@ var app = angular
 	.config(['blockUIConfig','NotificationProvider','$stateProvider','$urlRouterProvider','$routeProvider','$ocLazyLoadProvider','$httpProvider','$provide',
 			function (blockUIConfig,NotificationProvider,$stateProvider,$urlRouterProvider,$routeProvider,$ocLazyLoadProvider,$httpProvider,$provide) {
 
+		
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
 		NotificationProvider.setOptions({
 			delay: 10000,
 			startTop: 50,
