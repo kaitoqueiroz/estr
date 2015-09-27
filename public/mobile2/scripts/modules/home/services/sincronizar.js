@@ -40,7 +40,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
         dados_sync.mensagensvendedor = lib.queryAll("mensagensvendedor");
 
         
-        $http.post("/sincronizar/3",{
+        $http.post("http://104.131.24.32:81/sincronizar/3",{
             dados_sync:dados_sync
         }).then(function(result){
             lib.truncate("mensagens");
