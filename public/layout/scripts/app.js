@@ -195,7 +195,7 @@ var app = angular
 					}
 				}
 			})
-						.state('dashboard.mensagens',{
+			.state('dashboard.mensagens',{
 				url:'/mensagens',
 				controller:'MensagemListCtrl',
 				templateUrl:'scripts/modules/mensagens/view/index.html',
@@ -255,7 +255,7 @@ var app = angular
 					}
 				}
 			})
-						.state('dashboard.metas',{
+			.state('dashboard.metas',{
 				url:'/metas',
 				controller:'MetaListCtrl',
 				templateUrl:'scripts/modules/metas/view/index.html',
