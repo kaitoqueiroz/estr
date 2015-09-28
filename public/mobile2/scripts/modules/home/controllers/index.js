@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notification) {
+app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notification,sincronizarService) {
     $scope.getClassBar = function(valor){
         return (valor < 30)?"danger":(valor < 60)?"warning":(valor < 100)?"success":"primary";
     }
@@ -178,6 +178,7 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
     }
 
     when_external_loaded (function () {
+        sincronizarService.sincronizar();
         $scope.initialize();
     });
 });

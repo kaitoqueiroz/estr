@@ -84,6 +84,7 @@ var app = angular
 	        };
 	    });
 	    $httpProvider.interceptors.push('httpInterceptor');
+	    $httpProvider.defaults.timeout = 5000;
 
 		$ocLazyLoadProvider.config({
 			debug:false,

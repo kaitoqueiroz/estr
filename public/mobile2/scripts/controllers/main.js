@@ -13,7 +13,7 @@ angular.module('sbAdminApp').controller('MainCtrl', function($scope,$state,$root
         $window.location.href = "#/login";
     }
 	sincronizarService.sincronizar();
-    var i = setInterval(function() { sincronizarService.sincronizar() }, 1000*60*5);
+    var i = setInterval(function() { sincronizarService.sincronizar() }, 1000*60);
 
 
     function getCookie(cname) {

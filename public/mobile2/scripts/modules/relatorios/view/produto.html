@@ -9,8 +9,10 @@
                     </p>
                     <div class="progress progress-striped active">
                         <div class="progress-bar progress-bar-{{classMeta}}" role="progressbar" aria-valuenow="{{porcentagemMeta}}" aria-valuemin="0" aria-valuemax="100" style="width: {{porcentagemMeta}}%">
-                            <i ng-show="porcentagemMeta >= 100" style="color: gold; font-weight: bold" class="mensagem-meta fa fa-star">Parabéns, meta atingida!</i>
                         </div>
+                    </div>
+                    <div ng-show="porcentagemMeta >= 100" style="color: gold; font-weight: bold; margin-top: -40px; text-align: center;" class="mensagem-meta">
+                        <i class="fa fa-star"></i>Parabéns, meta atingida!
                     </div>
                 </a>
             </div>
