@@ -5,10 +5,10 @@ app.controller('RelatorioListCtrl', function($scope,$stateParams,$position,$http
     	$scope.tipo = ($stateParams.tipo == "produto_diaria" || $stateParams.tipo == "produto_mensal")?"produto":"valor";
         $scope.metas = $rootScope.metas.filter(function (el) {
             if(el.data != null)
-                el.data = moment(el.data).format("DD/MM/YYYY");
+                el.dataFormatada = moment(el.data).format("DD/MM/YYYY");
             
             if(el.mes != null)
-                el.mes = moment(el.mes).format("MM/YYYY");
+                el.mesFormatado = moment(el.mes).format("MM/YYYY");
             
             return el.tipo == $stateParams.tipo;
         });
