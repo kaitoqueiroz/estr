@@ -15,6 +15,7 @@ app.controller('VendedorEditCtrl', function($scope,$position,$http,$rootScope,No
 
         $http.put("/admin/vendedor/"+$stateParams.id,$scope.vendedor).then(function(result) {
             Notification.success("Salvo com sucesso!");
+            window.location = "#/vendedores";
         });
     }
     $scope.initialize();

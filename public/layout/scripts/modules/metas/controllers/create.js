@@ -21,7 +21,7 @@ app.controller('MetaCreateCtrl', function($scope,$position,$http,$rootScope,Noti
         	{id:"produto_diaria",descricao:"Meta diária de produtos"},
         	{id:"produto_mensal",descricao:"Meta mensal de produtos"},
         	{id:"valor_diaria",descricao:"Meta diária por valor"},
-        	{id:"valor_mensal",descricao:"Meta mendal por valor"},
+        	{id:"valor_mensal",descricao:"Meta mensal por valor"},
         ];
     }
     $scope.selectFilial = function(filial){

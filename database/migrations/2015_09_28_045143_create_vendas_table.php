@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProdutoVendasTable extends Migration {
+class CreateVendasTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateProdutoVendasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('produtovenda', function(Blueprint $table) {
+		Schema::create('venda', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('quantidade');
-            $table->integer('venda_id')->unsigned();
-            $table->foreign('venda_id')->references('id')->on('venda');
+            $table->string('cod_venda');
+            $table->integer('vendedor_id')->unsigned();
+            $table->foreign('vendedor_id')->references('id')->on('vendedor')->onDelete('cascade');
+            $table->date('data');
             $table->timestamps();
         });
 	}
@@ -28,7 +29,7 @@ class CreateProdutoVendasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('produtovenda');
+		Schema::drop('venda');
 	}
 
 }

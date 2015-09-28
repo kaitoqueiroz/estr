@@ -7,6 +7,7 @@ app.controller('ProdutoCreateCtrl', function($scope,$position,$http,$rootScope,N
     $scope.salvar = function(){
         $http.post("/admin/produto",$scope.produto).then(function(result) {
             Notification.success("Salvo com sucesso!");
+            window.location = "#/produtos";
         });
     }
     $scope.initialize();

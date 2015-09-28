@@ -11,6 +11,7 @@ app.controller('ProdutoEditCtrl', function($scope,$position,$http,$rootScope,Not
 
         $http.put("/admin/produto/"+$stateParams.id,$scope.produto).then(function(result) {
             Notification.success("Salvo com sucesso!");
+            window.location = "#/produtos";
         });
     }
     $scope.initialize();

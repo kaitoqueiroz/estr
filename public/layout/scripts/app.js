@@ -98,7 +98,6 @@ var app = angular
 								'scripts/directives/sidebar/sidebar-search/sidebar-search.js',
 								'scripts/directives/sidebar/sidebar-icons/sidebar-icons.js',
 								'bower_components/moment/min/moment.min.js',
-								'bower_components/moment/min/locales.min.js',
 							]
 						}),
 						$ocLazyLoad.load(
