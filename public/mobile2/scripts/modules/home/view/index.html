@@ -34,12 +34,12 @@
             <div class="box-container" ng-repeat="meta in metasDiarias" style="height: 77px;">
                 <a href="#/relatorios_meta_{{meta.tipoRelatorio}}/{{meta.id}}">
                     <p>
-                        <strong>Meta: {{meta.dataMeta}}</strong>
-                        <span class="pull-right text-muted">{{meta.porcentagemMeta}}% Completo</span>
+                        <strong style="font-size:12px;">Meta por {{(meta.tipoRelatorio == 'valor') ? 'Valor':'Produto'}}: {{meta.dataMeta}}</strong>
+                        <span class="pull-right text-muted">{{meta.porcentagemMeta}}%</span>
                     </p>
                     <div class="progress progress-striped active">
                         <div class="progress-bar progress-bar-{{meta.classBar}}" role="progressbar" aria-valuenow="{{meta.porcentagemMeta}}" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.porcentagemMeta}}%">
-                        </div>                        
+                        </div>
                     </div>
                     <div ng-show="meta.porcentagemMeta >= 100" style="color: gold; font-weight: bold; margin-top: -40px; text-align: center;" class="mensagem-meta">
                         <i class="fa fa-star"></i>Parabéns, meta atingida!
@@ -49,8 +49,8 @@
             <div class="box-container" ng-repeat="meta in metasMensais" style="height: 77px;">
                 <a href="#/relatorios_meta_{{meta.tipoRelatorio}}/{{meta.id}}">
                     <p>
-                        <strong>Meta: {{meta.mesMeta}}</strong>
-                        <span class="pull-right text-muted">{{meta.porcentagemMeta}}% Completo</span>
+                        <strong style="font-size:12px;">Meta por {{(meta.tipoRelatorio == 'valor') ? 'Valor':'Produto'}}: {{meta.mesMeta}}</strong>
+                        <span class="pull-right text-muted">{{meta.porcentagemMeta}}%</span>
                     </p>
                     <div class="progress progress-striped active">
                         <div class="progress-bar progress-bar-{{meta.classBar}}" role="progressbar" aria-valuenow="{{meta.porcentagemMeta}}" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.porcentagemMeta}}%">

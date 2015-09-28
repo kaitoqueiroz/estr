@@ -1,10 +1,29 @@
 'use strict';
 
 app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notification,sincronizarService) {
+
     $scope.getClassBar = function(valor){
-        return (valor < 30)?"danger":(valor < 60)?"warning":(valor < 100)?"success":"primary";
+        if(valor < 30){
+            return "danger";
+        }else if(valor < 60){
+            return "warning";
+        }else if(valor < 100){
+            return "success";
+        }else{
+            return "primary";
+        }
     }
     $scope.initialize = function(){
+
+        var lib = sincronizarService.getDB();
+
+        $rootScope.metas = lib.queryAll("metas");
+        $rootScope.produtosmeta = lib.queryAll("produtosmeta");
+        $rootScope.vendas = lib.queryAll("vendas");
+        $rootScope.produtosvenda = lib.queryAll("produtosvenda");
+        $rootScope.produtos = lib.queryAll("produtos");
+
+
         var porcentagemMeta = 0;
 
 
@@ -13,15 +32,12 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
         });
         var mensais = $rootScope.metas.filter(function (meta) {
             return meta.mes == moment().format("YYYY-MM");
-        });        
+        });
 
         $scope.metasDiarias = [];
         $scope.metasMensais = [];
         $scope.metasDiarias = $scope.getMetas(darias);
         $scope.metasMensais = $scope.getMetas(mensais);
-
-        console.log($scope.metasDiarias);
-        console.log($scope.metasMensais);
 
     }
     $scope.getMetas = function(metas){
@@ -72,16 +88,22 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
                         var valorVendido = 0;
                         var vendas = meta.produtosVendidosData.filter(function (venda) {
                             if(venda.produto_id == produto_meta.produto_id){
-                                vendido+=venda.quantidade;
-                                valorVendido+=(venda.quantidade)*($scope.getProdutoValor(venda.produto_id));
+                                venda.quantidade = parseInt(venda.quantidade);
+                                vendido = (venda.quantidade + vendido);
+                                valorVendido = parseInt(valorVendido);
+                                valorVendido = (venda.quantidade)*($scope.getProdutoValor(venda.produto_id)) + valorVendido;
                             }
                             return venda.produto_id == produto_meta.produto_id;
                         });
                         produto_meta.vendido+=vendido;
                         produto_meta.valorVendido+=valorVendido;
-                        totalMeta+=produto_meta.quantidade*($scope.getProdutoValor(produto_meta.produto_id));
+                        totalMeta = parseInt(totalMeta);
+                        produto_meta.quantidade = parseInt(produto_meta.quantidade);
+                        totalMeta = produto_meta.quantidade*($scope.getProdutoValor(produto_meta.produto_id)) + totalMeta;
                     }
-                    totalAtingido+=produto_meta.valorVendido;
+                    produto_meta.valorVendido = parseInt(produto_meta.valorVendido);
+                    totalAtingido = (produto_meta.valorVendido + totalAtingido);
+
                     return produto_meta.meta_id == meta.id;
                 });
             }
@@ -90,7 +112,7 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
             meta.totalAtingido = totalAtingido;
 
             meta.porcentagemMeta = Math.floor(totalAtingido*100/totalMeta);
-            meta.classBar = $scope.getClassBar($scope.porcentagemMeta);
+            meta.classBar = $scope.getClassBar(meta.porcentagemMeta);
             meta.tipoRelatorio = (meta.tipo == "produto_diaria" || meta.tipo == "produto_mensal")?"produto":"valor";
             meta.dataMeta = moment(meta.data).format('DD/MM/YYYY');
             meta.mesMeta = moment(meta.mes+"-01").format('MM/YYYY');
