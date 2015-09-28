@@ -29,7 +29,7 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
                 }
                 retorno = el.data == $scope.meta.data;
             }else{
-                if(el.mes.indexOf($scope.meta.mes) > -1){
+                if(el.data.indexOf($scope.meta.mes) > -1){
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
                         if(el2.venda_id == el.id){
                             el2.mes = el.mes;
@@ -38,7 +38,7 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
                         return el2.venda_id == el.id;
                     });                    
                 }
-                retorno = el.mes.indexOf($scope.meta.mes) > -1;
+                retorno = el.data.indexOf($scope.meta.mes) > -1;
             }
             $scope.produtosVendidosData = produtosVendidosDataTEMP;
             return retorno;
