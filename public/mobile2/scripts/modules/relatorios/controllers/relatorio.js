@@ -15,29 +15,33 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
         $scope.meta = $scope.findById($stateParams.meta_id,$rootScope.metas);
         
         $scope.vendasRealizadas = $rootScope.vendas.filter(function (el) {
+            var produtosVendidosDataTEMP = [];
+            var retorno = false;
             if($scope.meta.tipo.indexOf("diaria") > -1){
                 if(el.data == $scope.meta.data){
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
                         if(el2.venda_id == el.id){
                             el2.data = el.data;
-                            $scope.produtosVendidosData.push(el2);
+                            produtosVendidosDataTEMP.push(el2);
                         }
                         return el2.venda_id == el.id;
-                    });                    
+                    });
                 }
-                return el.dia == $scope.meta.dia;
+                retorno = el.data == $scope.meta.data;
             }else{
-                if(el.data.indexOf($scope.meta.mes) > -1){
+                if(el.mes.indexOf($scope.meta.mes) > -1){
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
                         if(el2.venda_id == el.id){
                             el2.mes = el.mes;
-                            $scope.produtosVendidosData.push(el2);
+                            produtosVendidosDataTEMP.push(el2);
                         }
                         return el2.venda_id == el.id;
                     });                    
                 }
-                return el.data.indexOf($scope.meta.mes) > -1;
+                retorno = el.mes.indexOf($scope.meta.mes) > -1;
             }
+            $scope.produtosVendidosData = produtosVendidosDataTEMP;
+            return retorno;
         });
         
         if($scope.meta.tipo.indexOf("valor") > -1){
@@ -154,8 +158,8 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
     }
 
     when_external_loaded (function () {
-        sincronizarService.sincronizar();
         $scope.initialize();
+        sincronizarService.sincronizar();
     });
 
 });

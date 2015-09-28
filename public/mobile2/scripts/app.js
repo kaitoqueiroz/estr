@@ -93,7 +93,7 @@ var app = angular
 		$stateProvider
 			.state('dashboard', {
 				reloadOnSearch:false,
-				url:'',
+				//url:'',
 				controller: 'MainCtrl',
 				templateUrl: 'views/dashboard/main.html',
 				resolve: {
@@ -255,7 +255,7 @@ var app = angular
 				}
 			})
 			.state('login',{
-				url:'/login',
+				url:'',
 				controller:'LoginCtrl',
 				templateUrl:'scripts/modules/home/view/login.html',
 				resolve: {
@@ -263,10 +263,15 @@ var app = angular
 						return $ocLazyLoad.load({
 							name:'sbAdminApp',
 							files:[
+								'scripts/modules/home/controllers/login.js',
 								'scripts/modules/home/services/mensagem.js',
 								'scripts/modules/home/services/sincronizar.js',
-								'scripts/modules/home/controllers/login.js',
 							]
+						}),
+						$ocLazyLoad.load(
+						{
+							name:'ngResource',
+							files:['bower_components/angular-resource/angular-resource.js']
 						}),
 						$ocLazyLoad.load(
 						{
