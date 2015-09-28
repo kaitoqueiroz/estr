@@ -23,9 +23,14 @@ app.controller('LancarVendaCtrl', function($scope,$state,$position,$http,$rootSc
         var venda_id = $rootScope.lib.insert("vendas", {cod_venda: $rootScope.vendedor.id+"_"+data_venda, vendedor_id: $rootScope.vendedor.id, data: moment().format("YYYY-MM-DD")});
 
         $scope.produtos_venda.forEach(function(obj2){
-            $rootScope.lib.insert("produtosvenda", {id: obj2.id, quantidade: obj2.quantidade, venda_id: venda_id, produto_id: obj2.id});
+            $rootScope.lib.insert("produtosvenda", {id: obj2.id, quantidade: obj2.quantidade, cod_venda: $rootScope.vendedor.id+"_"+data_venda, venda_id: venda_id, produto_id: obj2.id});
         });
+        $rootScope.vendas = $rootScope.lib.queryAll("vendas");
+        $rootScope.produtosvenda = $rootScope.lib.queryAll("produtosvenda");
+
+
         Notification.success("Lançamento da venda realizada com sucesso.");
+
         window.location = "#/home";
     }
     $scope.refreshTotal = function(){

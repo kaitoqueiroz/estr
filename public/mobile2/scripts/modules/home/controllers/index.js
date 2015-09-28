@@ -1,7 +1,6 @@
 'use strict';
 
 app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notification,sincronizarService) {
-
     $scope.getClassBar = function(valor){
         if(valor < 30){
             return "danger";
@@ -14,18 +13,7 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
         }
     }
     $scope.initialize = function(){
-
-        var lib = sincronizarService.getDB();
-
-        $rootScope.metas = lib.queryAll("metas");
-        $rootScope.produtosmeta = lib.queryAll("produtosmeta");
-        $rootScope.vendas = lib.queryAll("vendas");
-        $rootScope.produtosvenda = lib.queryAll("produtosvenda");
-        $rootScope.produtos = lib.queryAll("produtos");
-
-
         var porcentagemMeta = 0;
-
 
         var darias = $rootScope.metas.filter(function (meta) {
             return meta.data == moment().format("YYYY-MM-DD");
@@ -51,22 +39,22 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
                 if(meta.tipo.indexOf("diaria") > -1){
                     if(el.data == meta.data){
                         el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
-                            if(el2.venda_id == el.id){
+                            if(el2.cod_venda == el.cod_venda){
                                 el2.data = el.data;
                                 meta.produtosVendidosData.push(el2);
                             }
-                            return el2.venda_id == el.id;
+                            return el2.cod_venda == el.cod_venda;
                         });                    
                     }
                     return el.dia == meta.dia;
                 }else{
                     if(el.data.indexOf(meta.mes) > -1 ){
                         el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
-                            if(el2.venda_id == el.id){
+                            if(el2.cod_venda == el.cod_venda){
                                 el2.mes = el.mes;
                                 meta.produtosVendidosData.push(el2);
                             }
-                            return el2.venda_id == el.id;
+                            return el2.cod_venda == el.cod_venda;
                         });                    
                     }
                     return el.data.indexOf(meta.mes) > -1;
@@ -110,6 +98,14 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
             
             meta.totalMeta = totalMeta;
             meta.totalAtingido = totalAtingido;
+
+
+
+            console.log($rootScope.vendas);
+            console.log($rootScope.produtosvenda);
+
+            console.log(totalAtingido);
+
 
             meta.porcentagemMeta = Math.floor(totalAtingido*100/totalMeta);
             meta.classBar = $scope.getClassBar(meta.porcentagemMeta);
