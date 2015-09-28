@@ -59,11 +59,13 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
                     var valorVendido = 0;
                     var vendas = $scope.produtosVendidosData.filter(function (venda) {
                         if(venda.produto_id == produto_meta.produto_id){
-                            vendido+=venda.quantidade;
+                            venda.quantidade = parseInt(venda.quantidade);
+                            vendido = (venda.quantidade + vendido);
                             valorVendido+=(venda.quantidade)*($scope.getProdutoValor(venda.produto_id));
                         }
                         return venda.produto_id == produto_meta.produto_id;
                     });
+
                     produto_meta.vendido+=vendido;
                     produto_meta.valorVendido+=valorVendido;
                     totalMeta+=produto_meta.quantidade*($scope.getProdutoValor(produto_meta.produto_id));

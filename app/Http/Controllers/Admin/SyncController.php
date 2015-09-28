@@ -152,15 +152,18 @@ class SyncController extends Controller {
 			}
 			foreach ($dados_sync["vendas"] as $key => $venda) {
 				$exitenteVenda = DB::table('venda')->where("cod_venda","=",$venda["cod_venda"])->get();
+				var_dump($exitenteVenda);
 				if(count($exitenteVenda)==0){
 					$venda_id = DB::table('venda')->insertGetId(
 					    ['vendedor_id' => $venda["vendedor_id"], 'data' => $venda["data"],'cod_venda' => $venda["cod_venda"], 'created_at' => date("Y-m-d H:i:s") ]
 					);
 
 					foreach ($dados_sync["produtosvenda"] as $key => $produtovenda) {
-						DB::table('produtovenda')->insert(
-						    ['quantidade' => $produtovenda["quantidade"], 'produto_id' => $produtovenda["produto_id"], 'venda_id' => $venda_id, 'created_at' => date("Y-m-d H:i:s"), 'created_at' => date("Y-m-d H:i:s")]
-						);
+						if($venda["cod_venda"] == $produtovenda["cod_venda"]){
+							DB::table('produtovenda')->insert(
+							    ['quantidade' => $produtovenda["quantidade"], 'produto_id' => $produtovenda["produto_id"], 'venda_id' => $venda_id, 'created_at' => date("Y-m-d H:i:s"), 'created_at' => date("Y-m-d H:i:s")]
+							);
+						}
 					}
 				}
 			}

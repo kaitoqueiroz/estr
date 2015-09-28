@@ -26,7 +26,7 @@ app.controller('LancarVendaCtrl', function($scope,$state,$position,$http,$rootSc
             $rootScope.lib.insert("produtosvenda", {id: obj2.id, quantidade: obj2.quantidade, venda_id: venda_id, produto_id: obj2.id});
         });
         Notification.success("Lançamento da venda realizada com sucesso.");
-        $state.go("dashboard.home");
+        window.location = "#/home";
     }
     $scope.refreshTotal = function(){
         var total = 0;
