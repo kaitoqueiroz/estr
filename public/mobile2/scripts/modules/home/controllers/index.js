@@ -27,6 +27,10 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
         $scope.metasDiarias = $scope.getMetas(darias);
         $scope.metasMensais = $scope.getMetas(mensais);
 
+
+        console.log($scope.metasDiarias);
+        console.log($scope.metasMensais);
+
     }
     $scope.getMetas = function(metas){
         var returnMetas = [];
@@ -65,7 +69,9 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
                 var totalAtingido = 0;
                 var totalMeta = meta.valor;
                 meta.produtosVendidosData.forEach(function (venda) {
-                    totalAtingido+=(venda.quantidade)*($scope.getProdutoValor(venda.produto_id));
+                    totalAtingido = parseInt(totalAtingido);
+                    totalAtingido = (venda.quantidade)*($scope.getProdutoValor(venda.produto_id)) + totalAtingido;
+                    console.log(totalAtingido);
                 });
             }else{
                 meta.produtosMeta = $rootScope.produtosmeta.filter(function (produto_meta) {
@@ -98,13 +104,6 @@ app.controller('HomeCtrl', function($scope,$position,$http,$rootScope,Notificati
             
             meta.totalMeta = totalMeta;
             meta.totalAtingido = totalAtingido;
-
-
-
-            console.log($rootScope.vendas);
-            console.log($rootScope.produtosvenda);
-
-            console.log(totalAtingido);
 
 
             meta.porcentagemMeta = Math.floor(totalAtingido*100/totalMeta);

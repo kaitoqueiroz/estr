@@ -20,22 +20,22 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
             if($scope.meta.tipo.indexOf("diaria") > -1){
                 if(el.data == $scope.meta.data){
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
-                        if(el2.venda_id == el.id){
+                        if(el2.cod_venda == el.cod_venda){
                             el2.data = el.data;
                             produtosVendidosDataTEMP.push(el2);
                         }
-                        return el2.venda_id == el.id;
+                        return el2.cod_venda == el.cod_venda;
                     });
                 }
                 retorno = el.data == $scope.meta.data;
             }else{
                 if(el.data.indexOf($scope.meta.mes) > -1){
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
-                        if(el2.venda_id == el.id){
+                        if(el2.cod_venda == el.cod_venda){
                             el2.mes = el.mes;
                             produtosVendidosDataTEMP.push(el2);
                         }
-                        return el2.venda_id == el.id;
+                        return el2.cod_venda == el.cod_venda;
                     });                    
                 }
                 retorno = el.data.indexOf($scope.meta.mes) > -1;
@@ -50,6 +50,7 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
             $scope.produtosVendidosData.forEach(function (venda) {
                 totalAtingido+=(venda.quantidade)*($scope.getProdutoValor(venda.produto_id));
             });
+            console.log($scope.produtosVendidosData);
         }else{
             $scope.produtosMeta = $rootScope.produtosmeta.filter(function (produto_meta) {
                 produto_meta.vendido = 0;
