@@ -10,10 +10,16 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
             {id:"produto_diaria",descricao:"Meta diária de produtos"},
             {id:"produto_mensal",descricao:"Meta mensal de produtos"},
             {id:"valor_diaria",descricao:"Meta diária por valor"},
-            {id:"valor_mensal",descricao:"Meta mendal por valor"},
+            {id:"valor_mensal",descricao:"Meta mensal por valor"},
         ];
         $http.get("/admin/meta/"+$stateParams.id).then(function(result) {
             $scope.meta = result.data;
+            if($scope.meta.data != null){
+                $scope.meta.data = moment($scope.meta.data).format("DD/MM/YYYY");
+            }
+            if($scope.meta.mes != null){
+                $scope.meta.mes = moment($scope.meta.mes).format("MM/YYYY");
+            }
             $scope.produtos_meta = $scope.meta.produtos_meta;
             $scope.selectFilial($scope.meta.filial);
             $scope.meta.tipo = $scope.containsObject({id:$scope.meta.tipo},$scope.tipos);
