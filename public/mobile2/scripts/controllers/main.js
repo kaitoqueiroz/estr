@@ -7,7 +7,9 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp').controller('MainCtrl', function($scope,$state,$rootScope,$window,$http,$location,sincronizarService) {
-    if($state.current.name == 'dashboard' || getCookie("usuario") == ""){
+    console.log(localStorage);
+
+    if($state.current.name == 'dashboard' || typeof localStorage.usuario == 'undefined'){
         $window.location.href = "#/login";
     }
 	sincronizarService.sincronizar();
