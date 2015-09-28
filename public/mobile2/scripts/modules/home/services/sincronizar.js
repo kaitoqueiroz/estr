@@ -1,6 +1,16 @@
 'use strict';
 
 app.service('sincronizarService', function($rootScope,$resource,$http,mensagemService) {
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    }
 
     /*if(!typeof localStorage.db_database === 'undefined'){
         var lib = localStorageDB("database", localStorage);
@@ -40,7 +50,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
         dados_sync.mensagensvendedor = lib.queryAll("mensagensvendedor");
 
         
-        $http.get("http://104.131.24.32:81/sincronizar/3",{
+        $http.get("http://104.131.24.32:81/sincronizar/"+getCookie("usuario"),{
             dados_sync:dados_sync
         }).then(function(result){
             lib.truncate("mensagens");

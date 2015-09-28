@@ -26,3 +26,8 @@ Route::get('sincronizar/{vendedor_id}', [
     },
     'as' => 'sincronizar', 'uses' => 'Admin\SyncController@sincronizar'
 ]);
+Route::get('login', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'login', 'uses' => 'Admin\SyncController@login'
+]);

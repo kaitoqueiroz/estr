@@ -114,6 +114,27 @@ class SyncController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function login(Request $request)
+	{
+		$login = $request->input("login");
+		$senha = $request->input("senha");
+
+		$loginOK = DB::table('vendedor')
+					->where("login","=",$login)
+					->where("senha","=", $senha)->get();
+
+		if(count($loginOK) > 0){
+			$dados = array("result"=>"OK","usuario"=>$loginOK[0]->id);
+		}else{
+			$dados = array("result"=>"ERROR");			
+		}
+		return response()->json($dados);
+	}
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
 	public function sincronizar(Request $request, $id)
 	{
 		$dados_sync = $request->input("dados_sync");
