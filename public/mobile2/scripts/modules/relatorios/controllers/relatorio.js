@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,Notification,$stateParams) {
+app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,Notification,$stateParams,sincronizarService) {
     $scope.getClassBar = function(valor){
         return (valor < 30)?"danger":(valor < 60)?"warning":(valor < 100)?"success":"primary";
     }
@@ -154,6 +154,7 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
     }
 
     when_external_loaded (function () {
+        sincronizarService.sincronizar();
         $scope.initialize();
     });
 

@@ -3,6 +3,7 @@ app.controller('LoginCtrl', function($scope,$state,$position,$http,$rootScope,No
     $scope.initialize = function(){
         $scope.login = '';
         $scope.senha = '';
+        $scope.erros = '';
     }
     $scope.entrar = function(){
         // $http.get('/login',{
@@ -12,10 +13,17 @@ app.controller('LoginCtrl', function($scope,$state,$position,$http,$rootScope,No
                 senha: $scope.senha            }
         }).then(function(result){
             if(result.data.result == "OK"){
-                localStorage.usuario = result.data.usuario;
-                sincronizarService.sincronizar();
-                
-                $window.location.href = "#/home";
+                try{
+                    localStorage.usuario = result.data.usuario;
+                    
+                    sincronizarService.sincronizar();
+
+                    $window.location.href = "#/home";
+                }catch(e){
+                    console.log(e);
+                    $scope.erros = e;
+                }
+
             }else{
                 Notification.error("Usuário ou senha inválidos.");                
             }
