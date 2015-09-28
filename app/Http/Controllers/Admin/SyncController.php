@@ -152,7 +152,6 @@ class SyncController extends Controller {
 			}
 			foreach ($dados_sync["vendas"] as $key => $venda) {
 				$exitenteVenda = DB::table('venda')->where("cod_venda","=",$venda["cod_venda"])->get();
-				var_dump($exitenteVenda);
 				if(count($exitenteVenda)==0){
 					$venda_id = DB::table('venda')->insertGetId(
 					    ['vendedor_id' => $venda["vendedor_id"], 'data' => $venda["data"],'cod_venda' => $venda["cod_venda"], 'created_at' => date("Y-m-d H:i:s") ]
