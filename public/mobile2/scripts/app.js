@@ -65,19 +65,17 @@ var app = angular
 	                return $q.reject(rejection);
 	            },
 	            'responseError': function (rejection) {
+					var Notification = $injector.get('Notification');
 	            	if(rejection.status == 401){
-						var Notification = $injector.get('Notification');
 	            		Notification.error("Erro: Permissão negada.");
-	            	}
-	            	if(rejection.status == 500){
-						var Notification = $injector.get('Notification');
+	            	}else if(rejection.status == 500){
 	            		Notification.error("Ocorreu um erro inesperado.");
-	            	}
-	            	if(rejection.status == 422){
-						var Notification = $injector.get('Notification');
+	            	}else if(rejection.status == 422){
 	            		Notification.error("Verifique os campos obrigatórios.");
+	            	}else{
+            			Notification.error("Ocorreu um erro ao sincronizar, verifique sua conexão com a internet.");
 	            	}
-	                // broadcasting 'httpResponseError' event
+
 	                $rootScope.$broadcast('httpResponseError', rejection);
 	                return $q.reject(rejection);
 	            }
