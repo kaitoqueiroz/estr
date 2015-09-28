@@ -199,7 +199,6 @@ class SyncController extends Controller {
 		    ['vendedor_id' => $id, 'created_at' => date("Y-m-d H:i:s")]
 		);
 
-    	header("Access-Control-Allow-Origin: *");
 		return response()->json($dados);
 	}
 
