@@ -37,9 +37,9 @@ var app = angular
 
 		blockUIConfig.requestFilter = function(config) {
 		  // If the request starts with '/api/quote' ...
-		  if(config.url.indexOf("/sincronizar/")>-1) {
+		  /*if(config.url.indexOf("/sincronizar/")>-1) {
 		    return false; // ... don't block it.
-		  }
+		  }*/
 		};
 
 		blockUIConfig.templateUrl = 'bower_components/angular-block-ui/angular-block-ui.html';
@@ -262,9 +262,16 @@ var app = angular
 						return $ocLazyLoad.load({
 							name:'sbAdminApp',
 							files:[
+								'scripts/modules/home/services/mensagem.js',
+								'scripts/modules/home/services/sincronizar.js',
 								'scripts/modules/home/controllers/login.js',
 							]
-						})
+						}),
+						$ocLazyLoad.load(
+						{
+							name:'ngResource',
+							files:['bower_components/angular-resource/angular-resource.js']
+						})			
 					}
 				}
 			});
