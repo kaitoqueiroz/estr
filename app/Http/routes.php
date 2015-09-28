@@ -22,12 +22,8 @@ Route::resource("admin/produto","Admin\ProdutoController");
 Route::resource("admin/mensagem","Admin\MensagemController");
 
 Route::post('sincronizar/{vendedor_id}', [
-    'middleware' => 'cors', function(){
-    },
     'as' => 'sincronizar', 'uses' => 'Admin\SyncController@sincronizar'
 ]);
 Route::get('login', [
-    'middleware' => 'cors', function(){
-    },
     'as' => 'login', 'uses' => 'Admin\SyncController@login'
 ]);
