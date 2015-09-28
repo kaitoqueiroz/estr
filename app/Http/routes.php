@@ -11,6 +11,8 @@
 |
 */
 
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+
 Route::get('admin', function () {
     return view('layout/admin');
 });
