@@ -14,15 +14,15 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
 
         $scope.meta = $scope.findById($stateParams.meta_id,$rootScope.metas);
         
+        $scope.meta.produtosVendidosData = [];
         $scope.vendasRealizadas = $rootScope.vendas.filter(function (el) {
-            var produtosVendidosDataTEMP = [];
             var retorno = false;
             if($scope.meta.tipo.indexOf("diaria") > -1){
                 if(el.data == $scope.meta.data){
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
                         if(el2.cod_venda == el.cod_venda){
                             el2.data = el.data;
-                            produtosVendidosDataTEMP.push(el2);
+                            $scope.meta.produtosVendidosData.push(el2);
                         }
                         return el2.cod_venda == el.cod_venda;
                     });
@@ -33,24 +33,22 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
                     el.produtosvenda = $rootScope.produtosvenda.filter(function (el2) {
                         if(el2.cod_venda == el.cod_venda){
                             el2.mes = el.mes;
-                            produtosVendidosDataTEMP.push(el2);
+                            $scope.meta.produtosVendidosData.push(el2);
                         }
                         return el2.cod_venda == el.cod_venda;
                     });                    
                 }
                 retorno = el.data.indexOf($scope.meta.mes) > -1;
             }
-            $scope.produtosVendidosData = produtosVendidosDataTEMP;
             return retorno;
         });
         
         if($scope.meta.tipo.indexOf("valor") > -1){
             var totalAtingido = 0;
             var totalMeta = $scope.meta.valor;
-            $scope.produtosVendidosData.forEach(function (venda) {
+            $scope.meta.produtosVendidosData.forEach(function (venda) {
                 totalAtingido+=(venda.quantidade)*($scope.getProdutoValor(venda.produto_id));
             });
-            console.log($scope.produtosVendidosData);
         }else{
             $scope.produtosMeta = $rootScope.produtosmeta.filter(function (produto_meta) {
                 produto_meta.vendido = 0;
@@ -58,7 +56,7 @@ app.controller('RelatorioViewCtrl', function($scope,$position,$http,$rootScope,N
                 if(produto_meta.meta_id == $scope.meta.id){
                     var vendido = 0;
                     var valorVendido = 0;
-                    var vendas = $scope.produtosVendidosData.filter(function (venda) {
+                    var vendas = $scope.meta.produtosVendidosData.filter(function (venda) {
                         if(venda.produto_id == produto_meta.produto_id){
                             venda.quantidade = parseInt(venda.quantidade);
                             vendido = (venda.quantidade + vendido);
