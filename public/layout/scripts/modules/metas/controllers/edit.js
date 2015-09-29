@@ -21,7 +21,7 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
                 $scope.meta.mes = moment($scope.meta.mes).format("MM/YYYY");
             }
             $scope.produtos_meta = $scope.meta.produtos_meta;
-            $scope.selectFilial($scope.meta.filial);
+            $scope.selectFilial($scope.filial);
             $scope.meta.tipo = $scope.containsObject({id:$scope.meta.tipo},$scope.tipos);
         });
         $http.get("/admin/produto").then(function(result) {
