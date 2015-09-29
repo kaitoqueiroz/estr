@@ -118,16 +118,16 @@ class MetaController extends Controller {
         
         $meta->data = null;
         if($request->input("data")){
-	        $data_dia = substr($request->input("data"),0,2);
-	        $data_mes = substr($request->input("data"),2,4);
-	        $data_ano = substr($request->input("data"),-4);
-        	$meta->data = $data_ano."-".$data_mes.".".$data_dia;
-		}
+            $data_dia = substr($request->input("data"),0,2);
+            $data_mes = substr($request->input("data"),2,2);
+            $data_ano = substr($request->input("data"),-4);
+            $meta->data = $data_ano."-".$data_mes."-".$data_dia;
+        }
         $meta->mes = null;
         if($request->input("mes")){
-	        $mes_mes = substr($request->input("mes"),0,2);
-	        $mes_ano = substr($request->input("mes"),-4);
-        	$meta->mes = $mes_ano."-".$mes_mes;
+            $mes_mes = substr($request->input("mes"),0,2);
+            $mes_ano = substr($request->input("mes"),-4);
+            $meta->mes = $mes_mes."-".$mes_ano;
         }
 
 
