@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12">
 
-        <form method="POST">
+        <form method="POST" name="myForm">
             <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="_token" value="{{  }}">
 
@@ -33,11 +33,11 @@
             </div>
             <div class="form-group" ng-show="meta.tipo.id == 'valor_diaria' || meta.tipo.id == 'produto_diaria'">
                  <label>Data</label>
-                 <input ng-required="true" ui-mask="99/99/9999" ng-model="meta.data" type="text" class="form-control"/>
+                 <input ng-required="meta.tipo.id == 'valor_diaria' || meta.tipo.id == 'produto_diaria'" ui-mask="99/99/9999" ng-model="meta.data" type="text" class="form-control"/>
             </div>
             <div class="form-group" ng-show="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'produto_mensal'">
                  <label>Mês/ANO</label>
-                 <input ng-required="true" ui-mask="99/9999" ng-model="meta.mes" type="text" class="form-control"/>
+                 <input ng-required="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'produto_mensal'" ui-mask="99/9999" ng-model="meta.mes" type="text" class="form-control"/>
             </div>
             <div class="form-group" ng-show="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'valor_diaria' ">
                 <label>Valor</label>
@@ -120,7 +120,7 @@
             </div>
 
             <a class="btn btn-default" href="#/metas">Voltar</a>
-            <button class="btn btn-primary" type="submit" ng-click="salvar()">Salvar</a>
+            <button class="btn btn-primary" type="submit" ng-click="salvar()" ng-disabled="myForm.$invalid">Salvar</a>
         </form>
     </div>
 </div>
