@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                  <label>Filial do vendedor</label>
-                 <select ng-required="true" type="text" ng-model="meta.filial" ng-change="selectFilial(filial)" 
+                 <select ng-required="true" type="text" ng-model="meta.filial" ng-change="selectFilial(meta.filial)" 
                     ng-options="filial.nome for filial in filiais track by filial.id" class="form-control">
                  </select>
             </div>
