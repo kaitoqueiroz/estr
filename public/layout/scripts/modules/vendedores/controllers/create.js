@@ -11,6 +11,7 @@ app.controller('VendedorCreateCtrl', function($scope,$position,$http,$rootScope,
     $scope.salvar = function(){
         $http.post("/admin/vendedor",$scope.vendedor).then(function(result) {
             Notification.success("Salvo com sucesso!");
+            window.location = "#/vendedores";
         });
     }
     $scope.initialize();

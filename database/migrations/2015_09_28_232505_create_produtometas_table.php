@@ -16,9 +16,9 @@ class CreateProdutoMetasTable extends Migration {
             $table->increments('id');
             $table->integer('quantidade');
             $table->integer('meta_id')->unsigned();
-            $table->foreign('meta_id')->references('id')->on('meta');
+            $table->foreign('meta_id')->references('id')->on('meta')->onDelete('cascade');
             $table->integer('produto_id')->unsigned();
-            $table->foreign('produto_id')->references('id')->on('produto');
+            $table->foreign('produto_id')->references('id')->on('produto')->onDelete('cascade');
             $table->timestamps();
         });
 	}

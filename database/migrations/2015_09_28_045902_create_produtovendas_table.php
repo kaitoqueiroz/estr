@@ -16,7 +16,9 @@ class CreateProdutoVendasTable extends Migration {
             $table->increments('id');
             $table->integer('quantidade');
             $table->integer('venda_id')->unsigned();
-            $table->foreign('venda_id')->references('id')->on('venda');
+            $table->foreign('venda_id')->references('id')->on('venda')->onDelete('cascade');
+            $table->integer('produto_id')->unsigned();
+            $table->foreign('produto_id')->references('id')->on('produto')->onDelete('cascade');
             $table->timestamps();
         });
 	}

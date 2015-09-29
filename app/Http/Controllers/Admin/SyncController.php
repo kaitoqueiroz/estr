@@ -158,9 +158,11 @@ class SyncController extends Controller {
 					);
 
 					foreach ($dados_sync["produtosvenda"] as $key => $produtovenda) {
-						DB::table('produtovenda')->insert(
-						    ['quantidade' => $produtovenda["quantidade"], 'produto_id' => $produtovenda["produto_id"], 'venda_id' => $venda_id, 'created_at' => date("Y-m-d H:i:s"), 'created_at' => date("Y-m-d H:i:s")]
-						);
+						if($venda["cod_venda"] == $produtovenda["cod_venda"]){
+							DB::table('produtovenda')->insert(
+							    ['quantidade' => $produtovenda["quantidade"], 'produto_id' => $produtovenda["produto_id"], 'venda_id' => $venda_id, 'created_at' => date("Y-m-d H:i:s"), 'created_at' => date("Y-m-d H:i:s")]
+							);
+						}
 					}
 				}
 			}

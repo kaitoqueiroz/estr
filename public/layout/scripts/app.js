@@ -98,7 +98,6 @@ var app = angular
 								'scripts/directives/sidebar/sidebar-search/sidebar-search.js',
 								'scripts/directives/sidebar/sidebar-icons/sidebar-icons.js',
 								'bower_components/moment/min/moment.min.js',
-								'bower_components/moment/min/locales.min.js',
 							]
 						}),
 						$ocLazyLoad.load(
@@ -196,7 +195,7 @@ var app = angular
 					}
 				}
 			})
-						.state('dashboard.mensagens',{
+			.state('dashboard.mensagens',{
 				url:'/mensagens',
 				controller:'MensagemListCtrl',
 				templateUrl:'scripts/modules/mensagens/view/index.html',
@@ -256,7 +255,7 @@ var app = angular
 					}
 				}
 			})
-						.state('dashboard.metas',{
+			.state('dashboard.metas',{
 				url:'/metas',
 				controller:'MetaListCtrl',
 				templateUrl:'scripts/modules/metas/view/index.html',

@@ -7,6 +7,7 @@ app.controller('FilialCreateCtrl', function($scope,$position,$http,$rootScope,No
     $scope.salvar = function(){
         $http.post("/admin/filial",$scope.filial).then(function(result) {
             Notification.success("Salvo com sucesso!");
+            window.location = "#/filiais";
         });
     }
     $scope.initialize();

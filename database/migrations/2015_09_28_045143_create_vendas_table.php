@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMetasTable extends Migration {
+class CreateVendasTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,12 @@ class CreateMetasTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('meta', function(Blueprint $table) {
+		Schema::create('venda', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('tipo');
-            $table->date('data');
-            $table->string('mes');
-            $table->double('valor');
+            $table->string('cod_venda');
             $table->integer('vendedor_id')->unsigned();
-            $table->foreign('vendedor_id')->references('id')->on('vendedor');
+            $table->foreign('vendedor_id')->references('id')->on('vendedor')->onDelete('cascade');
+            $table->date('data');
             $table->timestamps();
         });
 	}
@@ -31,7 +29,7 @@ class CreateMetasTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('meta');
+		Schema::drop('venda');
 	}
 
 }

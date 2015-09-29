@@ -11,6 +11,7 @@ app.controller('FilialEditCtrl', function($scope,$position,$http,$rootScope,Noti
 
         $http.put("/admin/filial/"+$stateParams.id,$scope.filial).then(function(result) {
             Notification.success("Salvo com sucesso!");
+            window.location = "#/filiais";
         });
     }
     $scope.initialize();

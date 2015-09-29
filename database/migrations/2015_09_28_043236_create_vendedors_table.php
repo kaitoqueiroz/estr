@@ -18,7 +18,7 @@ class CreateVendedorsTable extends Migration {
             $table->string('login');
             $table->string('senha');
             $table->integer('filial_id')->unsigned();
-            $table->foreign('filial_id')->references('id')->on('filial');
+            $table->foreign('filial_id')->references('id')->on('filial')->onDelete('cascade');
             $table->timestamps();
         });
 	}

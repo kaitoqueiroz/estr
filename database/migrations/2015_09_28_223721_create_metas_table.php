@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSyncsTable extends Migration {
+class CreateMetasTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,14 @@ class CreateSyncsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('sync', function(Blueprint $table) {
+		Schema::create('meta', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('tipo');
+            $table->date('data')->nullable();
+            $table->string('mes')->nullable();
+            $table->double('valor')->nullable();
             $table->integer('vendedor_id')->unsigned();
-            $table->foreign('vendedor_id')->references('id')->on('vendedor');
+            $table->foreign('vendedor_id')->references('id')->on('vendedor')->onDelete('cascade');
             $table->timestamps();
         });
 	}
@@ -27,7 +31,7 @@ class CreateSyncsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('sync');
+		Schema::drop('meta');
 	}
 
 }

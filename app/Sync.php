@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sync extends Model
 {
-    //
+    protected $table = 'sync';
 }
