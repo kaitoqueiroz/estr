@@ -1,6 +1,6 @@
 'use strict';
 
-app.service('sincronizarService', function($rootScope,$resource,$http,mensagemService) {
+app.service('sincronizarService', function($rootScope,$resource,$http,mensagemService,Notification) {
     var lib = new localStorageDB("database", localStorage);
     $rootScope.lib = lib;
     if( lib.isNew() ) {

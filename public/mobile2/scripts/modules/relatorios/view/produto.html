@@ -50,7 +50,7 @@
                 </table>
             </div>
             <div class="box-container col-xs-12">
-                <p>Todos os produtos vendidos </p>
+                Todos os produtos vendidos
             </div>
             <div class="box-container col-xs-12">
                 <table class="table table-bordered table-responsive table-striped" style="font-size: 12px;">
@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="produto in produtosVendidosData track by produto.ID">
+                        <tr ng-repeat="produto in meta.produtosVendidosData track by produto.ID">
                             <td><b>Descrição:</b> {{getProdutoDescricao(produto.produto_id)}}<br><b>Valor:</b> {{getProdutoValor(produto.produto_id) | currency:"R$ ":2}}<br></td>
                             <td>{{produto.quantidade}}</td>
                         </tr>
