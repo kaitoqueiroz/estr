@@ -1,0 +1,29 @@
+<div class="page-header">
+    <h1>Alterar senha</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="_token" value="{{  }}">
+
+            <div class="form-group">
+                 <label>Senha antiga</label>
+                 <input required ng-model="senha_antiga" type="password" class="form-control"/>
+            </div>
+            <div class="form-group">
+                 <label>Nova senha</label>
+                 <input required ng-model="nova_senha" type="password" class="form-control"/>
+            </div>
+            <div class="form-group">
+                 <label>Confirmar nova senha</label>
+                 <input required ng-model="confirmar_nova_senha" type="password" class="form-control"/>
+                 <span ng-show="nova_senha != '' && confirmar_nova_senha != '' && nova_senha != confirmar_nova_senha" style="color: red">As senhas devem ser iguais</span>
+            </div>
+
+            <button class="btn btn-primary" ng-disabled="!senha_antiga || !nova_senha || !confirmar_nova_senha || nova_senha != confirmar_nova_senha" type="submit" ng-click="salvar()">Salvar</a>
+        </form>
+    </div>
+</div>
