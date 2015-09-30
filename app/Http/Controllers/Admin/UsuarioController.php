@@ -32,6 +32,13 @@ class UsuarioController extends Controller {
 
 		return response()->json($dados);
 		
+	}	
+	public function logout()
+	{	
+		setcookie("admin", '');
+
+		return response()->json(array());
+		
 	}
 	/**
 	 * Update the specified resource in storage.
@@ -44,21 +51,22 @@ class UsuarioController extends Controller {
 	{
 		$usuario = Usuario::findOrFail($id);
 
-		$usuario->login = $request->input("login");
-        $usuario->nome = $request->input("nome");
+        if (hash_equals($usuario->senha, crypt($request->input("senha"), $usuario->senha))) {
+	        $usuario->senha = $request->input("senha");
+	        $nova_senha = $request->input("nova_senha");
 
-        $usuario->senha = $request->input("senha");
+	        $cost = 10;
+			$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+			$salt = sprintf("$2a$%02d$", $cost) . $salt;
+			$hash = crypt($nova_senha, $salt);
+	        $usuario->senha = $hash;
+			$usuario->save();
+			$dados = array("result"=>"OK","usuario"=>$usuario->id);
+        }else{
+        	$dados = array("result"=>"ERROR");
+        }
 
-        $cost = 10;
-		$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
-		$salt = sprintf("$2a$%02d$", $cost) . $salt;
-		$hash = crypt($usuario->senha, $salt);
-        $usuario->senha = $hash;
-
-
-		$usuario->save();
-
-		return redirect()->action('Admin\UsuarioController@index')->with('message', 'Item updated successfully.');
+		return response()->json($dados);
 	}
 
 }

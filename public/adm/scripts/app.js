@@ -477,5 +477,20 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.alterar_senha',{
+				url:'/alterar_senha',
+				controller:'AlterarSenhaCtrl',
+				templateUrl:'scripts/modules/login/view/alterarSenha.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/login/controllers/alterarSenha.js',
+							]
+						})
+					}
+				}
+			})
 		}]
 );

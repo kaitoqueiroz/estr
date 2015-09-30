@@ -21,8 +21,8 @@ app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$r
                 itensPorPagina: itensPorPagina,
                 orderBy: orderBy,
                 orderByField: orderByField,
-                de: moment(de,'DD/MM/YYYY').format("YYYY-MM-DD"),
-                ate: moment(ate,'DD/MM/YYYY').format("YYYY-MM-DD"),
+                de: moment(de,'DD/MM/YYYY').format("YYYY-MM-DD 00:00:00"),
+                ate: moment(ate,'DD/MM/YYYY').format("YYYY-MM-DD 23:59:59"),
             }
         }).
         success(function(result, status, headers, config) {

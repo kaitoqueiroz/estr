@@ -11,7 +11,7 @@
                  <input ui-mask="99/99/9999" ng-model="ate" type="text" class="form-control"/>
             </div>
             <div class="form-group col-xs-4 pull-left">
-                <a class="btn btn-primary" style="margin-top: 25px" ng-click="filtrar();">
+                <a class="btn btn-primary" style="margin-top: 25px" ng-click="filtrar();" ng-disabled="!de || !ate">
                     Filtrar
                 </a>
             </div>

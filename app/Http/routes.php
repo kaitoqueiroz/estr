@@ -37,6 +37,11 @@ Route::get('loginAdmin', [
     },
     'as' => 'loginAdmin', 'uses' => 'Admin\UsuarioController@login'
 ]);
+Route::get('logout', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'logout', 'uses' => 'Admin\UsuarioController@logout'
+]);
 
 Route::get('produtosVendidos', [
     'middleware' => 'cors', function(){

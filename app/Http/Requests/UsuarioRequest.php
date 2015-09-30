@@ -24,8 +24,6 @@ class UsuarioRequest extends Request
     public function rules()
     {
         return [
-            "login" => "required",
-            "senha" => "required",
         ];
     }
 }
