@@ -19,6 +19,7 @@ class UsuarioController extends Controller {
 					->where("login","=",$login)->get();
 
 		if(count($usuario) > 0){
+			var_dump($usuario);
 			// Hashing the password with its hash as the salt returns the same hash
 			if (hash_equals($usuario[0]->senha, crypt($senha, $usuario[0]->senha))) {
 				$dados = array("result"=>"OK","usuario"=>$usuario[0]->id);
