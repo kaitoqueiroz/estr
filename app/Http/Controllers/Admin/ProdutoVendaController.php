@@ -3,6 +3,7 @@
 use App\Http\Requests\ProdutoVendaRequest;
 use App\Http\Controllers\Controller;
 
+use DB;
 use App\ProdutoVenda;
 use Illuminate\Http\Request;
 
@@ -107,6 +108,39 @@ class ProdutoVendaController extends Controller {
 		$produtovenda->delete();
 
 		return redirect()->action('Admin\ProdutoVendaController@index')->with('message', 'Item deleted successfully.');
+	}
+	public function produtosVendidos(Request $request)
+	{
+		$take = $request->input('itensPorPagina');
+		$de = $request->input('de');
+		$ate = $request->input('ate');
+		$pagina = $request->input('pagina');
+		$orderBy = $request->input('orderBy');
+		$orderByField = $request->input('orderByField');
+
+		$skip = $take*$pagina;
+		$qb = DB::table('produtovenda')
+            ->join('produto', 'produto.id', '=', 'produtovenda.produto_id')
+            ->select(
+            	DB::raw('sum(produtovenda.quantidade) as produtos_vendidos, 
+            			sum(produtovenda.quantidade)*produto.valor as valor_total')
+            	,'produto.*');
+		if($de && $ate){
+			$qb = $qb->whereBetween('produtovenda.created_at', array($de, $ate));
+		}
+		if($take){
+			$qb = $qb->take($take);
+		}
+		if($skip){
+			$qb = $qb->skip($skip);
+		}
+        $qb->groupBy('produto.id');
+		if($orderByField && $orderBy){
+			$qb = $qb->orderBy($orderByField, $orderBy);
+		}
+		$list = $qb->get();
+
+		return response()->json($list);
 	}
 
 }

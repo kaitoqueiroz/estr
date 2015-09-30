@@ -164,4 +164,63 @@ class MetaController extends Controller {
 		return response()->json(array());
 	}
 
+
+    public function metas(Request $request)
+    {
+        $take = $request->input('itensPorPagina');
+        $de = $request->input('de');
+        $ate = $request->input('ate');
+        $pagina = $request->input('pagina');
+        $orderBy = $request->input('orderBy');
+        $orderByField = $request->input('orderByField');
+        $tipo = $request->input('tipo');
+
+        $skip = $take*$pagina;
+        $qb = DB::table('meta')
+            ->leftJoin('produtometa', 'produtometa.meta_id', '=', 'meta.id')
+            ->leftJoin('produto', 'produto.id', '=', 'produtometa.produto_id')
+            ->leftJoin('produtovenda', 'produtovenda.produto_id', '=', 'produto.id')
+            ->leftJoin('venda',function($join){
+                {
+                    $join->on('venda.data', '=', 'meta.data')
+                         ->where('meta.vendedor_id', '=', 'venda.vendedor_id');
+                }
+            })
+            ->join('vendedor', 'vendedor.id', '=', 'meta.vendedor_id')
+            ->join('filial', 'filial.id', '=', 'vendedor.filial_id')
+            ->select(
+                DB::raw('coalesce(sum(produtometa.quantidade)*produto.valor,meta.valor) as valor_total'),
+                DB::raw('coalesce(sum(produtovenda.quantidade)*produto.valor,0) as valor_atingido'),
+                'meta.*', 'vendedor.nome as nome_vendedor', 'filial.nome as nome_filial');
+        if($tipo){
+            $qb = $qb->where('meta.tipo', '=', $tipo);
+        }
+        if($de && $ate){
+            $qb = $qb->whereBetween('meta.data', array($de, $ate));
+        }
+        $dados_totais = $qb->get();
+        $valor_total_meta = 0;
+        foreach ($dados_totais as $key => $meta) {
+            $valor_total_meta+=$meta->valor_total;
+        }
+        $valor_total_atingido = 0;
+        foreach ($dados_totais as $key => $venda) {
+            $valor_total_atingido+=$venda->valor_atingido;
+        }
+
+        if($take){
+            $qb = $qb->take($take);
+        }
+        if($skip){
+            $qb = $qb->skip($skip);
+        }
+        $qb->groupBy('meta.id');
+        if($orderByField && $orderBy){
+            $qb = $qb->orderBy($orderByField, $orderBy);
+        }
+        $list = $qb->get();
+
+        return response()->json(array('list'=>$list,'valor_total_meta'=>$valor_total_meta,'valor_total_atingido'=>$valor_total_atingido));
+    }
+
 }

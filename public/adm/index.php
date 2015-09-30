@@ -41,6 +41,8 @@
     <script src="bower_components/angular-block-ui/dist/angular-block-ui.min.js"></script>
     <script src="bower_components/angular-input-masks/angular-input-masks.js"></script>
     <script src="bower_components/angular-ui-mask/dist/mask.js"></script>
+    <script type='text/javascript' src="bower_components/highcharts/highcharts.src.js"></script>
+    <script type='text/javascript' src="bower_components/highcharts-ng/src/highcharts-ng.js"></script>
 
     <!-- endbower -->
     <!-- endbuild -->

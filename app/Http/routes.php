@@ -37,3 +37,26 @@ Route::get('loginAdmin', [
     },
     'as' => 'loginAdmin', 'uses' => 'Admin\UsuarioController@login'
 ]);
+Route::get('logout', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'logout', 'uses' => 'Admin\UsuarioController@logout'
+]);
+
+Route::get('produtosVendidos', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'produtosVendidos', 'uses' => 'Admin\ProdutoVendaController@produtosVendidos'
+]);
+
+Route::get('vendas', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'vendas', 'uses' => 'Admin\VendaController@vendas'
+]);
+
+Route::get('metas', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'metas', 'uses' => 'Admin\MetaController@metas'
+]);
