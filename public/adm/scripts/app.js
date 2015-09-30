@@ -18,6 +18,18 @@ var app = angular
 		'ui.utils.masks',
 		'ui.mask',
 	])
+	.run(function($rootScope, $http, $state){
+		$rootScope.$on('$locationChangeSuccess', function(event, toState) {
+			if(!getCookie("admin")){
+		        $state.go("login");
+		    }
+		    function getCookie(name) {
+		      var value = "; " + document.cookie;
+		      var parts = value.split("; " + name + "=");
+		      if (parts.length == 2) return parts.pop().split(";").shift();
+		    }
+	    });
+	})
 	.config(['blockUIConfig','NotificationProvider','$stateProvider','$urlRouterProvider','$routeProvider','$ocLazyLoadProvider','$httpProvider','$provide',
 			function (blockUIConfig,NotificationProvider,$stateProvider,$urlRouterProvider,$routeProvider,$ocLazyLoadProvider,$httpProvider,$provide) {
 
@@ -81,7 +93,7 @@ var app = angular
 		$stateProvider
 			.state('dashboard', {
 				reloadOnSearch:false,
-				url:'',
+				url:"",
 				controller: 'MainCtrl',
 				templateUrl: 'views/dashboard/main.html',
 				resolve: {
@@ -147,6 +159,21 @@ var app = angular
 								'scripts/modules/filiais/controllers/index.js',
 							]
 						})
+					}
+				}
+			})
+			.state('login',{
+				url:'/login',
+				controller:'LoginCtrl',
+				templateUrl:'scripts/modules/login/view/login.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/login/controllers/login.js'
+							]
+						})		
 					}
 				}
 			})

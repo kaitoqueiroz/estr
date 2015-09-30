@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('admin', function () {
-    return view('layout/admin');
+Route::get('/home', function () {
+    header("location: /admin/");
 });
 
 Route::resource("admin/vendedor","Admin\VendedorController");
@@ -20,6 +20,7 @@ Route::resource("admin/filial","Admin\FilialController");
 Route::resource("admin/meta","Admin\MetaController");
 Route::resource("admin/produto","Admin\ProdutoController");
 Route::resource("admin/mensagem","Admin\MensagemController");
+Route::resource("admin/usuario","Admin\UsuarioController");
 
 Route::post('sincronizar/{vendedor_id}', [
     'middleware' => 'cors', function(){
@@ -30,4 +31,9 @@ Route::get('login', [
     'middleware' => 'cors', function(){
     },
     'as' => 'login', 'uses' => 'Admin\SyncController@login'
+]);
+Route::get('loginAdmin', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'loginAdmin', 'uses' => 'Admin\UsuarioController@login'
 ]);
