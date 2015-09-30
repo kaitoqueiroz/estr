@@ -37,3 +37,9 @@ Route::get('loginAdmin', [
     },
     'as' => 'loginAdmin', 'uses' => 'Admin\UsuarioController@login'
 ]);
+
+Route::get('produtosVendidos', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'produtosVendidos', 'uses' => 'Admin\ProdutoVendaController@produtosVendidos'
+]);

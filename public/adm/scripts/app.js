@@ -462,5 +462,20 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.produtos_vendidos',{
+				url:'/relatorios/produtos_vendidos',
+				controller:'ProdutosVendidosCtrl',
+				templateUrl:'scripts/modules/relatorios/view/produtosVendidos.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/produtosVendidos.js',
+							]
+						})
+					}
+				}
+			})
 		}]
 );
