@@ -17,6 +17,7 @@ var app = angular
 		'blockUI',
 		'ui.utils.masks',
 		'ui.mask',
+		'highcharts-ng',
 	])
 	.run(function($rootScope, $http, $state){
 		$rootScope.$on('$locationChangeSuccess', function(event, toState) {
@@ -147,6 +148,21 @@ var app = angular
 					} 
 				}
 			})
+			.state('dashboard.dashboard',{
+				url:'/dashboard',
+				controller:'DashboardCtrl',
+				templateUrl:'scripts/modules/dashboard/view/index.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/dashboard/controllers/index.js',
+							]
+						})
+					}
+				}
+			})			
 			.state('dashboard.filiais',{
 				url:'/filiais',
 				controller:'FilialListCtrl',
