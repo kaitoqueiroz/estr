@@ -1,10 +1,13 @@
 'use strict';
-app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$rootScope,Notification,$window,$filter) {
+app.controller('RelatorioMetasCtrl', function($scope,$state,$stateParams,$position,$http,$rootScope,Notification,$window,$filter) {
+            console.log($stateParams);
     $scope.initialize = function(){
-        $http.get("/produtosVendidos").then(function(result) {
+        $http.get("/metas").then(function(result) {
             $scope.totalItems = result.data.length;
             $scope.currentPage = 1;
             $scope.paginaAtual = 0;
+            $scope.valor_total_meta = 0;
+            $scope.valor_total_atingido = 0;
             $scope.maxSize = 5;
             $scope.itemsPerPage = 10;
             $scope.de = moment(1,"DD").format("DD/MM/YYYY");
@@ -15,9 +18,10 @@ app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$r
         });
     }
     $scope.paginate = function(pagina,itensPorPagina,orderBy,orderByField,de,ate){
-        $http.get("/produtosVendidos",{
+        $http.get("/metas",{
             params: {
                 pagina: pagina,
+                tipo: $stateParams.tipo_meta,
                 itensPorPagina: itensPorPagina,
                 orderBy: orderBy,
                 orderByField: orderByField,
@@ -26,11 +30,13 @@ app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$r
             }
         }).
         success(function(result, status, headers, config) {
-            $scope.produtos_vendidos = result;
-            $scope.numPages = Math.ceil($scope.produtos_vendidos.length / $scope.itemsPerPage);
+            $scope.metas = result.list;
+            $scope.valor_total_meta = result.valor_total_meta;
+            $scope.valor_total_atingido = result.valor_total_atingido;
+            $scope.numPages = Math.ceil($scope.metas.length / $scope.itemsPerPage);
 
             $scope.pageCount = function () {
-                return Math.ceil(produtos_vendidos.length / $scope.itemsPerPage);
+                return Math.ceil(metas.length / $scope.itemsPerPage);
             };
             $scope.pageChanged = function() {
 

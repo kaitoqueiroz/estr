@@ -1,10 +1,12 @@
 'use strict';
-app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$rootScope,Notification,$window,$filter) {
+app.controller('VendasCtrl', function($scope,$state,$position,$http,$rootScope,Notification,$window,$filter) {
     $scope.initialize = function(){
-        $http.get("/produtosVendidos").then(function(result) {
+        $http.get("/vendas").then(function(result) {
             $scope.totalItems = result.data.length;
             $scope.currentPage = 1;
             $scope.paginaAtual = 0;
+            $scope.valor_total_periodo = 0;
+            $scope.valor_total_pagina = 0;
             $scope.maxSize = 5;
             $scope.itemsPerPage = 10;
             $scope.de = moment(1,"DD").format("DD/MM/YYYY");
@@ -15,7 +17,7 @@ app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$r
         });
     }
     $scope.paginate = function(pagina,itensPorPagina,orderBy,orderByField,de,ate){
-        $http.get("/produtosVendidos",{
+        $http.get("/vendas",{
             params: {
                 pagina: pagina,
                 itensPorPagina: itensPorPagina,
@@ -26,11 +28,13 @@ app.controller('ProdutosVendidosCtrl', function($scope,$state,$position,$http,$r
             }
         }).
         success(function(result, status, headers, config) {
-            $scope.produtos_vendidos = result;
-            $scope.numPages = Math.ceil($scope.produtos_vendidos.length / $scope.itemsPerPage);
+            $scope.vendas = result.list;
+            $scope.valor_total_periodo = result.valor_total_periodo;
+            $scope.valor_total_pagina = result.valor_total_pagina;
+            $scope.numPages = Math.ceil($scope.vendas.length / $scope.itemsPerPage);
 
             $scope.pageCount = function () {
-                return Math.ceil(produtos_vendidos.length / $scope.itemsPerPage);
+                return Math.ceil(vendas.length / $scope.itemsPerPage);
             };
             $scope.pageChanged = function() {
 

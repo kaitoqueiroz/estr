@@ -48,3 +48,15 @@ Route::get('produtosVendidos', [
     },
     'as' => 'produtosVendidos', 'uses' => 'Admin\ProdutoVendaController@produtosVendidos'
 ]);
+
+Route::get('vendas', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'vendas', 'uses' => 'Admin\VendaController@vendas'
+]);
+
+Route::get('metas', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'metas', 'uses' => 'Admin\MetaController@metas'
+]);

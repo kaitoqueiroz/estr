@@ -462,6 +462,21 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.alterar_senha',{
+				url:'/alterar_senha',
+				controller:'AlterarSenhaCtrl',
+				templateUrl:'scripts/modules/login/view/alterarSenha.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/login/controllers/alterarSenha.js',
+							]
+						})
+					}
+				}
+			})
 			.state('dashboard.produtos_vendidos',{
 				url:'/relatorios/produtos_vendidos',
 				controller:'ProdutosVendidosCtrl',
@@ -477,16 +492,31 @@ var app = angular
 					}
 				}
 			})
-			.state('dashboard.alterar_senha',{
-				url:'/alterar_senha',
-				controller:'AlterarSenhaCtrl',
-				templateUrl:'scripts/modules/login/view/alterarSenha.html',
+			.state('dashboard.vendas',{
+				url:'/relatorios/vendas',
+				controller:'VendasCtrl',
+				templateUrl:'scripts/modules/relatorios/view/vendas.html',
 				resolve: {
 					loadMyFile:function($ocLazyLoad) {
 						return $ocLazyLoad.load({
 							name:'sbAdminApp',
 							files:[
-								'scripts/modules/login/controllers/alterarSenha.js',
+								'scripts/modules/relatorios/controllers/vendas.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.relatorio_metas',{
+				url:'/relatorios/relatorio_metas:tipo_meta',
+				controller:'RelatorioMetasCtrl',
+				templateUrl:'scripts/modules/relatorios/view/relatorio_metas.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/relatorio_metas.js',
 							]
 						})
 					}
