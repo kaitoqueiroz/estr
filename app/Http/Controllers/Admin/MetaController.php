@@ -165,6 +165,12 @@ class MetaController extends Controller {
 	}
 
 
+	public function metaValorDiario(){
+		$metas = Meta::where("tipo","valor_diaria")->get();
+		return response()->json($metas);
+	}
+
+
     public function metas(Request $request)
     {
         $take = $request->input('itensPorPagina');

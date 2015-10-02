@@ -4,21 +4,27 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
     $scope.initialize = function(){
         $scope.initGrafs();
 
-        //GET MetaxValor Diario
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaValorDiario(result);
-        });
-        //GET MetaxValor Mensal
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaValorMensal(result);
-        });
-        //GET MetaxProd Diario
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaProdDiario(result);
-        });
-        //GET MetaxProd Mensal
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaProdMensal(result);
+        $http.get("/admin/produtovenda").then(function(result) {
+            var produtovenda = result.data;
+            //GET MetaxValor Diario
+            $http.get("/admin/meta/valor/diario").then(function(result) {
+                console.log(result);
+                console.log(produtovenda);
+                $scope.drawMetaValorDiario(result);
+            });
+            //GET MetaxValor Mensal
+            $http.get("/admin/filial").then(function(result) {
+                $scope.drawMetaValorMensal(result);
+            });
+            //GET MetaxProd Diario
+            $http.get("/admin/filial").then(function(result) {
+                $scope.drawMetaProdDiario(result);
+            });
+            //GET MetaxProd Mensal
+            $http.get("/admin/filial").then(function(result) {
+                $scope.drawMetaProdMensal(result);
+            });
+
         });
 
         //ToDo

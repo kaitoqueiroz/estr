@@ -22,6 +22,9 @@ Route::resource("admin/produto","Admin\ProdutoController");
 Route::resource("admin/mensagem","Admin\MensagemController");
 Route::resource("admin/usuario","Admin\UsuarioController");
 
+Route::get("admin/meta/valor/diario","Admin\MetaController@metaValorDiario");
+Route::get("admin/produtovenda","Admin\VendaController@getProdutoVenda");
+
 Route::post('sincronizar/{vendedor_id}', [
     'middleware' => 'cors', function(){
     },
