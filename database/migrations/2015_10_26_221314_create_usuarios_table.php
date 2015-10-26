@@ -12,11 +12,14 @@ class CreateUsuariosTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('usuarios', function(Blueprint $table) {
+		Schema::create('usuario', function(Blueprint $table) {
             $table->increments('id');
             $table->string('login');
             $table->string('senha');
             $table->string('nome');
+            $table->string('tipo');
+            $table->integer('filial_id')->unsigned();
+            $table->foreign('filial_id')->references('id')->on('filial')->onDelete('cascade');
             $table->timestamps();
         });
 	}
@@ -28,7 +31,7 @@ class CreateUsuariosTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('usuarios');
+		Schema::drop('usuario');
 	}
 
 }

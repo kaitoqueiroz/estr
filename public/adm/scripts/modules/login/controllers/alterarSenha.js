@@ -6,13 +6,13 @@ app.controller('AlterarSenhaCtrl', function($scope,$state,$position,$http,$rootS
         $scope.confirmar_nova_senha = '';
     }
     $scope.salvar = function(){
-        $http.put('/admin/usuario/'+getCookie('admin'),{
+        $http.put('/updateSenha/'+getCookie('admin'),{
             senha: $scope.senha_antiga,          
             nova_senha: $scope.nova_senha
         }).then(function(result){
             if(result.data.result == "OK"){
                 Notification.success("Senha alterada com sucesso.");
-                $state.go('dashboard');
+                $state.go('dashboard.dashboard');
             }else{
                 Notification.error("Senha antiga não confere.");                
             }

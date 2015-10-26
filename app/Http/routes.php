@@ -45,6 +45,11 @@ Route::get('logout', [
     },
     'as' => 'logout', 'uses' => 'Admin\UsuarioController@logout'
 ]);
+Route::put('updateSenha/{id}', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'updateSenha', 'uses' => 'Admin\UsuarioController@updateSenha'
+]);
 
 Route::get('produtosVendidos', [
     'middleware' => 'cors', function(){
