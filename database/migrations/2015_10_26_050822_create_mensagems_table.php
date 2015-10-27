@@ -15,6 +15,8 @@ class CreateMensagemsTable extends Migration {
 		Schema::create('mensagem', function(Blueprint $table) {
             $table->increments('id');
             $table->text('mensagem');
+            $table->string('sender');
+            $table->string('cod_mensagem');
             $table->integer('vendedor_id')->unsigned();
             $table->foreign('vendedor_id')->references('id')->on('vendedor')->onDelete('cascade');
             $table->timestamps();

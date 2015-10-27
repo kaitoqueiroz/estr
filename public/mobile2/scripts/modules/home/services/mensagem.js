@@ -6,7 +6,10 @@ app.service('mensagemService', function($rootScope,$resource,$http, Notification
     var atualizarMensagensNaoLidas = function(qtde){
         $rootScope.mensagensNaoLidas = qtde;
         if(qtde>0){
-            Notification.success("<a href='#/mensagens'>Você possui novas mensagens.</a>");
+            Notification.success({
+                message: "<a href='#/mensagens'><i class='fa fa-envelope-o'></i>&nbsp;&nbsp;Você possui novas mensagens.</a>", 
+                replaceMessage: true, 
+                delay: 60000 });
         }
     }
     var atualizarMensagens = function(mensagens){

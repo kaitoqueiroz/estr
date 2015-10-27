@@ -1,23 +1,21 @@
-<div class="page-header">
-    <h1>Visualizar Mensagem</h1>
-</div>
-
-
-<div class="row">
-    <div class="col-md-12">
-
-        <form action="#">
-            <div class="form-group">
-                <label for="nome">ID</label>
-                <p class="form-control-static">{{mensagem.id}}</p>
+<div class="pagina" style="margin-top: 11px;">
+    <div class="row">
+        <div class="col-lg-12 no-padding">
+            <div class="chat">
+                <ul>
+                    <li class="message-{{(mensagem.sender == 'admin')?'right':'left'}}" ng-repeat="mensagem in mensagens track by mensagem.id">
+                        <div class="message chat-body mdl-shadow--2dp mdl-color--{{(mensagem.sender == 'admin')?'primary':'success'}} mdl-color-text--white">
+                            <p>{{mensagem.mensagem}}</p> <!-- message text -->
+                            <span style="font-size: 11px">{{mensagem.created_at}}</span> <!-- message time -->
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <div class="form-group">
-                 <label for="nome">Mensagem</label>
-                 <p class="form-control-static">{{mensagem.mensagem}}</p>
-            </div>
-        </form>
-        <a class="btn btn-default" href="#/mensagens">Voltar</a>
-        <a class="btn btn-warning" href="#/mensagens/edit/{{mensagem.id}}">Editar</a>
-        <a class="btn btn-danger" ng-click="excluir(mensagem.id)">Excluir</a>
+            <input type="text" class="escrever-mensagem" name="mensagem" ng-model="inserir_mensagem" placeholder="Digite aqui..."/>
+            <button type="button" ng-click="enviarMensagem()" class="btn btn-primary btn-lg enviar-mensagem"><i class="fa fa-send-o"></i>
+            </button>
+        </div>
+        <!-- /.col-lg-12 -->
     </div>
+    <!-- /.row -->
 </div>
