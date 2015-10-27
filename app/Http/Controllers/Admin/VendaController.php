@@ -157,4 +157,10 @@ class VendaController extends Controller {
 		return response()->json(array('list'=>$list,'valor_total_pagina'=>$valor_total_pagina,'valor_total_periodo'=>$valor_total_periodo));
 	}
 
+	public function getProdutoVenda(){
+		$vendas = Venda::has("produto_venda.produto")->get();
+		$vendas->load('produto_venda.produto');
+		return response()->json($vendas);
+	}
+
 }

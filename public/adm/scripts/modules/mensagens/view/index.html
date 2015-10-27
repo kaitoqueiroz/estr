@@ -24,15 +24,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th class="col-md-1 order" ng-click="order('id');">
-                                <span>ID </span>
-                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'id'" class="glyphicon glyphicon-triangle-bottom"></i>
-                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'id'" class="glyphicon glyphicon-triangle-top"></i>
-                            </th>
-                            <th class="col-md-9 order" ng-click="order('mensagem');">
-                                <span>Mensagem </span>
-                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'mensagem'" class="glyphicon glyphicon-triangle-bottom"></i>
-                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'mensagem'" class="glyphicon glyphicon-triangle-top"></i>
+                            <th class="col-md-5 order" ng-click="order('nome_vendedor');">
+                                <span>Vendedor </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'nome_vendedor'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'nome_vendedor'" class="glyphicon glyphicon-triangle-top"></i>
                             </th>
                             <th class="col-md-2">Ações</th>
                         </tr>
@@ -40,20 +35,20 @@
 
                     <tbody>
                         <tr ng-repeat="mensagem in mensagens track by mensagem.id">
-                            <td>{{mensagem.id}} </td>
-                            <td>{{mensagem.mensagem}} </td>
+                            <td>{{mensagem.nome_vendedor}} </td>
                             <td>
-                            <center>
-                                <a href="#/mensagens/show/{{mensagem.id}}" class="btn btn-circle btn-primary hint hint--top" data-hint="Visualizar">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                                <a href="#/mensagens/edit/{{mensagem.id}}" class="btn btn-circle btn-warning hint hint--top" data-hint="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                <a class="btn btn-circle btn-danger hint hint--top" ng-click="excluir(mensagem.id)" data-hint="Excluir">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </center>
+                                <center>
+                                    <a href="#/mensagens/show/{{mensagem.vendedor_id}}" class="btn btn-circle btn-primary hint hint--top" data-hint="Visualizar">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                    <!-- <a href="#/mensagens/edit/{{mensagem.id}}" class="btn btn-circle btn-warning hint hint--top" data-hint="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a> -->
+                                    <!-- <a class="btn btn-circle btn-danger hint hint--top" ng-click="excluir(mensagem.id)" data-hint="Excluir">
+                                        <i class="fa fa-times"></i>
+                                    </a> -->
+                                </center>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

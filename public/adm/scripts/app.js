@@ -418,6 +418,66 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.gerentes',{
+				url:'/gerentes',
+				controller:'GerenteListCtrl',
+				templateUrl:'scripts/modules/gerentes/view/index.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/gerentes/controllers/index.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.gerentes_create',{
+				url:'/gerentes/create',
+				controller:'GerenteCreateCtrl',
+				templateUrl:'scripts/modules/gerentes/view/create.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/gerentes/controllers/create.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.gerentes_show',{
+				url:'/gerentes/show/:id',
+				controller:'GerenteShowCtrl',
+				templateUrl:'scripts/modules/gerentes/view/show.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/gerentes/controllers/show.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.gerentes_edit',{
+				url:'/gerentes/edit/:id',
+				controller:'GerenteEditCtrl',
+				templateUrl:'scripts/modules/gerentes/view/edit.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/gerentes/controllers/edit.js',
+							]
+						})
+					}
+				}
+			})
 			.state('dashboard.produtos',{
 				url:'/produtos',
 				controller:'ProdutoListCtrl',

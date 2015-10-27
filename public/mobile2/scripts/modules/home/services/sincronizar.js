@@ -4,7 +4,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
     var lib = new localStorageDB("database", localStorage);
     $rootScope.lib = lib;
     if( lib.isNew() ) {
-        lib.createTable("mensagens", ["id", "mensagem", "vendedor_id", "created_at"]);
+        lib.createTable("mensagens", ["id", "mensagem", "sender", "cod_mensagem", "vendedor_id", "created_at"]);
         lib.createTable("mensagensvendedor", ["mensagem_id","vendedor_id"]);
         lib.createTable("produtos", ["id", "cod_produto", "descricao", "valor"]);
         lib.createTable("vendedor", ["id", "nome"]);
@@ -12,6 +12,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
         lib.createTable("produtosmeta", ["id", "quantidade", "meta_id", "produto_id"]);
         lib.createTable("vendas", ["id","cod_venda", "vendedor_id", "data"]);
         lib.createTable("produtosvenda", ["produto_id", "venda_id", "cod_venda", "quantidade"]);
+        lib.createTable("atendimentos", ["vendedor_id", "produto_id", "motivo", "outro_dia", "created_at"]);
         lib.commit();
     }
 
@@ -24,11 +25,14 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
         dados_sync.vendas = lib.queryAll("vendas");
         dados_sync.produtosvenda = lib.queryAll("produtosvenda");
         dados_sync.mensagensvendedor = lib.queryAll("mensagensvendedor");
+        dados_sync.mensagens = lib.queryAll("mensagens");
+        dados_sync.atendimentos = lib.queryAll("atendimentos");
         
-        // $http.post("/sincronizar/"+localStorage.usuario,{
-        $http.post("http://104.131.24.32:81/sincronizar/"+localStorage.usuario,{
+        $http.post("/sincronizar/"+localStorage.usuario,{
+        // $http.post("http://104.131.24.32:81/sincronizar/"+localStorage.usuario,{
             dados_sync:dados_sync
         }).then(function(result){
+            lib.truncate("atendimentos");
             lib.truncate("mensagens");
             lib.truncate("mensagensvendedor");
             lib.truncate("produtos");
@@ -49,6 +53,8 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
                     id: obj.id, 
                     vendedor_id: obj.vendedor_id, 
                     mensagem: obj.mensagem, 
+                    sender: obj.sender, 
+                    cod_mensagem: obj.cod_mensagem, 
                     created_at: moment(obj.created_at).format("DD/MM/YYYY HH:mm:ss")
                 });
 

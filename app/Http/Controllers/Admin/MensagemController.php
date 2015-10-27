@@ -21,7 +21,16 @@ class MensagemController extends Controller {
 		$orderBy = $request->input('orderBy');
 		$orderByField = $request->input('orderByField');
 		$skip = $take*$pagina;
-		$qb = DB::table('mensagem');
+		$qb = DB::table('mensagem')
+            ->join('vendedor', 'vendedor.id', '=', 'mensagem.vendedor_id')
+            ->select('mensagem.*', 'vendedor.nome as nome_vendedor');
+        $filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where("vendedor.filial_id","=",$filial);
+        }
 		if($take){
 			$qb = $qb->take($take);
 		}
@@ -31,6 +40,7 @@ class MensagemController extends Controller {
 		if($orderByField && $orderBy){
 			$qb = $qb->orderBy($orderByField, $orderBy);
 		}
+		$qb = $qb->groupBy("mensagem.vendedor_id");
 		$list = $qb->get();
 
 		return response()->json($list);
@@ -46,7 +56,8 @@ class MensagemController extends Controller {
 	{
 		$mensagem = new Mensagem();
         $mensagem->mensagem = $request->input("mensagem");
-        $mensagem->vendedor_id = $request->input("vendedor_id")["id"];
+        $mensagem->sender = 'admin';
+        $mensagem->vendedor_id = $request->input("vendedor");
 
 		$mensagem->save();
 
@@ -61,9 +72,14 @@ class MensagemController extends Controller {
 	 */
 	public function show($id)
 	{
-		$mensagem = Mensagem::findOrFail($id);
+		$qb = DB::table('mensagem')
+            ->join('vendedor', 'vendedor.id', '=', 'mensagem.vendedor_id')
+            ->select('mensagem.*', 'vendedor.nome as nome_vendedor');
 
-		return response()->json($mensagem);
+        $qb = $qb->where("vendedor.id","=",$id);
+        $mensagens = $qb->get();
+
+		return response()->json($mensagens);
 	}
 
 	/**

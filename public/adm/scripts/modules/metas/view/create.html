@@ -78,7 +78,8 @@
                                     <th>Descrição</th>
                                     <th>Valor</th>
                                     <th>Qtde</th>
-                                    <th>Total</th>
+                                    <th>Total</th>                                    
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,6 +90,13 @@
                                     <td>{{produto.valor | currency:"R$ ":2}}</td>
                                     <td>{{produto.quantidade}}</td>
                                     <td>{{produto.quantidade*produto.valor | currency:"R$ ":2}}</td>
+                                    <td>
+                                        <center>
+                                            <a class="btn btn-circle btn-danger hint hint--top" ng-click="removerProduto(produto.id)" data-hint="Remover">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </center>
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot>

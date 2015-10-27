@@ -2,23 +2,118 @@
 
 app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notification) {
     $scope.initialize = function(){
+        var datas = [];
+        var datas_graph = [];
+        datas.push(moment().subtract(7, 'days').format('DD/MM/YYYY'));
+        datas.push(moment(datas[0],'DD/MM/YYYY').format('DD/MM'))
+        for (var i = 1; i < 60; i++) {
+            datas[i] = moment(datas[i-1],'DD/MM/YYYY').add(1,'days').format('DD/MM/YYYY');
+            datas_graph[i] = moment(datas[i],'DD/MM/YYYY').format('DD/MM');
+        };
+
+        var meses_graph = [];
+        meses_graph.push(moment().subtract(1,'months').format('MMM'));
+        meses_graph.push(moment().format('MMM'));
+        meses_graph.push(moment().add(1,'months').format('MMM'));
+        var meses = [];
+        meses.push(moment().subtract(1,'months').format('YYYY-MM'));
+        meses.push(moment().format('YYYY-MM'));
+        meses.push(moment().add(1,'months').format('YYYY-MM'));
+        console.log(meses);
         $scope.initGrafs();
 
-        //GET MetaxValor Diario
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaValorDiario(result);
-        });
-        //GET MetaxValor Mensal
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaValorMensal(result);
-        });
-        //GET MetaxProd Diario
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaProdDiario(result);
-        });
-        //GET MetaxProd Mensal
-        $http.get("/admin/filial").then(function(result) {
-            $scope.drawMetaProdMensal(result);
+        $http.get("/admin/produtovenda").then(function(result) {
+            var produtosVenda = result.data;
+            //GET MetaxValor Diario
+            $http.get("/admin/meta/valor/all").then(function(metas) {
+                console.log(produtosVenda);
+                console.log(metas.data);
+                var metas_mensal = metas.data.metas_mensal;
+                var metas_mensal_graph = [];
+                var valorMensal = [];
+                angular.forEach(meses,function(mes,key){
+                    var entrou_meta_mensal = false;
+                    angular.forEach(metas_mensal,function(meta_mensal,key){
+                        if (moment(mes,'YYYY-MM').isSame(moment(meta_mensal.mes,'YYYY-MM'))) {
+                            metas_mensal_graph.push(meta_mensal.valor);
+                            entrou_meta_mensal = true;
+                        };
+                    })
+                    if (!entrou_meta_mensal) {
+                        metas_mensal_graph.push(null);
+                    };
+                    var entrouValorMensal = false;
+                    var valorTotal = 0;
+                    angular.forEach(produtosVenda,function(produtoVenda , key){
+                        if (moment(produtoVenda.data,'YYYY-MM').isSame(moment(mes,'YYYY-MM'))) {
+                            angular.forEach(produtoVenda.produto_venda,function(produto_venda,key){
+                                valorTotal += produto_venda.produto.valor;
+                            })
+                            entrouValorMensal = true;
+                        }
+                    })
+                    if (!entrouValorMensal) {
+                        valorMensal.push(null);
+                    }else{
+
+                        valorMensal.push(valorTotal);
+                    }
+                })
+                console.log(meses_graph);
+                console.log(valorMensal);
+                console.log(metas_mensal_graph);
+
+                var metas_diario = metas.data.metas_diario;
+                
+                var metas_diario_graph = [];
+                var produtosVenda_graph = [];
+                angular.forEach(datas,function(data,key){
+                    var entrou_metas_diario = false;
+                    angular.forEach(metas_diario,function(meta_diario , key){
+                        
+                        if (moment(meta_diario.data,'YYYY-MM-DD').isSame(moment(data,'DD/MM/YYYY'))) {
+                            metas_diario_graph.push(meta_diario.valor);
+                            entrou_metas_diario = true;
+                        }
+                    })
+                    var entrou_prodVenda = false;
+                    var valorTotal = 0;
+                    angular.forEach(produtosVenda,function(produtoVenda , key){
+                        if (moment(produtoVenda.data,'YYYY-MM-DD').isSame(moment(data,'DD/MM/YYYY'))) {
+                            angular.forEach(produtoVenda.produto_venda,function(produto_venda,key){
+                                valorTotal += produto_venda.produto.valor;
+                            })
+                            console.log('ENTROu')
+                            entrou_prodVenda = true;
+                        }
+                    })
+                    if (!entrou_metas_diario) {
+                        metas_diario_graph.push(null);
+                    };
+                    if (!entrou_prodVenda) {
+                        produtosVenda_graph.push(null);
+                    }else{
+
+                        produtosVenda_graph.push(valorTotal);
+                    }
+                });
+                console.log(metas_diario_graph)
+                console.log(produtosVenda_graph)
+                $scope.drawMetaValorDiario(datas_graph,metas_diario_graph,produtosVenda_graph);
+                $scope.drawMetaValorMensal(meses_graph,metas_mensal_graph,valorMensal);
+            });
+            //GET MetaxValor Mensal
+            $http.get("/admin/filial").then(function(result) {
+            });
+            //GET MetaxProd Diario
+            $http.get("/admin/filial").then(function(result) {
+                $scope.drawMetaProdDiario(result);
+            });
+            //GET MetaxProd Mensal
+            $http.get("/admin/filial").then(function(result) {
+                $scope.drawMetaProdMensal(result);
+            });
+
         });
 
         //ToDo
@@ -30,14 +125,16 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
     }
 
 
-    $scope.drawMetaProdDiario = function(result){
+    $scope.drawMetaProdDiario = function(metas,produtosVenda){
+
+
         $scope.metaProdDiarioConfig = {
           title:{
             text:'Meta x Produto - Diário'
           },
           series:[
             {   
-                data:[12,13,14,15],
+                data:[1],
                 name:'META',
                 color:'#004953'
             },
@@ -74,7 +171,7 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
                 
             },
             xAxis:{
-              categories:['06/07','07/07','08/07','09/07',],
+                categories:[1],
                 tickColor: 'transparent',
 
                 lineColor:'transparent',
@@ -88,6 +185,7 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
         };
     }
     $scope.drawMetaProdMensal = function(result){
+
         $scope.metaProdMensalConfig = {
           //This is the Main Highcharts chart config. Any Highchart options are valid here.
           //will be overriden by values specified below.
@@ -147,7 +245,9 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
         };
     }    
 
-    $scope.drawMetaValorDiario = function(result){
+    $scope.drawMetaValorDiario = function(datas,metas,produtosVenda){
+
+
         $scope.metaValorDiarioConfig = {
           //This is the Main Highcharts chart config. Any Highchart options are valid here.
           //will be overriden by values specified below.
@@ -156,12 +256,12 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
           },
           series:[
             {   
-                data:[12,13,14,15],
+                data:metas,
                 name:'META',
                 color:'#004953'
             },
             {   
-                data:[10,14,9,15],
+                data:produtosVenda,
                 name:'VALOR',
                 color:'#d44950'
             }
@@ -193,7 +293,7 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
                 
             },
             xAxis:{
-              categories:['06/07','07/07','08/07','09/07',],
+              categories:datas,
                 tickColor: 'transparent',
 
                 lineColor:'transparent',
@@ -206,7 +306,7 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
             }
         };
     }
-    $scope.drawMetaValorMensal = function(result){
+    $scope.drawMetaValorMensal = function(meses,metas,valor){
         $scope.metaValorMensalConfig = {
           //This is the Main Highcharts chart config. Any Highchart options are valid here.
           //will be overriden by values specified below.
@@ -215,12 +315,12 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
           },
           series:[
             {   
-                data:[12,13,14,15],
+                data:metas,
                 name:'META',
                 color:'#004953'
             },
             {   
-                data:[10,14,9,15],
+                data:valor,
                 name:'VALOR',
                 color:'#d44950'
             }
@@ -252,7 +352,7 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
                 
             },
             xAxis:{
-              categories:['Setembro','Outubro','Novembro','Dezembro',],
+              categories:meses,
                 tickColor: 'transparent',
 
                 lineColor:'transparent',

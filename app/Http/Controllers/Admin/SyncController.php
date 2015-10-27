@@ -140,11 +140,31 @@ class SyncController extends Controller {
 		$dados_sync = $request->input("dados_sync");
 
 		if(count($dados_sync)>0){
+			foreach ($dados_sync["mensagens"] as $key => $mensagem) {
+				$exitenteVenda = DB::table('mensagem')->where("cod_mensagem","=",$mensagem["cod_mensagem"])->get();
+				if(count($exitenteVenda)==0){
+					$mensagem_id = DB::table('mensagem')->insertGetId(
+					    ['vendedor_id' => $mensagem["vendedor_id"], 'mensagem' => $mensagem["mensagem"],'cod_mensagem' => $mensagem["cod_mensagem"],'sender' => $mensagem["sender"], 'created_at' => $mensagem["created_at"] ]
+					);
+
+					DB::table('mensagemvendedor')->insertGetId(
+					    ['vendedor_id' => $mensagem["vendedor_id"], 'mensagem_id' => $mensagem_id,'created_at' => date("Y-m-d H:i:s")]
+					);
+				}
+			}
+
+			foreach ($dados_sync["atendimentos"] as $key => $atendimento) {
+				DB::table('atendimento')->insertGetId(
+				    ['vendedor_id' => $atendimento["vendedor_id"], 'motivo' => $atendimento["motivo"],'produto_id' => $atendimento["produto_id"],'outro_dia' => $atendimento["outro_dia"], 'created_at' => $atendimento["created_at"] ]
+				);
+			}
+
+
 			foreach ($dados_sync["mensagensvendedor"] as $key => $mensagemvendedor) {
 				$exitenteMV = DB::table('mensagemvendedor')
 					->where("vendedor_id","=",$id)
 					->where("mensagem_id","=", $mensagemvendedor["mensagem_id"])->get();
-				if(count($exitenteMV)==0){
+				if(count($exitenteMV)==0 && $mensagemvendedor["mensagem_id"] != ""){
 					DB::table('mensagemvendedor')->insertGetId(
 					    ['vendedor_id' => $mensagemvendedor["vendedor_id"], 'mensagem_id' => $mensagemvendedor["mensagem_id"],'created_at' => date("Y-m-d H:i:s")]
 					);

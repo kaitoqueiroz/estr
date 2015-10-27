@@ -192,6 +192,21 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.atendimento',{
+				url:'/atendimento',
+				controller:'AtendimentoCtrl',
+				templateUrl:'scripts/modules/home/view/atendimento.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/home/controllers/atendimento.js',
+							]
+						})
+					}
+				}
+			})
 			.state('dashboard.relatorios',{
 				url:'/relatorios',
 				controller:'RelatorioCtrl',

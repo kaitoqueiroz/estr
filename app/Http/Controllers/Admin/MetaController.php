@@ -19,14 +19,24 @@ class MetaController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		$take = $request->input('itensPorPagina');
-		$pagina = $request->input('pagina');
-		$orderBy = $request->input('orderBy');
-		$orderByField = $request->input('orderByField');
-		$skip = $take*$pagina;
-		$qb = DB::table('meta')
+
+
+
+        $take = $request->input('itensPorPagina');
+        $pagina = $request->input('pagina');
+        $orderBy = $request->input('orderBy');
+        $orderByField = $request->input('orderByField');
+        $skip = $take*$pagina;
+        $qb = DB::table('meta')
             ->join('vendedor', 'vendedor.id', '=', 'meta.vendedor_id')
             ->select('meta.*', 'vendedor.nome as nome_vendedor');
+        $filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where("vendedor.filial_id","=",$filial);
+        }
 		if($take){
 			$qb = $qb->take($take);
 		}
@@ -162,6 +172,19 @@ class MetaController extends Controller {
 		$meta->delete();
 
 		return response()->json(array());
+	}
+
+
+	public function metaValorDiario(){
+		$metas = Meta::where("tipo","valor_diaria")->get();
+		return response()->json($metas);
+	}
+	public function metaValorAll(){
+
+		$metas_diario = Meta::where("tipo","valor_diaria")->get();
+		$metas_mensal = Meta::where("tipo","valor_mensal")->get();
+		$metas = ['metas_diario'=>$metas_diario,'metas_mensal'=>$metas_mensal];
+		return response()->json($metas);
 	}
 
 

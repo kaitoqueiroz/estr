@@ -17,8 +17,8 @@ class VendedorController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		$take = $request->input('itensPorPagina');
 		$vendedores_by_filial = $request->input('vendedores_by_filial');
+		$take = $request->input('itensPorPagina');
 		$pagina = $request->input('pagina');
 		$orderBy = $request->input('orderBy');
 		$orderByField = $request->input('orderByField');
@@ -27,8 +27,15 @@ class VendedorController extends Controller {
 		$qb = DB::table('vendedor')
             ->join('filial', 'filial.id', '=', 'vendedor.filial_id')
             ->select('vendedor.*', 'filial.nome as nome_filial');
+		$filial = "";
+		if(isset($_COOKIE['filial'])){
+			$filial = $_COOKIE['filial'];
+		}
+		if($filial){
+			$qb = $qb->where("filial_id","=",$filial);
+		}
 		if($vendedores_by_filial){
-			$qb = $qb->where("filial_id","=",$vendedores_by_filial);
+			$qb = $qb->where("vendedor.filial_id","=",$vendedores_by_filial);
 		}
 		if($take){
 			$qb = $qb->take($take);

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMensagemsTable extends Migration {
+class CreateAtendimentosTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,12 @@ class CreateMensagemsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('mensagem', function(Blueprint $table) {
+		Schema::create('atendimento', function(Blueprint $table) {
             $table->increments('id');
-            $table->text('mensagem');
+            $table->string('outro_dia');
+            $table->string('motivo');
+            $table->integer('produto_id')->unsigned();
+            $table->foreign('produto_id')->references('id')->on('produto')->onDelete('cascade');
             $table->integer('vendedor_id')->unsigned();
             $table->foreign('vendedor_id')->references('id')->on('vendedor')->onDelete('cascade');
             $table->timestamps();
@@ -28,7 +31,7 @@ class CreateMensagemsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('mensagem');
+		Schema::drop('atendimento');
 	}
 
 }
