@@ -22,6 +22,13 @@ class FilialController extends Controller {
 		$orderByField = $request->input('orderByField');
 		$skip = $take*$pagina;
 		$qb = DB::table('filial');
+		$filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where("id","=",$filial);
+        }
 		if($take){
 			$qb = $qb->take($take);
 		}

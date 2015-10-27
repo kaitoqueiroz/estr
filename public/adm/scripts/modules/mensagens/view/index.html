@@ -29,11 +29,12 @@
                                 <i ng-show="toggleOrderType == 'ASC' && orderField == 'id'" class="glyphicon glyphicon-triangle-bottom"></i>
                                 <i ng-show="toggleOrderType == 'DESC' && orderField == 'id'" class="glyphicon glyphicon-triangle-top"></i>
                             </th>
-                            <th class="col-md-9 order" ng-click="order('mensagem');">
+                            <th class="col-md-5 order" ng-click="order('mensagem');">
                                 <span>Mensagem </span>
                                 <i ng-show="toggleOrderType == 'ASC' && orderField == 'mensagem'" class="glyphicon glyphicon-triangle-bottom"></i>
                                 <i ng-show="toggleOrderType == 'DESC' && orderField == 'mensagem'" class="glyphicon glyphicon-triangle-top"></i>
                             </th>
+                            <th class="col-md-4">Vendedor</th>
                             <th class="col-md-2">Ações</th>
                         </tr>
                     </thead>
@@ -42,14 +43,15 @@
                         <tr ng-repeat="mensagem in mensagens track by mensagem.id">
                             <td>{{mensagem.id}} </td>
                             <td>{{mensagem.mensagem}} </td>
+                            <td>{{mensagem.nome_vendedor}} </td>
                             <td>
                             <center>
                                 <a href="#/mensagens/show/{{mensagem.id}}" class="btn btn-circle btn-primary hint hint--top" data-hint="Visualizar">
                                     <i class="fa fa-search"></i>
                                 </a>
-                                <a href="#/mensagens/edit/{{mensagem.id}}" class="btn btn-circle btn-warning hint hint--top" data-hint="Editar">
+                                <!-- <a href="#/mensagens/edit/{{mensagem.id}}" class="btn btn-circle btn-warning hint hint--top" data-hint="Editar">
                                     <i class="fa fa-pencil"></i>
-                                </a>
+                                </a> -->
                                 <a class="btn btn-circle btn-danger hint hint--top" ng-click="excluir(mensagem.id)" data-hint="Excluir">
                                     <i class="fa fa-times"></i>
                                 </a>

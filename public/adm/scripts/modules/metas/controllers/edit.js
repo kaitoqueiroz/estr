@@ -23,6 +23,7 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
             $scope.produtos_meta = $scope.meta.produtos_meta;
             $scope.selectFilial($scope.meta.filial);
             $scope.meta.tipo = $scope.containsObject({id:$scope.meta.tipo},$scope.tipos);
+            $scope.refreshTotal();
         });
         $http.get("/admin/produto").then(function(result) {
             $scope.produtos = result.data;
@@ -57,9 +58,10 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
     }
     $scope.removerProduto = function(id){
         $scope.produtos_meta = $scope.produtos_meta
-               .filter(function (el) {
-                    return el.id !== id;
-               });
+           .filter(function (el) {
+                return el.id !== id;
+           });
+        $scope.refreshTotal();
     }
     $scope.refreshTotal = function(){
         var total = 0;

@@ -19,14 +19,24 @@ class MetaController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		$take = $request->input('itensPorPagina');
-		$pagina = $request->input('pagina');
-		$orderBy = $request->input('orderBy');
-		$orderByField = $request->input('orderByField');
-		$skip = $take*$pagina;
-		$qb = DB::table('meta')
+
+
+
+        $take = $request->input('itensPorPagina');
+        $pagina = $request->input('pagina');
+        $orderBy = $request->input('orderBy');
+        $orderByField = $request->input('orderByField');
+        $skip = $take*$pagina;
+        $qb = DB::table('meta')
             ->join('vendedor', 'vendedor.id', '=', 'meta.vendedor_id')
             ->select('meta.*', 'vendedor.nome as nome_vendedor');
+        $filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where("vendedor.filial_id","=",$filial);
+        }
 		if($take){
 			$qb = $qb->take($take);
 		}

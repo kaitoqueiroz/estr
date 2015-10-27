@@ -10,22 +10,22 @@
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=1">
-                    <li ui-sref-active="active" >
+                    <li ui-sref-active="active" ng-show="showCadastrarGerentes">
                         <a ui-sref="dashboard.gerentes">Gerentes</a>
                     </li>
-                    <li ui-sref-active="active" >
+                    <li ui-sref-active="active"  ng-show="showCadastrarVendedores">
                         <a ui-sref="dashboard.vendedores">Vendedores</a>
                     </li>
-                    <li ui-sref-active="active" >
+                    <li ui-sref-active="active"  ng-show="showCadastrarFiliais">
                         <a ui-sref="dashboard.filiais">Filiais</a>
                     </li>
-                    <li ui-sref-active="active" >
+                    <li ui-sref-active="active"  ng-show="showCadastrarMetas">
                         <a ui-sref="dashboard.metas">Metas</a>
                     </li>
-                    <li ui-sref-active="active" >
+                    <li ui-sref-active="active"  ng-show="showCadastrarProdutos">
                         <a ui-sref="dashboard.produtos">Produtos</a>
                     </li>
-                    <li ui-sref-active="active" >
+                    <li ui-sref-active="active"  ng-show="showCadastrarMensagens">
                         <a ui-sref="dashboard.mensagens">Mensagens</a>
                     </li>
                 </ul>

@@ -48,6 +48,13 @@ app.controller('MetaCreateCtrl', function($scope,$position,$http,$rootScope,Noti
     		Notification.error("O produto selecionado já foi adicionado.");
     	}
     }
+    $scope.removerProduto = function(id){
+        $scope.produtos_meta = $scope.produtos_meta
+           .filter(function (el) {
+                return el.id !== id;
+           });
+        $scope.refreshTotal();
+    }
     $scope.refreshTotal = function(){
 	    var total = 0;
 	    for(var i = 0; i < $scope.produtos_meta.length; i++){

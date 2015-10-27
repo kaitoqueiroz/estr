@@ -73,19 +73,23 @@ class UsuarioController extends Controller {
 			if (hash_equals($usuario[0]->senha, crypt($senha, $usuario[0]->senha))) {
 				$dados = array("result"=>"OK","usuario"=>$usuario[0]->id);
 				setcookie("admin", $usuario[0]->id);
+				setcookie("tipo", $usuario[0]->tipo);
+				if($usuario[0]->tipo != 'admin'){
+					setcookie("filial", $usuario[0]->filial_id);
+				}
 			}else{
 				$dados = array("result"=>"ERROR");			
 			}
 		}else{
 			$dados = array("result"=>"ERROR");			
 		}
-
 		return response()->json($dados);
-		
 	}
 	public function logout()
 	{
 		setcookie("admin", '');
+		setcookie("filial", '');
+		setcookie("tipo", '');
 
 		return response()->json(array());
 		
