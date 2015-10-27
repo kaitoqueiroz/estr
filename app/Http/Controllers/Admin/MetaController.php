@@ -179,6 +179,13 @@ class MetaController extends Controller {
 		$metas = Meta::where("tipo","valor_diaria")->get();
 		return response()->json($metas);
 	}
+	public function metaValorAll(){
+
+		$metas_diario = Meta::where("tipo","valor_diaria")->get();
+		$metas_mensal = Meta::where("tipo","valor_mensal")->get();
+		$metas = ['metas_diario'=>$metas_diario,'metas_mensal'=>$metas_mensal];
+		return response()->json($metas);
+	}
 
 
     public function metas(Request $request)
