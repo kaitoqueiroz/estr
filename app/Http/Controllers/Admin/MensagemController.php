@@ -21,7 +21,16 @@ class MensagemController extends Controller {
 		$orderBy = $request->input('orderBy');
 		$orderByField = $request->input('orderByField');
 		$skip = $take*$pagina;
-		$qb = DB::table('mensagem');
+		$qb = DB::table('mensagem')
+            ->join('vendedor', 'vendedor.id', '=', 'mensagem.vendedor_id')
+            ->select('mensagem.*', 'vendedor.nome as nome_vendedor');
+        $filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where("vendedor.filial_id","=",$filial);
+        }
 		if($take){
 			$qb = $qb->take($take);
 		}
