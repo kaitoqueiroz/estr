@@ -1,0 +1,35 @@
+<div class="pagina">
+    <div class="row">
+        <div class="col-lg-12 no-padding">
+            <div class="box-container">
+                Lançar Atendimento
+            </div>
+            <div class="box-container col-xs-12">
+                <div class="form-group col-xs-12">
+                    <label>Produto Procurado</label>
+                    <select ng-model="produto" type="text"
+                        ng-options="produto.descricao for produto in produtos track by produto.id" class="form-control">
+                     </select>
+                </div>
+
+                <div class="form-group col-xs-12">
+                    <label>Porque não comprou</label>                    
+                    <select ng-model="motivo" type="text"
+                        ng-options="motivo.descricao for motivo in motivos" class="form-control">
+                     </select>
+                </div>
+
+                <div class="form-group col-xs-12">
+                    <label>Vai comprar na seguinte data:</label>
+                    <input ui-mask="99/99/9999" ng-model="outro_dia" type="text" class="form-control"/>
+                </div>
+
+                <div class="form-group col-xs-12">
+                    <button type="button" ng-disabled="!produto.id || !motivo.descricao" class="btn btn-primary form-control" ng-click="lancarAtendimento()">Lançar Atendimento</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>

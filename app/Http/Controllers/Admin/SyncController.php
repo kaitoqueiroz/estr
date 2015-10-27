@@ -153,6 +153,12 @@ class SyncController extends Controller {
 				}
 			}
 
+			foreach ($dados_sync["atendimentos"] as $key => $atendimento) {
+				DB::table('atendimento')->insertGetId(
+				    ['vendedor_id' => $atendimento["vendedor_id"], 'motivo' => $atendimento["motivo"],'produto_id' => $atendimento["produto_id"],'outro_dia' => $atendimento["outro_dia"], 'created_at' => $atendimento["created_at"] ]
+				);
+			}
+
 
 			foreach ($dados_sync["mensagensvendedor"] as $key => $mensagemvendedor) {
 				$exitenteMV = DB::table('mensagemvendedor')
