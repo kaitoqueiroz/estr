@@ -36,7 +36,46 @@
                     Relatórios
                     <span class="fa arrow"></span>
                 </a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=2">
+                <ul class="nav nav-second-level" collapse="collapseVar!=2 && collapseVar!=3 && collapseVar!=4">
+                    <li ng-class="{active: collapseVar==3}">
+                        <a href="" ng-click="check(3)">
+                            Vendedores
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level" collapse="collapseVar!=3">
+                            <li ui-sref-active="active" >
+                                <a ui-sref="dashboard.relatorio_vendedores_produtos">Produtos</a>
+                            </li>
+                            <li ui-sref-active="active" >
+                                <a ui-sref="dashboard.relatorio_vendedores_metas">Metas</a>
+                            </li>
+                            <li ui-sref-active="active" >
+                                <a ui-sref="dashboard.produtos_vendidos">Atendimentos</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav nav-second-level" collapse="collapseVar!=2 && collapseVar!=3 && collapseVar!=4">
+                    <li ng-class="{active: collapseVar==4}">
+                        <a href="" ng-click="check(4)">
+                            Filiais
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level" collapse="collapseVar!=4">
+                            <li ui-sref-active="active" >
+                                <a ui-sref="dashboard.produtos_vendidos">Produtos</a>
+                            </li>
+                            <li ui-sref-active="active" >
+                                <a ui-sref="dashboard.produtos_vendidos">Metas</a>
+                            </li>
+                            <li ui-sref-active="active" >
+                                <a ui-sref="dashboard.produtos_vendidos">Atendimentos</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!--<ul class="nav nav-second-level" collapse="collapseVar!=2">
                     <li ui-sref-active="active" >
                         <a ui-sref="dashboard.produtos_vendidos">Produtos vendidos</a>
                     </li>
@@ -55,7 +94,7 @@
                     <li ui-sref-active="active" >
                         <a ui-sref="dashboard.relatorio_metas({tipo_meta: 'valor_mensal'})">Metas mensais por valor</a>
                     </li>
-                </ul>
+                </ul>-->
                 <!-- /.nav-second-level -->
             </li>
             <li ui-sref-active="active" >

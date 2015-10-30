@@ -114,6 +114,7 @@ class ProdutoVendaController extends Controller {
 		$take = $request->input('itensPorPagina');
 		$de = $request->input('de');
 		$ate = $request->input('ate');
+		$vendedor_id = $request->input('vendedor_id');
 		$pagina = $request->input('pagina');
 		$orderBy = $request->input('orderBy');
 		$orderByField = $request->input('orderByField');
@@ -121,13 +122,26 @@ class ProdutoVendaController extends Controller {
 		$skip = $take*$pagina;
 		$qb = DB::table('produtovenda')
             ->join('produto', 'produto.id', '=', 'produtovenda.produto_id')
-            ->select(
-            	DB::raw('sum(produtovenda.quantidade) as produtos_vendidos, 
-            			sum(produtovenda.quantidade)*produto.valor as valor_total')
-            	,'produto.*');
+            ->join('venda', 'venda.id', '=', 'produtovenda.venda_id')
+            ->join('vendedor', 'vendedor.id', '=', 'venda.vendedor_id');
+        $filial = "";
+		if(isset($_COOKIE['filial'])){
+			$filial = $_COOKIE['filial'];
+		}
+		if($filial){
+			$ss = $qb->where('vendedor.filial_id', $filial);
+		}
 		if($de && $ate){
 			$qb = $qb->whereBetween('produtovenda.created_at', array($de, $ate));
 		}
+		if($vendedor_id){
+			$qb = $qb->where('venda.vendedor_id', $vendedor_id);
+		}
+
+		$dados_venda = $qb->select("venda.id",
+            	DB::raw('sum(produtovenda.quantidade*produto.valor) as valor_total, count(venda.id) as qtde_vendas')
+            	)->get();
+
 		if($take){
 			$qb = $qb->take($take);
 		}
@@ -138,7 +152,11 @@ class ProdutoVendaController extends Controller {
 		if($orderByField && $orderBy){
 			$qb = $qb->orderBy($orderByField, $orderBy);
 		}
-		$list = $qb->get();
+		$list["dados"] = $qb->select(
+            	DB::raw('sum(produtovenda.quantidade) as produtos_vendidos, 
+            			sum(produtovenda.quantidade)*produto.valor as valor_total')
+            	,'produto.*')->get();
+		$list["dados_venda"] = $dados_venda;
 
 		return response()->json($list);
 	}

@@ -598,5 +598,35 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.relatorio_vendedores_produtos',{
+				url:'/relatorios/relatorio_vendedores_produtos',
+				controller:'RelatorioVendedoresProdutosCtrl',
+				templateUrl:'scripts/modules/relatorios/view/relatorio_vendedores_produtos.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/relatorio_vendedores_produtos.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.relatorio_vendedores_metas',{
+				url:'/relatorios/relatorio_vendedores_metas',
+				controller:'RelatorioVendedoresMetasCtrl',
+				templateUrl:'scripts/modules/relatorios/view/relatorio_vendedores_metas.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/relatorio_vendedores_metas.js',
+							]
+						})
+					}
+				}
+			})
 		}]
 );
