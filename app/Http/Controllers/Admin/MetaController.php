@@ -19,9 +19,6 @@ class MetaController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-
-
-
         $take = $request->input('itensPorPagina');
         $pagina = $request->input('pagina');
         $orderBy = $request->input('orderBy');
@@ -60,21 +57,20 @@ class MetaController extends Controller {
 	public function store(MetaRequest $request)
 	{
 		$meta = new Meta();
-        $meta->tipo = $request->input("tipo")["id"];
-        
 
-        $meta->data = null;
-        if($request->input("data")){
-	        $data_dia = substr($request->input("data"),0,2);
-	        $data_mes = substr($request->input("data"),2,2);
-	        $data_ano = substr($request->input("data"),-4);
-        	$meta->data = $data_ano."-".$data_mes."-".$data_dia;
+        $meta->de = null;
+        if($request->input("de")){
+	        $de_dia = substr($request->input("de"),0,2);
+	        $de_mes = substr($request->input("de"),2,2);
+	        $de_ano = substr($request->input("de"),-4);
+        	$meta->de = $de_ano."-".$de_mes."-".$de_dia;
 		}
-        $meta->mes = null;
-        if($request->input("mes")){
-	        $mes_mes = substr($request->input("mes"),0,2);
-	        $mes_ano = substr($request->input("mes"),-4);
-        	$meta->mes = $mes_mes."-".$mes_ano;
+        $meta->ate = null;
+        if($request->input("ate")){
+            $ate_dia = substr($request->input("ate"),0,2);
+            $ate_mes = substr($request->input("ate"),2,2);
+            $ate_ano = substr($request->input("ate"),-4);
+            $meta->ate = $ate_ano."-".$ate_mes."-".$ate_dia;
         }
 
         $meta->valor = $request->input("valor");
@@ -124,23 +120,20 @@ class MetaController extends Controller {
 	{
 		$meta = Meta::findOrFail($id);
 
-        $meta->tipo = $request->input("tipo")["id"];
-        
-        $meta->data = null;
-        if($request->input("data")){
-            $data_dia = substr($request->input("data"),0,2);
-            $data_mes = substr($request->input("data"),2,2);
-            $data_ano = substr($request->input("data"),-4);
-            $meta->data = $data_ano."-".$data_mes."-".$data_dia;
+        $meta->de = null;
+        if($request->input("de")){
+            $de_dia = substr($request->input("de"),0,2);
+            $de_mes = substr($request->input("de"),2,2);
+            $de_ano = substr($request->input("de"),-4);
+            $meta->de = $de_ano."-".$de_mes."-".$de_dia;
         }
-        $meta->mes = null;
-        if($request->input("mes")){
-            $mes_mes = substr($request->input("mes"),0,2);
-            $mes_ano = substr($request->input("mes"),-4);
-            $meta->mes = $mes_mes."-".$mes_ano;
+        $meta->ate = null;
+        if($request->input("ate")){
+            $ate_dia = substr($request->input("ate"),0,2);
+            $ate_mes = substr($request->input("ate"),2,2);
+            $ate_ano = substr($request->input("ate"),-4);
+            $meta->ate = $ate_ano."-".$ate_mes."-".$ate_dia;
         }
-
-
 
         $meta->valor = $request->input("valor");
         $meta->vendedor_id = $request->input("vendedor_id")["id"];

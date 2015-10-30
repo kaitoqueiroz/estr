@@ -14,11 +14,11 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
         ];
         $http.get("/admin/meta/"+$stateParams.id).then(function(result) {
             $scope.meta = result.data;
-            if($scope.meta.data != null){
-                $scope.meta.data = moment($scope.meta.data).format("DD/MM/YYYY");
+            if($scope.meta.de != null){
+                $scope.meta.de = moment($scope.meta.de).format("DD/MM/YYYY");
             }
-            if($scope.meta.mes != null){
-                $scope.meta.mes = moment($scope.meta.mes).format("MM/YYYY");
+            if($scope.meta.ate != null){
+                $scope.meta.ate = moment($scope.meta.ate).format("DD/MM/YYYY");
             }
             $scope.produtos_meta = $scope.meta.produtos_meta;
             $scope.selectFilial($scope.meta.filial);

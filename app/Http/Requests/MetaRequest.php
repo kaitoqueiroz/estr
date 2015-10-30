@@ -24,7 +24,8 @@ class MetaRequest extends Request
     public function rules()
     {
         return [
-            "tipo" => "required",
+            "de" => "required",
+            "ate" => "required",
             "vendedor_id" => "required",
         ];
     }

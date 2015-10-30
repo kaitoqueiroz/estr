@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>Editar Meta</h1>
+    <h1>Cadastrar Meta</h1>
 </div>
 
 <div class="row">
@@ -13,38 +13,32 @@
                 <label>ID</label>
                 <p class="form-control-static">{{meta.id}}</p>
             </div>
+
             <div class="form-group">
                  <label>Filial do vendedor</label>
-                 <select ng-required="true" type="text" ng-model="meta.filial" ng-change="selectFilial(meta.filial)" 
+                 <select ng-required="true" type="text" ng-model="meta.filial" ng-change="selectFilial(filial)" 
                     ng-options="filial.nome for filial in filiais track by filial.id" class="form-control">
                  </select>
             </div>
             <div class="form-group">
                  <label>Vendedor</label>
-                 <select ng-required="true" ng-disabled="!meta.filial" type="text" ng-model="meta.vendedor_id"  
+                 <select ng-required="true" ng-disabled="!filial" type="text" ng-model="meta.vendedor_id"  
                     ng-options="vendedor.nome for vendedor in vendedores track by vendedor.id" class="form-control">
                  </select>
             </div>
-            <div class="form-group">
-                 <label>Tipo da Meta</label>
-                 <select ng-required="true" ng-model="meta.tipo" type="text"
-                    ng-options="tipo.descricao for tipo in tipos track by tipo.id" class="form-control">
-                 </select>
-            </div>
-            <div class="form-group" ng-show="meta.tipo.id == 'valor_diaria' || meta.tipo.id == 'produto_diaria'">
-                 <label>Data</label>
-                 <input ng-required="meta.tipo.id == 'valor_diaria' || meta.tipo.id == 'produto_diaria'" ui-mask="99/99/9999" ng-model="meta.data" type="text" class="form-control"/>
-            </div>
-            <div class="form-group" ng-show="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'produto_mensal'">
-                 <label>Mês/ANO</label>
-                 <input ng-required="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'produto_mensal'" ui-mask="99/9999" ng-model="meta.mes" type="text" class="form-control"/>
-            </div>
-            <div class="form-group" ng-show="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'valor_diaria' ">
-                <label>Valor</label>
-                <input ng-required="meta.tipo.id == 'valor_mensal' || meta.tipo.id == 'valor_diaria'" ng-model="meta.valor" type="text" class="form-control" ui-money-mask="2"/>
+            
+            <div class="form-group col-xs-4 no-padding">
+                <div class="form-group col-xs-6 no-padding">
+                     <label>Início</label>
+                     <input ng-required="true" ui-mask="99/99/9999" ng-change="verificarDatas()" ng-model="meta.de" type="text" class="form-control"/>
+                </div>
+                <div class="form-group col-xs-6">
+                     <label>Fim</label>
+                     <input ng-required="true" ui-mask="99/99/9999" ng-change="verificarDatas()" ng-model="meta.ate" type="text" class="form-control"/>
+                </div>
             </div>
 
-            <div ng-show="meta.tipo.id == 'produto_mensal' || meta.tipo.id == 'produto_diaria'" class="col-xs-12 no-padding">
+            <div class="col-xs-12 no-padding">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Adicionar produtos</h3>
@@ -82,7 +76,7 @@
                                     <th>Descrição</th>
                                     <th>Valor</th>
                                     <th>Qtde</th>
-                                    <th>Total</th>
+                                    <th>Total</th>                                    
                                     <th></th>
                                 </tr>
                             </thead>
@@ -109,18 +103,20 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
                                     <td>Total</td>
                                     <td>{{produtos_meta_total | currency:"R$ ":2}}</td>
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
-
-            <a class="btn btn-default" href="#/metas">Voltar</a>
-            <button class="btn btn-primary" type="submit" ng-click="salvar()" ng-disabled="myForm.$invalid">Salvar</a>
+            <div class="col-xs-12 no-padding">
+                <a class="btn btn-default" href="#/metas">Voltar</a>
+                <button class="btn btn-primary" type="submit" ng-click="salvar()" ng-disabled="myForm.$invalid || !produtos_meta.length>0">Salvar</a>
+                
+            </div>
         </form>
     </div>
 </div>

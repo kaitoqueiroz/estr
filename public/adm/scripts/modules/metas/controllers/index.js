@@ -1,6 +1,12 @@
 'use strict';
 
-app.controller('MetaListCtrl', function($scope,$position,$http,$rootScope,Notification) {
+app.filter('moment', function () {
+  return function (input, momentFn /*, param1, param2, ...param n */) {
+    var args = Array.prototype.slice.call(arguments, 2),
+        momentObj = moment(input);
+    return momentObj[momentFn].apply(momentObj, args);
+  };
+}).controller('MetaListCtrl', function($scope,$position,$http,$rootScope,Notification) {
     $scope.initialize = function(){
         $http.get("/admin/meta").then(function(result) {
             $scope.totalItems = result.data.length;

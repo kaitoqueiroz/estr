@@ -14,9 +14,8 @@ class CreateMetasTable extends Migration {
 	{
 		Schema::create('meta', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('tipo');
-            $table->date('data')->nullable();
-            $table->string('mes')->nullable();
+            $table->date('de');
+            $table->string('ate');
             $table->double('valor')->nullable();
             $table->integer('vendedor_id')->unsigned();
             $table->foreign('vendedor_id')->references('id')->on('vendedor')->onDelete('cascade');
