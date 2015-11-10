@@ -3,22 +3,18 @@
         <div class="col-lg-12">
             <h1 class="page-header" >Relatório de Metas</h1>
             <div class="form-group col-xs-2 pull-left">
-                 <label>De</label>
-                 <input ui-mask="99/99/9999" ng-model="de" type="text" class="form-control"/>
+                 <label>Mês</label>
+                 <input ui-mask="99/9999" ng-model="mes" type="text" class="form-control"/>
             </div>
             <div class="form-group col-xs-2 pull-left">
-                 <label>Até</label>
-                 <input ui-mask="99/99/9999" ng-model="ate" type="text" class="form-control"/>
-            </div>
-            <div class="form-group col-xs-2 pull-left">
-                 <label>Vendedor</label>
-                 <select type="text" ng-model="vendedor"  
-                    ng-options="vendedor.nome for vendedor in vendedores track by vendedor.id" class="form-control">
+                 <label>Filial</label>
+                 <select type="text" ng-model="filial"  
+                    ng-options="filial.nome for filial in filiais track by filial.id" class="form-control">
                     <option value="?"></option>
                  </select>
             </div>
             <div class="form-group col-xs-4 pull-left">
-                <a class="btn btn-primary" style="margin-top: 25px" ng-click="filtrar();" ng-disabled="!de || !ate">
+                <a class="btn btn-primary" style="margin-top: 25px" ng-click="filtrar();" ng-disabled="!mes">
                     Filtrar
                 </a>
             </div>
@@ -39,15 +35,6 @@
                     <thead>
                         <tr>
                             <th>
-                                <span>Início</span>
-                            </th>
-                            <th>
-                                <span>Fim</span>
-                            </th>
-                            <th>
-                                <span>Vendedor </span>
-                            </th>
-                            <th>
                                 <span>Filial </span>
                             </th>
                             <th>
@@ -63,31 +50,28 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="meta in metas track by meta.id" style="cursor:pointer" data-toggle="modal" data-target="#myModal" ng-click="selecionarMeta(meta)">
-                            <td>{{meta.de | date: 'dd/MM/yyyy'}} </td>
-                            <td>{{meta.ate | date: 'dd/MM/yyyy'}} </td>
-                            <td>{{meta.nome_vendedor}} </td>
-                            <td>{{meta.nome_filial}} </td>
+                        <tr ng-repeat="meta in metas.filiais track by meta.id" style="cursor:pointer" data-toggle="modal" data-target="#myModal" ng-click="selecionarMeta(meta.id)">
+                            <td>{{meta.filial_nome}} </td>
                             <td>{{meta.valor_total | currency:"R$ ":2}}</td>
                             <td>
-                                {{meta.valor_atingido_meta | currency:"R$ ":2}}
+                                {{(meta.valor_total_meta)?meta.valor_total_meta:0 | currency:"R$ ":2}}
 
                                 <b style="display: block;">
-                                    {{meta.valor_atingido_meta*100/meta.valor_total |  currency:"":2}}%
+                                    {{(meta.valor_total_meta*100/meta.valor_total)?meta.valor_total_meta*100/meta.valor_total:0 |  currency:"":2}}%
                                 </b>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_atingido_meta*100/meta.valor_total}}%">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_total_meta*100/meta.valor_total}}%">
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                {{meta.valor_atingido | currency:"R$ ":2}}
+                                {{(meta.valor_total_financeira)?meta.valor_total_financeira:0 | currency:"R$ ":2}}
 
                                 <b style="display: block;">
-                                    {{meta.valor_atingido*100/meta.valor_total |  currency:"":2}}%
+                                    {{(meta.valor_total_financeira*100/meta.valor_total)?meta.valor_total_financeira*100/meta.valor_total:0 |  currency:"":2}}%
                                 </b>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_atingido*100/meta.valor_total}}%">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_total_financeira*100/meta.valor_total}}%">
                                     </div>
                                 </div>
                             </td>
@@ -97,29 +81,20 @@
                         <tr class="success" style="font-weigth: bold;">
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td><span style="float: right;">Total da meta</span></td>
-                            <td>{{valor_total_meta | currency:"R$ ":2}}</td>
+                            <td>{{metas.valor_total | currency:"R$ ":2}}</td>
                         </tr>
                         <tr class="success">
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td><span style="float: right;">Total meta produtos</span></td>
-                            <td>{{valor_total_atingido_meta | currency:"R$ ":2}}</td>
+                            <td>{{metas.valor_total_meta | currency:"R$ ":2}}</td>
                         </tr>
                         <tr class="success">
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td><span style="float: right;">Total meta financeira</span></td>
-                            <td>{{valor_total_atingido | currency:"R$ ":2}}</td>
+                            <td>{{metas.valor_total_financeira | currency:"R$ ":2}}</td>
                         </tr>
                     </tfoot>
                 </table>

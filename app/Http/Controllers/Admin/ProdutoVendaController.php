@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use DB;
 use App\ProdutoVenda;
+use App\Venda;
+use App\Produto;
 use Illuminate\Http\Request;
 
 class ProdutoVendaController extends Controller {
@@ -111,6 +113,8 @@ class ProdutoVendaController extends Controller {
 	}
 	public function produtosVendidos(Request $request)
 	{
+
+
 		$take = $request->input('itensPorPagina');
 		$de = $request->input('de');
 		$ate = $request->input('ate');
@@ -118,12 +122,98 @@ class ProdutoVendaController extends Controller {
 		$pagina = $request->input('pagina');
 		$orderBy = $request->input('orderBy');
 		$orderByField = $request->input('orderByField');
-
 		$skip = $take*$pagina;
+
+		$filial = "";
+		if(isset($_COOKIE['filial'])){
+			$filial = $_COOKIE['filial'];
+		}
+		$venda = new Venda();
+		if($take){
+			if($de && $ate){
+				$venda = $venda->where('data','>=',$de)->where('data','<=',$ate)->take(intval($take))->skip($skip);
+			}
+			if($vendedor_id){
+				$venda = $venda->where('vendedor_id',$vendedor_id);
+			}
+			$venda = $venda->take(intval($take))->skip($skip)->get();
+		}else{
+			$venda = Venda::get();
+		}
+		if($filial){
+			$venda = $venda->load(['vendedor' => function ($query) use ($filial) {
+			    $query->where('filial_id', $filial);
+			}]);
+		}
+		$vendas = $venda->load('produtos');
+
+		$produtos = array();
+		$dados_venda = array();
+		$vendedores = array();
+		
+		$dados_venda['qtde_vendas'] = 0;
+		$dados_venda['valor_total'] = 0;
+		foreach ($vendas as $key => $venda) {
+			$valor_parcial = 0;
+			foreach ($venda->produtos as $key => $produto) {
+				if(isset($produtos[$produto->id])){
+					$prod = $produtos[$produto->id];
+					$prod['valor_total'] = 0;
+					$prod['produtos_vendidos']+= $produto->pivot->quantidade;
+					$prod['valor_total'] = $prod['produtos_vendidos']*$produto->valor;
+					if(isset($venda->vendedor)){
+						$prod['vendedor_id'] = $venda->vendedor->id;
+						$prod['vendedor_nome'] = $venda->vendedor->nome;
+					}
+				}else{
+					$prod = array();
+					$prod['id'] = $produto->id;
+					$prod['valor_total'] = 0;
+						$prod['produtos_vendidos'] = $produto->pivot->quantidade;
+						$prod['valor_total'] = $produto->pivot->quantidade*$produto->valor;
+					if(isset($venda->vendedor)){
+						$prod['vendedor_id'] = $venda->vendedor->id;
+						$prod['vendedor_nome'] = $venda->vendedor->nome;
+					}
+						$prod['cod_produto'] = $produto->cod_produto;
+						$prod['descricao'] = $produto->descricao;
+				}
+
+				$produtos[$produto->id] = $prod;
+			}
+			$dados_venda['qtde_vendas']++;
+		}
+		foreach ($produtos as $key => $produto) {
+			$dados_venda['valor_total'] += $produto['valor_total'];
+			if(isset($produto['vendedor_id'])){
+				$vendedores[$produto['vendedor_id']]["quantidade"]=$produto['produtos_vendidos'];
+				$vendedores[$produto['vendedor_id']]["nome"]=$produto['vendedor_nome'];
+				$produto["vendedores"][$produto['vendedor_id']] = $vendedores[$produto['vendedor_id']];
+			}
+			$produtos[$key] = $produto;
+		}
+
+		$retorno = array();
+		$retorno["dados"] = $produtos;
+		$retorno["dados_venda"] = $dados_venda;
+
+
+		/*if($skip && $take){
+			$venda = $venda->take(intval($take))->skip($skip);
+		}*/
+		/*$produtovenda = Venda::load('vendedor','produtos')
+						->where('filial_id', $filial)
+						->get();
+		
 		$qb = DB::table('produtovenda')
+			->select(
+				"produto.*",
+            	DB::raw('sum(produtovenda.quantidade) as quantidade')
+        	)
             ->join('produto', 'produto.id', '=', 'produtovenda.produto_id')
             ->join('venda', 'venda.id', '=', 'produtovenda.venda_id')
             ->join('vendedor', 'vendedor.id', '=', 'venda.vendedor_id');
+
         $filial = "";
 		if(isset($_COOKIE['filial'])){
 			$filial = $_COOKIE['filial'];
@@ -138,9 +228,7 @@ class ProdutoVendaController extends Controller {
 			$qb = $qb->where('venda.vendedor_id', $vendedor_id);
 		}
 
-		$dados_venda = $qb->select("venda.id",
-            	DB::raw('sum(produtovenda.quantidade*produto.valor) as valor_total, count(venda.id) as qtde_vendas')
-            	)->get();
+		$dados_venda = $qb->get();
 
 		if($take){
 			$qb = $qb->take($take);
@@ -156,9 +244,11 @@ class ProdutoVendaController extends Controller {
             	DB::raw('sum(produtovenda.quantidade) as produtos_vendidos, 
             			sum(produtovenda.quantidade)*produto.valor as valor_total')
             	,'produto.*')->get();
-		$list["dados_venda"] = $dados_venda;
+		$list["dados_venda"] = $dados_venda;*/
 
-		return response()->json($list);
+		//dd($list);
+
+		return response()->json($retorno);
 	}
 
 }

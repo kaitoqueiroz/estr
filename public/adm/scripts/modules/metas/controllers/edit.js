@@ -6,23 +6,16 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
         $scope.filiais = [];
         $scope.produtos_meta_total = 0;
         $scope.vendedores = [];
-        $scope.tipos = [
-            {id:"produto_diaria",descricao:"Meta diária de produtos"},
-            {id:"produto_mensal",descricao:"Meta mensal de produtos"},
-            {id:"valor_diaria",descricao:"Meta diária por valor"},
-            {id:"valor_mensal",descricao:"Meta mensal por valor"},
-        ];
         $http.get("/admin/meta/"+$stateParams.id).then(function(result) {
             $scope.meta = result.data;
             if($scope.meta.de != null){
-                $scope.meta.de = moment($scope.meta.de).format("DD/MM/YYYY");
+                $scope.meta.de = moment($scope.meta.de).format("DDMMYYYY");
             }
             if($scope.meta.ate != null){
-                $scope.meta.ate = moment($scope.meta.ate).format("DD/MM/YYYY");
+                $scope.meta.ate = moment($scope.meta.ate).format("DDMMYYYY");
             }
             $scope.produtos_meta = $scope.meta.produtos_meta;
             $scope.selectFilial($scope.meta.filial);
-            $scope.meta.tipo = $scope.containsObject({id:$scope.meta.tipo},$scope.tipos);
             $scope.refreshTotal();
         });
         $http.get("/admin/produto").then(function(result) {
@@ -70,6 +63,7 @@ app.controller('MetaEditCtrl', function($scope,$position,$http,$rootScope,Notifi
             total += (produto.valor * produto.quantidade);
         }
         $scope.produtos_meta_total = total;
+        $scope.meta.valor = total;
     }
     $scope.containsObject = function(obj, list) {
         var i;

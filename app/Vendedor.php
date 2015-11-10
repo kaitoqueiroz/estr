@@ -10,6 +10,16 @@ class Vendedor extends Model
 	
     public function filial()
     {
-        return $this->belongsTo('Filial');
+        return $this->belongsTo('App\Filial');
+    }
+
+    public function metas()
+    {
+        return $this->hasMany('App\Meta');
+    }
+
+    public function vendas()
+    {
+        return $this->hasMany('App\Venda');
     }
 }

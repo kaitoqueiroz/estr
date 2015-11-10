@@ -70,3 +70,15 @@ Route::get('metas', [
     },
     'as' => 'metas', 'uses' => 'Admin\MetaController@metas'
 ]);
+Route::get('metas_filial', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'metas_filial', 'uses' => 'Admin\MetaController@metas_filial'
+]);
+
+
+Route::get('atendimentos', [
+    'middleware' => 'cors', function(){
+    },
+    'as' => 'atendimentos', 'uses' => 'Admin\AtendimentoController@atendimentos'
+]);

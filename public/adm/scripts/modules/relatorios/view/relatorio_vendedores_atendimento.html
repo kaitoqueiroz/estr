@@ -10,6 +10,13 @@
                  <label>Até</label>
                  <input ui-mask="99/99/9999" ng-model="ate" type="text" class="form-control"/>
             </div>
+            <div class="form-group col-xs-2 pull-left">
+                 <label>Vendedor</label>
+                 <select type="text" ng-model="vendedor"  
+                    ng-options="vendedor.nome for vendedor in vendedores track by vendedor.id" class="form-control">
+                    <option value="?"></option>
+                 </select>
+            </div>
             <div class="form-group col-xs-4 pull-left">
                 <a class="btn btn-primary" style="margin-top: 25px" ng-click="filtrar();" ng-disabled="!de || !ate">
                     Filtrar
@@ -31,41 +38,41 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th class="col-md-1">
-                                <span>Data venda </span>
+                            <th>
+                                <span>Data atendimento </span>
                             </th>
-                            <th class="col-md-1">
+                            <th>
                                 <span>Vendedor </span>
                             </th>
-                            <th class="col-md-1">
-                                <span>Filial </span>
+                            <th>
+                                <span>Produto procurado </span>
                             </th>
-                            <th class="col-md-1">
-                                <span>Total da venda </span>
+                            <th>
+                                <span>Motivo </span>
+                            </th>
+                            <th>
+                                <span>Vai comparar dia: </span>
                             </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="venda in vendas track by venda.id">
-                            <td>{{venda.data | date: 'dd/MM/yyyy'}} </td>
-                            <td>{{venda.nome_vendedor}} </td>
-                            <td>{{venda.nome_filial}} </td>
-                            <td>{{venda.valor_total | currency:"R$ ":2}} </td>
+                        <tr ng-repeat="atendimento in atendimentos track by atendimento.id">
+                            <td>{{atendimento.created_at | date: 'dd/MM/yyyy'}} </td>
+                            <td>{{atendimento.nome_vendedor}} </td>
+                            <td>{{atendimento.nome_produto}} </td>
+                            <td>{{atendimento.motivo}} </td>
+                            <td>{{atendimento.outro_dia}} </td>
                         </tr>
                     </tbody>
+
                     <tfoot>
-                        <tr class="success" style="font-weigth: bold;">
+                        <tr class="success" style="font-weigth: bold;" ng-repeat="atendimento in atendimentos_totais track by atendimento.motivo">
                             <td></td>
                             <td></td>
-                            <td><span style="float: right;">Total da página</span></td>
-                            <td>{{valor_total_pagina | currency:"R$ ":2}}</td>
-                        </tr>
-                        <tr class="success">
                             <td></td>
-                            <td></td>
-                            <td><span style="float: right;">Total geral</span></td>
-                            <td>{{valor_total_periodo | currency:"R$ ":2}}</td>
+                            <td><span style="float: right;">{{atendimento.motivo}}</span></td>
+                            <td>{{atendimento.quantidade}}</td>
                         </tr>
                     </tfoot>
                 </table>

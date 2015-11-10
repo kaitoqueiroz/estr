@@ -2,6 +2,7 @@
 app.controller('RelatorioVendedoresProdutosCtrl', function($scope,$state,$position,$http,$rootScope,Notification,$window,$filter) {
     $scope.initialize = function(){
         $http.get("/produtosVendidos").then(function(result) {
+            $scope.produto_selecionado = {};    
             $scope.totalItems = result.data.dados.length;
             $scope.vendedor = {};
             $scope.currentPage = 1;
@@ -41,7 +42,7 @@ app.controller('RelatorioVendedoresProdutosCtrl', function($scope,$state,$positi
         }).
         success(function(result, status, headers, config) {
             $scope.produtos_vendidos = result.dados;
-            $scope.dados_venda = result.dados_venda[0];
+            $scope.dados_venda = result.dados_venda;
             $scope.numPages = Math.ceil($scope.produtos_vendidos.length / $scope.itemsPerPage);
 
             $scope.pageCount = function () {
@@ -87,5 +88,8 @@ app.controller('RelatorioVendedoresProdutosCtrl', function($scope,$state,$positi
             $scope.vendedor.id
         );
     }
+    $scope.selecionarProduto = function(produto){
+        $scope.produto_selecionado = produto;
+    };
     $scope.initialize();
 });

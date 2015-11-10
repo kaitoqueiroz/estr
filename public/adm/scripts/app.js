@@ -628,5 +628,35 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.relatorio_vendedores_atendimento',{
+				url:'/relatorios/relatorio_vendedores_atendimento',
+				controller:'RelatorioVendedoresAtendimentoCtrl',
+				templateUrl:'scripts/modules/relatorios/view/relatorio_vendedores_atendimento.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/relatorio_vendedores_atendimento.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.relatorio_filiais_metas',{
+				url:'/relatorios/relatorio_filiais_metas',
+				controller:'RelatorioFiliaisMetasCtrl',
+				templateUrl:'scripts/modules/relatorios/view/relatorio_filiais_metas.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/relatorio_filiais_metas.js',
+							]
+						})
+					}
+				}
+			})
 		}]
 );
