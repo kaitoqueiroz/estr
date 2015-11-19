@@ -57,7 +57,7 @@ class MensagemController extends Controller {
 		$mensagem = new Mensagem();
         $mensagem->mensagem = $request->input("mensagem");
         $mensagem->sender = 'admin';
-        $mensagem->vendedor_id = $request->input("vendedor");
+        $mensagem->vendedor_id = $request->input("vendedor_id")["id"];
 
 		$mensagem->save();
 
