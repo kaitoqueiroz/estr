@@ -658,5 +658,20 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.relatorio_filiais_atendimento',{
+				url:'/relatorios/relatorio_filiais_atendimento',
+				controller:'RelatorioFiliaisAtendimentoCtrl',
+				templateUrl:'scripts/modules/relatorios/view/relatorio_filiais_atendimento.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/relatorios/controllers/relatorio_filiais_atendimento.js',
+							]
+						})
+					}
+				}
+			})
 		}]
 );

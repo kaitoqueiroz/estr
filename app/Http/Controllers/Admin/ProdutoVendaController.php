@@ -140,11 +140,11 @@ class ProdutoVendaController extends Controller {
 		}else{
 			$venda = Venda::get();
 		}
-		if($filial){
-			$venda = $venda->load(['vendedor' => function ($query) use ($filial) {
+		$venda = $venda->load(['vendedor' => function ($query) use ($filial) {
+			if($filial){
 			    $query->where('filial_id', $filial);
-			}]);
-		}
+			}
+		}]);
 		$vendas = $venda->load('produtos');
 
 		$produtos = array();
@@ -155,98 +155,52 @@ class ProdutoVendaController extends Controller {
 		$dados_venda['valor_total'] = 0;
 		foreach ($vendas as $key => $venda) {
 			$valor_parcial = 0;
-			foreach ($venda->produtos as $key => $produto) {
-				if(isset($produtos[$produto->id])){
-					$prod = $produtos[$produto->id];
-					$prod['valor_total'] = 0;
-					$prod['produtos_vendidos']+= $produto->pivot->quantidade;
-					$prod['valor_total'] = $prod['produtos_vendidos']*$produto->valor;
-					if(isset($venda->vendedor)){
+			if(isset($venda->vendedor)){
+
+				foreach ($venda->produtos as $key => $produto) {
+					if(isset($produtos[$produto->id])){
+						$prod = $produtos[$produto->id];
+						$prod['valor_total'] = 0;
+						$prod['produtos_vendidos']+= $produto->pivot->quantidade;
+						$prod['valor_total'] = $prod['produtos_vendidos']*$produto->valor;
 						$prod['vendedor_id'] = $venda->vendedor->id;
 						$prod['vendedor_nome'] = $venda->vendedor->nome;
-					}
-				}else{
-					$prod = array();
-					$prod['id'] = $produto->id;
-					$prod['valor_total'] = 0;
+					}else{
+						$prod = array();
+						$prod['id'] = $produto->id;
+						$prod['valor_total'] = 0;
 						$prod['produtos_vendidos'] = $produto->pivot->quantidade;
 						$prod['valor_total'] = $produto->pivot->quantidade*$produto->valor;
-					if(isset($venda->vendedor)){
 						$prod['vendedor_id'] = $venda->vendedor->id;
 						$prod['vendedor_nome'] = $venda->vendedor->nome;
-					}
 						$prod['cod_produto'] = $produto->cod_produto;
 						$prod['descricao'] = $produto->descricao;
-				}
+					}
+					if(isset($prod['vendedores'][$venda->vendedor->id])){
+						$prod['vendedores'][$venda->vendedor->id]['quantidade'] += $produto->pivot->quantidade;
+					}else{
+						$prod['vendedores'][$venda->vendedor->id]['nome'] = $venda->vendedor->nome;
+						$prod['vendedores'][$venda->vendedor->id]['quantidade'] = $produto->pivot->quantidade;
+					}
 
-				$produtos[$produto->id] = $prod;
+					$produtos[$produto->id] = $prod;
+				}
 			}
 			$dados_venda['qtde_vendas']++;
 		}
 		foreach ($produtos as $key => $produto) {
 			$dados_venda['valor_total'] += $produto['valor_total'];
-			if(isset($produto['vendedor_id'])){
+			/*if(isset($produto['vendedor_id'])){
 				$vendedores[$produto['vendedor_id']]["quantidade"]=$produto['produtos_vendidos'];
 				$vendedores[$produto['vendedor_id']]["nome"]=$produto['vendedor_nome'];
 				$produto["vendedores"][$produto['vendedor_id']] = $vendedores[$produto['vendedor_id']];
-			}
+			}*/
 			$produtos[$key] = $produto;
 		}
 
 		$retorno = array();
 		$retorno["dados"] = $produtos;
 		$retorno["dados_venda"] = $dados_venda;
-
-
-		/*if($skip && $take){
-			$venda = $venda->take(intval($take))->skip($skip);
-		}*/
-		/*$produtovenda = Venda::load('vendedor','produtos')
-						->where('filial_id', $filial)
-						->get();
-		
-		$qb = DB::table('produtovenda')
-			->select(
-				"produto.*",
-            	DB::raw('sum(produtovenda.quantidade) as quantidade')
-        	)
-            ->join('produto', 'produto.id', '=', 'produtovenda.produto_id')
-            ->join('venda', 'venda.id', '=', 'produtovenda.venda_id')
-            ->join('vendedor', 'vendedor.id', '=', 'venda.vendedor_id');
-
-        $filial = "";
-		if(isset($_COOKIE['filial'])){
-			$filial = $_COOKIE['filial'];
-		}
-		if($filial){
-			$ss = $qb->where('vendedor.filial_id', $filial);
-		}
-		if($de && $ate){
-			$qb = $qb->whereBetween('produtovenda.created_at', array($de, $ate));
-		}
-		if($vendedor_id){
-			$qb = $qb->where('venda.vendedor_id', $vendedor_id);
-		}
-
-		$dados_venda = $qb->get();
-
-		if($take){
-			$qb = $qb->take($take);
-		}
-		if($skip){
-			$qb = $qb->skip($skip);
-		}
-        $qb->groupBy('produto.id');
-		if($orderByField && $orderBy){
-			$qb = $qb->orderBy($orderByField, $orderBy);
-		}
-		$list["dados"] = $qb->select(
-            	DB::raw('sum(produtovenda.quantidade) as produtos_vendidos, 
-            			sum(produtovenda.quantidade)*produto.valor as valor_total')
-            	,'produto.*')->get();
-		$list["dados_venda"] = $dados_venda;*/
-
-		//dd($list);
 
 		return response()->json($retorno);
 	}

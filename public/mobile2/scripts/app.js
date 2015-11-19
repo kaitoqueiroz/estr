@@ -252,16 +252,16 @@ var app = angular
 					}
 				}
 			})
-			.state('dashboard.relatorios_meta_valor',{
-				url:'/relatorios_meta_valor/:meta_id',
-				controller:'RelatorioViewCtrl',
-				templateUrl:'scripts/modules/relatorios/view/valor.html',
+			.state('dashboard.relatorio_meta',{
+				url:'/relatorio_meta/:meta_id',
+				controller:'RelatorioMetaCtrl',
+				templateUrl:'scripts/modules/relatorios/view/meta.html',
 				resolve: {
 					loadMyFile:function($ocLazyLoad) {
 						return $ocLazyLoad.load({
 							name:'sbAdminApp',
 							files:[
-								'scripts/modules/relatorios/controllers/relatorio.js',
+								'scripts/modules/relatorios/controllers/meta.js',
 							]
 						})
 					}

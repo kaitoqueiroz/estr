@@ -50,28 +50,28 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="meta in metas.filiais track by meta.id" style="cursor:pointer" data-toggle="modal" data-target="#myModal" ng-click="selecionarMeta(meta.id)">
-                            <td>{{meta.filial_nome}} </td>
-                            <td>{{meta.valor_total | currency:"R$ ":2}}</td>
+                        <tr ng-repeat="filial in metas.filiais track by filial.id" style="cursor:pointer" data-toggle="modal" data-target="#myModal" ng-click="selecionarMeta(filial.id)">
+                            <td>{{filial.filial_nome}} </td>
+                            <td>{{filial.valor_total | currency:"R$ ":2}}</td>
                             <td>
-                                {{(meta.valor_total_meta)?meta.valor_total_meta:0 | currency:"R$ ":2}}
+                                {{(filial.valor_total_meta)?filial.valor_total_meta:0 | currency:"R$ ":2}}
 
                                 <b style="display: block;">
-                                    {{(meta.valor_total_meta*100/meta.valor_total)?meta.valor_total_meta*100/meta.valor_total:0 |  currency:"":2}}%
+                                    {{(filial.valor_total_meta*100/filial.valor_total)?filial.valor_total_meta*100/filial.valor_total:0 |  currency:"":2}}%
                                 </b>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_total_meta*100/meta.valor_total}}%">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{filial.valor_total_meta*100/filial.valor_total}}%">
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                {{(meta.valor_total_financeira)?meta.valor_total_financeira:0 | currency:"R$ ":2}}
+                                {{(filial.valor_total_financeira)?filial.valor_total_financeira:0 | currency:"R$ ":2}}
 
                                 <b style="display: block;">
-                                    {{(meta.valor_total_financeira*100/meta.valor_total)?meta.valor_total_financeira*100/meta.valor_total:0 |  currency:"":2}}%
+                                    {{(filial.valor_total_financeira*100/filial.valor_total)?filial.valor_total_financeira*100/filial.valor_total:0 |  currency:"":2}}%
                                 </b>
                                 <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_total_financeira*100/meta.valor_total}}%">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{filial.valor_total_financeira*100/filial.valor_total}}%">
                                     </div>
                                 </div>
                             </td>
@@ -115,119 +115,95 @@
         <h4 class="modal-title" id="myModalLabel">Detalhes da meta</h4>
       </div>
       <div class="modal-body">
-        <h2>Produtos da meta</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
-                            <span>Descrição</span>
+                            <span>Início</span>
                         </th>
                         <th>
-                            <span>Quantidade</span>
+                            <span>Fim</span>
                         </th>
                         <th>
-                            <span>Valor</span>
+                            <span>Vendedor </span>
                         </th>
                         <th>
-                            <span>Total</span>
+                            <span>Filial </span>
+                        </th>
+                        <th>
+                            <span>Valor da meta </span>
+                        </th>
+                        <th>
+                            <span>Meta produtos </span>
+                        </th>
+                        <th>
+                            <span>Meta financeira</span>
                         </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="produto in meta_selecionada.produtos track by produto.id">
-                        <td>{{produto.descricao}} </td>
-                        <td>{{produto.quantidade}} </td>
-                        <td>{{produto.valor | currency:"R$ ":2}} </td>
-                        <td>{{produto.valor*produto.quantidade | currency:"R$ ":2}} </td>
+                    <tr ng-repeat="meta in filial_selecionada.list track by meta.id" style="cursor:pointer" >
+                        <td>{{meta.de | date: 'dd/MM/yyyy'}} </td>
+                        <td>{{meta.ate | date: 'dd/MM/yyyy'}} </td>
+                        <td>{{meta.nome_vendedor}} </td>
+                        <td>{{meta.nome_filial}} </td>
+                        <td>{{meta.valor_total | currency:"R$ ":2}}</td>
+                        <td>
+                            {{meta.valor_atingido_meta | currency:"R$ ":2}}
+
+                            <b style="display: block;">
+                                {{meta.valor_atingido_meta*100/meta.valor_total |  currency:"":2}}%
+                            </b>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_atingido_meta*100/meta.valor_total}}%">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {{meta.valor_atingido | currency:"R$ ":2}}
+
+                            <b style="display: block;">
+                                {{meta.valor_atingido*100/meta.valor_total |  currency:"":2}}%
+                            </b>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{meta.valor_atingido*100/meta.valor_total}}%">
+                                </div>
+                            </div>
+                        </td>
                     </tr>   
                 </tbody>
-
-                    <tfoot>
-                        <tr class="success" style="font-weigth: bold;">
-                            <td></td>
-                            <td></td>
-                            <td><span style="float: right;">Total</span></td>
-                            <td>{{meta_selecionada.valor_total | currency:"R$ ":2}}</td>
-                        </tr>
-                    </tfoot>
-            </table>
-        </div>
-        <h2>Produtos vendidos contidos na meta</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <span>Descrição</span>
-                        </th>
-                        <th>
-                            <span>Quantidade</span>
-                        </th>
-                        <th>
-                            <span>Valor</span>
-                        </th>
-                        <th>
-                            <span>Total</span>
-                        </th>
+                <tfoot>
+                    <tr class="success" style="font-weigth: bold;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span style="float: right;">Total da meta</span></td>
+                        <td>{{filial_selecionada.valor_total_meta | currency:"R$ ":2}}</td>
                     </tr>
-                </thead>
-
-                <tbody>
-                    <tr ng-repeat="produto in meta_selecionada.produtos_vendidos_meta track by produto.id">
-                        <td>{{produto.descricao}} </td>
-                        <td>{{produto.quantidade}} </td>
-                        <td>{{produto.valor | currency:"R$ ":2}} </td>
-                        <td>{{produto.valor*produto.quantidade | currency:"R$ ":2}} </td>
-                    </tr>
-                </tbody>
                     <tr class="success">
                         <td></td>
                         <td></td>
-                        <td><span style="float: right;">Total</span></td>
-                        <td>{{meta_selecionada.valor_atingido_meta | currency:"R$ ":2}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span style="float: right;">Total meta produtos</span></td>
+                        <td>{{filial_selecionada.valor_total_atingido_meta | currency:"R$ ":2}}</td>
                     </tr>
-            </table>
-        </div>
-        <h2>Todos os produtos vendidos</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <span>Descrição</span>
-                        </th>
-                        <th>
-                            <span>Quantidade</span>
-                        </th>
-                        <th>
-                            <span>Valor</span>
-                        </th>
-                        <th>
-                            <span>Total</span>
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr ng-repeat="produto in meta_selecionada.produtos_vendidos track by produto.id">
-                        <td>{{produto.descricao}} </td>
-                        <td>{{produto.quantidade}} </td>
-                        <td>{{produto.valor | currency:"R$ ":2}} </td>
-                        <td>{{produto.valor*produto.quantidade | currency:"R$ ":2}} </td>
-                    </tr>
-                </tbody>
                     <tr class="success">
                         <td></td>
                         <td></td>
-                        <td><span style="float: right;">Total</span></td>
-                        <td>{{meta_selecionada.valor_atingido | currency:"R$ ":2}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span style="float: right;">Total meta financeira</span></td>
+                        <td>{{filial_selecionada.valor_total_atingido | currency:"R$ ":2}}</td>
                     </tr>
+                </tfoot>
             </table>
         </div>
-        <!-- /.col-lg-12 -->
-      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
       </div>

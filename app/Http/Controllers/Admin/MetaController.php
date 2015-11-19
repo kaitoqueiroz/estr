@@ -188,6 +188,7 @@ class MetaController extends Controller {
         $de = $request->input('de');
         $ate = $request->input('ate');
         $vendedor_id = $request->input('vendedor_id');
+        $filial_id = $request->input('filial_id');
         $pagina = $request->input('pagina');
         $orderBy = $request->input('orderBy');
         $orderByField = $request->input('orderByField');
@@ -204,6 +205,16 @@ class MetaController extends Controller {
 
         if($vendedor_id){
             $qb = $qb->where('meta.vendedor_id', '=', $vendedor_id);
+        }
+        $filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where('vendedor.filial_id', '=', $filial);
+        }
+        if($filial_id){
+            $qb = $qb->where('vendedor.filial_id', '=', $filial_id);
         }
         if($de && $ate){
             $qb = $qb->whereBetween('meta.de', array($de, $ate));
@@ -319,6 +330,7 @@ class MetaController extends Controller {
         $produtos_meta = array();
 
         foreach ($filiais_metas as $filial) {
+            $filiais[$filial->id]['id'] = $filial->id;
             $filiais[$filial->id]['filial_nome'] = $filial->nome;
             $filiais[$filial->id]['valor_total'] = 0;
             $filiais[$filial->id]['metas'] = array();
@@ -341,10 +353,11 @@ class MetaController extends Controller {
             $filiais[$filial->id]['valor_total_financeira'] = 0;
             $filiais[$filial->id]['valor_total_meta'] = 0;
             foreach($filial->vendedores as $vendedor){
-                foreach ($vendedor->vendas as $meta) {
-                    foreach ($meta->produtos as $produto) {
+                foreach ($vendedor->vendas as $venda) {
+                    foreach ($venda->produtos as $produto) {
                         if(isset($produtos_meta[$produto->id])){
                             $filiais[$filial->id]['valor_total_meta']+=$produto->valor*$produto->pivot->quantidade;
+                            var_dump($filiais[$filial->id]['valor_total_meta']);
                         }
                         $filiais[$filial->id]['valor_total_financeira']+=$produto->valor*$produto->pivot->quantidade;
                     }

@@ -131,6 +131,7 @@ class AtendimentoController extends Controller {
         $skip = $take*$pagina;
         $qb = DB::table('atendimento')
             ->join('vendedor', 'vendedor.id', '=', 'atendimento.vendedor_id')
+            ->join('filial', 'filial.id', '=', 'vendedor.filial_id')
             ->join('produto', 'produto.id', '=', 'atendimento.produto_id');
         $filial = "";
         if(isset($_COOKIE['filial'])){
@@ -159,7 +160,7 @@ class AtendimentoController extends Controller {
 		if($orderByField && $orderBy){
 			$qb = $qb->orderBy($orderByField, $orderBy);
 		}
-		$list["dados"] = $qb->select('atendimento.*', 'vendedor.nome as nome_vendedor', 'produto.descricao as nome_produto')->get();
+		$list["dados"] = $qb->select('atendimento.*', 'vendedor.nome as nome_vendedor', 'filial.nome as nome_filial', 'produto.descricao as nome_produto')->get();
 		
 
 		return response()->json($list);

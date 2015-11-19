@@ -1,0 +1,96 @@
+<div class="pagina">
+    <div class="row">
+        <div class="col-lg-12 no-padding">
+            <div class="box-container">
+                <a>
+                    <p>
+                        <strong>Meta produtos</strong>
+                        <span class="pull-right text-muted">{{porcentagemMetaProdutos}}% Completo</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-{{classBarProduto}}" role="progressbar" aria-valuenow="{{porcentagemMetaProdutos}}" aria-valuemin="0" aria-valuemax="100" style="width: {{porcentagemMetaProdutos}}%">
+                        </div>
+                    </div>
+                    <div ng-show="porcentagemMetaProdutos >= 100" style="color: gold; font-weight: bold; margin-top: -40px; text-align: center;" class="mensagem-meta">
+                        <i class="fa fa-star"></i>Parabéns, meta atingida!
+                    </div>
+                </a>
+            </div>
+            <div class="box-container">
+                <a>
+                    <p>
+                        <strong>Meta financeira</strong>
+                        <span class="pull-right text-muted">{{porcentagemMetaFinanceira}}% Completo</span>
+                    </p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-{{classBarFinanceira}}" role="progressbar" aria-valuenow="{{porcentagemMetaFinanceira}}" aria-valuemin="0" aria-valuemax="100" style="width: {{porcentagemMetaFinanceira}}%">
+                        </div>
+                    </div>
+                    <div ng-show="porcentagemMetaFinanceira >= 100" style="color: gold; font-weight: bold; margin-top: -40px; text-align: center;" class="mensagem-meta">
+                        <i class="fa fa-star"></i>Parabéns, meta atingida!
+                    </div>
+                </a>
+            </div>
+            <div class="box-container col-xs-12">
+                <p>Produtos da meta </p>
+            </div>
+            <div class="box-container col-xs-12">
+                <table class="table table-bordered table-responsive table-striped" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Meta</th>
+                            <th>Vendido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="produto in produtosMeta track by produto.id">
+                            <td><b>Descrição:</b> {{getProdutoDescricao(produto.produto_id)}}<br><b>Valor:</b> {{getProdutoValor(produto.produto_id) | currency:"R$ ":2}}<br></td>
+                            <td>{{produto.quantidade}}</td>
+                            <td>{{produto.vendido}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="success">
+                            <td></td>
+                            <td>Total meta</td>
+                            <td>{{totalMeta | currency:"R$ ":2}}</td>
+                        </tr>
+                        <tr class="success">
+                            <td></td>
+                            <td>Total atingido</td>
+                            <td>{{totalAtingido | currency:"R$ ":2}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="box-container col-xs-12">
+                Todos os produtos vendidos
+            </div>
+            <div class="box-container col-xs-12">
+                <table class="table table-bordered table-responsive table-striped" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Vendido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="produto in produtosVenda track by produto.ID">
+                            <td><b>Descrição:</b> {{getProdutoDescricao(produto.produto_id)}}<br><b>Valor:</b> {{getProdutoValor(produto.produto_id) | currency:"R$ ":2}}<br></td>
+                            <td>{{produto.quantidade}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="success">
+                            <td>Total vendido</td>
+                            <td>{{totalVendas | currency:"R$ ":2}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>

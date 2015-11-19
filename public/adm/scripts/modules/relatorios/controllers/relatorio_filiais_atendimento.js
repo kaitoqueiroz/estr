@@ -1,52 +1,51 @@
 'use strict';
-app.controller('RelatorioFiliaisMetasCtrl', function($scope,$state,$stateParams,$position,$http,$rootScope,Notification,$window,$filter) {
+app.controller('RelatorioFiliaisAtendimentoCtrl', function($scope,$state,$position,$http,$rootScope,Notification,$window,$filter) {
     $scope.initialize = function(){
-        $http.get("/metas_filial").then(function(result) {
-            $scope.filial = {};
-            $scope.filial_selecionada = {};
+        $http.get("/atendimentos").then(function(result) {
+            $scope.vendedor = {};
             $scope.totalItems = result.data.length;
             $scope.currentPage = 1;
             $scope.paginaAtual = 0;
-            $scope.valor_total_meta = 0;
-            $scope.valor_total_atingido = 0;
             $scope.maxSize = 5;
             $scope.itemsPerPage = 10;
-            $scope.mes = moment(1,"DD").format("MM/YYYY");
+            $scope.de = moment(1,"DD").format("DD/MM/YYYY");
+            $scope.ate = moment(1,"DD").add(1,'months').format("DD/MM/YYYY");
             $scope.toggleOrderType = "DESC";
-            $scope.orderField = "meta.id";
+            $scope.orderField = "atendimento.id";
             $scope.paginate(
                 $scope.paginaAtual,
                 $scope.itemsPerPage,
                 $scope.toggleOrderType,
                 $scope.orderField,
-                $scope.mes,
-                $scope.filial.id
-            );            
+                $scope.de,
+                $scope.ate,
+                $scope.vendedor.id
+            ); 
         });
-        
-        $http.get("/admin/filial",{
+        $http.get("/admin/vendedor",{
         }).then(function(result) {
-            $scope.filiais = result.data
+            $scope.vendedores = result.data
         });
     }
-    $scope.paginate = function(pagina,itensPorPagina,orderBy,orderByField,mes,filial_id){
-        $http.get("/metas_filial",{
+    $scope.paginate = function(pagina,itensPorPagina,orderBy,orderByField,de,ate,vendedor_id){
+        $http.get("/atendimentos",{
             params: {
                 pagina: pagina,
-                tipo: $stateParams.tipo_meta,
                 itensPorPagina: itensPorPagina,
                 orderBy: orderBy,
                 orderByField: orderByField,
-                mes: moment(mes,'MM/YYYY').format("YYYY-MM"),
-                filial_id: filial_id,
+                de: moment(de,'DD/MM/YYYY').format("YYYY-MM-DD 00:00:00"),
+                ate: moment(ate,'DD/MM/YYYY').format("YYYY-MM-DD 23:59:59"),
+                vendedor_id: vendedor_id,
             }
         }).
         success(function(result, status, headers, config) {
-            $scope.metas = result.dados;
-            $scope.numPages = Math.ceil($scope.metas.filiais.length / $scope.itemsPerPage);
+            $scope.atendimentos = result.dados;
+            $scope.atendimentos_totais = result.total;
+            $scope.numPages = Math.ceil($scope.atendimentos.length / $scope.itemsPerPage);
 
             $scope.pageCount = function () {
-                return Math.ceil(metas.length / $scope.itemsPerPage);
+                return Math.ceil(atendimentos.length / $scope.itemsPerPage);
             };
             $scope.pageChanged = function() {
 
@@ -55,8 +54,9 @@ app.controller('RelatorioFiliaisMetasCtrl', function($scope,$state,$stateParams,
                     $scope.itemsPerPage,
                     orderBy,
                     orderByField,
-                    $scope.mes,
-                    $scope.filial.id
+                    $scope.de,
+                    $scope.ate,
+                    $scope.vendedor.id
                 );
             };
             //mostrar template após carregar
@@ -71,8 +71,9 @@ app.controller('RelatorioFiliaisMetasCtrl', function($scope,$state,$stateParams,
             $scope.itemsPerPage,
             $scope.toggleOrderType,
             $scope.orderField,
-            $scope.mes,
-            $scope.filial.id
+            $scope.de,
+            $scope.ate,
+            $scope.vendedor.id
         );
     }
     $scope.changeItensPerPage = function(){
@@ -81,8 +82,9 @@ app.controller('RelatorioFiliaisMetasCtrl', function($scope,$state,$stateParams,
             $scope.itemsPerPage,
             $scope.toggleOrderType,
             $scope.orderField,
-            $scope.mes,
-            $scope.filial.id
+            $scope.de,
+            $scope.ate,
+            $scope.vendedor.id
         );
     }
     $scope.filtrar = function(){
@@ -91,22 +93,10 @@ app.controller('RelatorioFiliaisMetasCtrl', function($scope,$state,$stateParams,
             $scope.itemsPerPage,
             $scope.toggleOrderType,
             $scope.orderField,
-            $scope.mes,
-            $scope.filial.id
+            $scope.de,
+            $scope.ate,
+            $scope.vendedor.id
         );
-    }
-    $scope.selecionarMeta = function(filial_id){
-        console.log(filial_id);
-        $http.get("/metas",{
-            params: {
-                filial_id: filial_id,
-                de: moment($scope.mes,'MM/YYYY').format("YYYY-MM-DD 00:00:00"),
-                ate: moment($scope.mes,'MM/YYYY').format("YYYY-MM-31 23:59:59"),
-            }
-        }).
-        success(function(result) {
-            $scope.filial_selecionada = result;
-        });
     }
     $scope.initialize();
 });
