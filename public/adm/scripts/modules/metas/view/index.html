@@ -28,15 +28,25 @@
                                 <i ng-show="toggleOrderType == 'ASC' && orderField == 'id'" class="glyphicon glyphicon-triangle-bottom"></i>
                                 <i ng-show="toggleOrderType == 'DESC' && orderField == 'id'" class="glyphicon glyphicon-triangle-top"></i>
                             </th>
-                            <th class="col-md-2 order" ng-click="order('tipo');">
-                                <span>Tipo da Meta </span>
-                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'tipo'" class="glyphicon glyphicon-triangle-bottom"></i>
-                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'tipo'" class="glyphicon glyphicon-triangle-top"></i>
+                            <th class="col-md-1 order" ng-click="order('de');">
+                                <span>Início </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'de'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'de'" class="glyphicon glyphicon-triangle-top"></i>
                             </th>
-                            <th class="col-md-7 order" ng-click="order('nome_vendedor');">
+                            <th class="col-md-1 order" ng-click="order('ate');">
+                                <span>Fim </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'ate'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'ate'" class="glyphicon glyphicon-triangle-top"></i>
+                            </th>
+                            <th class="col-md-5 order" ng-click="order('nome_vendedor');">
                                 <span>Vendedor </span>
                                 <i ng-show="toggleOrderType == 'ASC' && orderField == 'nome_vendedor'" class="glyphicon glyphicon-triangle-bottom"></i>
                                 <i ng-show="toggleOrderType == 'DESC' && orderField == 'nome_vendedor'" class="glyphicon glyphicon-triangle-top"></i>
+                            </th>
+                            <th class="col-md-2 order" ng-click="order('valor');">
+                                <span>Valor </span>
+                                <i ng-show="toggleOrderType == 'ASC' && orderField == 'valor'" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <i ng-show="toggleOrderType == 'DESC' && orderField == 'valor'" class="glyphicon glyphicon-triangle-top"></i>
                             </th>
                             <th class="col-md-2">Ações</th>
                         </tr>
@@ -45,8 +55,10 @@
                     <tbody>
                         <tr ng-repeat="meta in metas track by meta.id">
                             <td>{{meta.id}} </td>
-                            <td>{{tipos[meta.tipo]}} </td>
+                            <td>{{meta.de | moment: 'format': 'DD/MM/YYYY'}} </td>
+                            <td>{{meta.ate | moment: 'format': 'DD/MM/YYYY'}} </td>
                             <td>{{meta.nome_vendedor}} </td>
+                            <td>{{meta.valor | currency:"R$ ":2}} </td>
                             <td>
                                 <center>
                                     <a href="#/metas/edit/{{meta.id}}" class="btn btn-circle btn-warning hint hint--top" data-hint="Editar">

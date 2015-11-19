@@ -2,16 +2,14 @@
 
 app.controller('RelatorioListCtrl', function($scope,$stateParams,$position,$http,$rootScope,Notification) {
     $scope.initialize = function(){
-    	$scope.tipo = ($stateParams.tipo == "produto_diaria" || $stateParams.tipo == "produto_mensal")?"produto":"valor";
-        $scope.metas = $rootScope.metas.filter(function (el) {
-            if(el.data != null)
-                el.dataFormatada = moment(el.data).format("DD/MM/YYYY");
+        $scope.metas = [];
+         $scope.metas = $rootScope.metas.filter(function (el) {
+            el.deFormatado = moment(el.de,"YYYY-MM-DD").format("DD/MM/YYYY");
+            el.ateFormatado = moment(el.ate,"YYYY-MM-DD").format("DD/MM/YYYY");
             
-            if(el.mes != null)
-                el.mesFormatado = moment(el.mes).format("MM/YYYY");
-            
-            return el.tipo == $stateParams.tipo;
+            return true;
         });
+            console.log($scope.metas);
     }
     function when_external_loaded (callback) {
         if (typeof $rootScope.metas === 'undefined') {

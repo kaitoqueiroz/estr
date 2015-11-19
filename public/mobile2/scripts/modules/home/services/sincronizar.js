@@ -8,7 +8,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
         lib.createTable("mensagensvendedor", ["mensagem_id","vendedor_id"]);
         lib.createTable("produtos", ["id", "cod_produto", "descricao", "valor"]);
         lib.createTable("vendedor", ["id", "nome"]);
-        lib.createTable("metas", ["id", "tipo", "data", "mes", "valor"]);
+        lib.createTable("metas", ["id", "tipo", "de", "ate", "valor"]);
         lib.createTable("produtosmeta", ["id", "quantidade", "meta_id", "produto_id"]);
         lib.createTable("vendas", ["id","cod_venda", "vendedor_id", "data"]);
         lib.createTable("produtosvenda", ["produto_id", "venda_id", "cod_venda", "quantidade"]);
@@ -66,7 +66,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
                 lib.insert("produtos", {id: obj.id, cod_produto: obj.cod_produto, descricao: obj.descricao, valor: obj.valor});
             });
             result.data.metas.forEach(function(obj){
-                lib.insert("metas", {id: obj.id, tipo: obj.tipo, data: obj.data, mes: obj.mes, valor: obj.valor});
+                lib.insert("metas", {id: obj.id, tipo: obj.tipo, de: obj.de, ate: obj.ate, valor: obj.valor});
 
                 obj.produtos_meta.forEach(function(obj2){
                     lib.insert("produtosmeta", {id: obj2.id, quantidade: obj2.quantidade, meta_id: obj2.meta_id, produto_id: obj2.produto_id});

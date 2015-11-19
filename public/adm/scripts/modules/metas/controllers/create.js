@@ -16,13 +16,6 @@ app.controller('MetaCreateCtrl', function($scope,$position,$http,$rootScope,Noti
         $http.get("/admin/filial").then(function(result) {
             $scope.filiais = result.data;
         });
-
-        $scope.tipos = [
-        	{id:"produto_diaria",descricao:"Meta diária de produtos"},
-        	{id:"produto_mensal",descricao:"Meta mensal de produtos"},
-        	{id:"valor_diaria",descricao:"Meta diária por valor"},
-        	{id:"valor_mensal",descricao:"Meta mensal por valor"},
-        ];
     }
     $scope.selectFilial = function(filial){
         $http.get("/admin/vendedor",{
@@ -61,17 +54,32 @@ app.controller('MetaCreateCtrl', function($scope,$position,$http,$rootScope,Noti
 	        var produto = $scope.produtos_meta[i];
 	        total += (produto.valor * produto.quantidade);
 	    }
-	    $scope.produtos_meta_total = total;
+        $scope.produtos_meta_total = total;
+	    $scope.meta.valor = total;
 	}
-	$scope.containsObject = function(obj, list) {
-	    var i;
-	    for (i = 0; i < list.length; i++) {
-	        if (list[i].id === obj.id) {
-	            return true;
-	        }
-	    }
+    $scope.containsObject = function(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i].id === obj.id) {
+                return true;
+            }
+        }
 
-	    return false;
-	}
+        return false;
+    }
+	$scope.verificarDatas = function() {
+        if($scope.meta.de && $scope.meta.ate){
+
+            if($scope.meta.de.substring(3, 5) != $scope.meta.ate.substring(3, 5)){
+                alert("O período selecionado não deve estar em meses diferentes.");
+                return;
+            }
+            if(moment($scope.meta.de, "DD-MM-YYYY") > moment($scope.meta.ate, "DD-MM-YYYY")){
+                alert("A data inicial deve ser maior que a data final.");
+                return;
+            }
+        }
+    }
+
     $scope.initialize();
 });

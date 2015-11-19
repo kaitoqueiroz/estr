@@ -28,6 +28,9 @@ angular.module('sbAdminApp')
           $scope.showCadastrarProdutos = true;
           $scope.showCadastrarMensagens = true;
 
+          $scope.showRelatorioVendedores = ($scope.getCookie('tipo')=='admin')?false:true;
+          $scope.showRelatorioFiliais = ($scope.getCookie('tipo')=='admin')?true:false;
+
 
         }
         $scope.getCookie = function(name){

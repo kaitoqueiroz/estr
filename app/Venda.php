@@ -9,8 +9,12 @@ class Venda extends Model
     protected $table = 'venda';
 
 
-    public function produto_venda()
+    public function vendedor()
     {
-    	return $this->hasMany("App\ProdutoVenda");
+        return $this->belongsTo("App\Vendedor");
+    }
+    public function produtos()
+    {
+    	return $this->belongsToMany('App\Produto','produtovenda')->withPivot('quantidade');
     }
 }

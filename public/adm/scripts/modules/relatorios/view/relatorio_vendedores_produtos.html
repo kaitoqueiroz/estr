@@ -1,0 +1,130 @@
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header" >Produtos vendidos</h1>
+            <div class="form-group col-xs-2 pull-left">
+                 <label>De</label>
+                 <input ui-mask="99/99/9999" ng-model="de" type="text" class="form-control"/>
+            </div>
+            <div class="form-group col-xs-2 pull-left">
+                 <label>Até</label>
+                 <input ui-mask="99/99/9999" ng-model="ate" type="text" class="form-control"/>
+            </div>
+            <div class="form-group col-xs-2 pull-left">
+                 <label>Vendedor</label>
+                 <select type="text" ng-model="vendedor"  
+                    ng-options="vendedor.nome for vendedor in vendedores track by vendedor.id" class="form-control">
+                    <option value="?"></option>
+                 </select>
+            </div>
+            <div class="form-group col-xs-4 pull-left">
+                <a class="btn btn-primary" style="margin-top: 25px" ng-click="filtrar();" ng-disabled="!de || !ate">
+                    Filtrar
+                </a>
+            </div>
+            <div class="form-group col-xs-4 pull-right">
+                <label for="itensPerPage" class="col-xs-8 control-label" style="margin-top: 6px;text-align: right;">Registros por Página </label>
+                <div class="col-xs-4">
+                    <select id="itensPerPage" ng-model="itemsPerPage" ng-change="changeItensPerPage();" class="form-control col-xs-12">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="table-responsive col-xs-12">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">
+                                <span>CÓD. Produto </span>
+                            </th>
+                            <th class="col-md-1">
+                                <span>Descrição </span>
+                            </th>
+                            <th class="col-md-1">
+                                <span>Vendido </span>
+                            </th>
+                            <th class="col-md-1">
+                                <span>Valor total </span>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="produto in produtos_vendidos track by produto.id" style="cursor:pointer" data-toggle="modal" data-target="#myModal" ng-click="selecionarProduto(produto)">
+                            <td>{{produto.cod_produto}} </td>
+                            <td>{{produto.descricao}} </td>
+                            <td>{{produto.produtos_vendidos}} </td>
+                            <td>{{produto.valor_total | currency:"R$ ":2}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination  previous-text="&lsaquo;" next-text="&rsaquo;" items-per-page="itemsPerPage" first-text="&laquo;" last-text="&raquo;" total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-lg pull-right" boundary-links="true" rotate="false" num-pages="numPages" ng-change="pageChanged()"></pagination>
+            </div>
+
+            <div class="table-responsive col-xs-12">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Vendas</th>
+                            <th>Total</th>
+                            <th>Cupom Médio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{dados_venda.qtde_vendas}}</td>
+                            <td>{{dados_venda.valor_total | currency:"R$ ":2}}</td>
+                            <td>{{dados_venda.valor_total / dados_venda.qtde_vendas | currency:"R$ ":2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Vendedores</h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <span>Nome</span>
+                        </th>
+                        <th>
+                            <span>Quantidade</span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="vendedor in produto_selecionado.vendedores  | orderBy:'-vendedor.quantidade'">
+                        <td>{{vendedor.nome}} </td>
+                        <td>{{vendedor.quantidade}} </td>
+                    </tr>   
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
