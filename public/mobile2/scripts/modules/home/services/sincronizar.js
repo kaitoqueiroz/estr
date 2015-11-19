@@ -28,8 +28,8 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
         dados_sync.mensagens = lib.queryAll("mensagens");
         dados_sync.atendimentos = lib.queryAll("atendimentos");
         
-        $http.post("/sincronizar/"+localStorage.usuario,{
-        // $http.post("http://104.131.24.32:81/sincronizar/"+localStorage.usuario,{
+        // $http.post("/sincronizar/"+localStorage.usuario,{
+        $http.post("http://104.131.24.32:81/sincronizar/"+localStorage.usuario,{
             dados_sync:dados_sync
         }).then(function(result){
             lib.truncate("atendimentos");

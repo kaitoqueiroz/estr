@@ -6,8 +6,8 @@ app.controller('LoginCtrl', function($scope,$state,$position,$http,$rootScope,No
         $scope.erros = '';
     }
     $scope.entrar = function(){
-        $http.get('/login',{
-        // $http.get('http://104.131.24.32:81/login',{
+        // $http.get('/login',{
+        $http.get('http://104.131.24.32:81/login',{
             params:{
                 login: $scope.login,
                 senha: $scope.senha            }
