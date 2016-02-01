@@ -102,7 +102,7 @@ app.controller('RelatorioVendedoresMetasCtrl', function($scope,$state,$statePara
             $scope.orderField,
             $scope.de,
             $scope.ate,
-            $scope.vendedor.id
+            ($scope.vendedor)?$scope.vendedor.id:""
         );
     }
     $scope.selecionarMeta = function(meta){

@@ -3,8 +3,10 @@
 app.controller('HomeCtrl', function($scope,$stateParams,$position,$http,$rootScope,Notification) {
     $scope.initialize = function(){
         $scope.metasVigentes = $rootScope.metas.filter(function(meta){
-            return moment().format('YYYY-10-DD') >= meta.de && moment().format('YYYY-10-DD') <= meta.ate;
+            return moment().format('YYYY-MM-DD') >= meta.de && moment().format('YYYY-MM-DD') <= meta.ate;
         });
+
+        console.log($scope.metasVigentes);
 
         $scope.metasVigentes.forEach(function(meta){
             meta.produtosVenda = [];

@@ -92,7 +92,7 @@ app.controller('RelatorioFiliaisMetasCtrl', function($scope,$state,$stateParams,
             $scope.toggleOrderType,
             $scope.orderField,
             $scope.mes,
-            $scope.filial.id
+            ($scope.filial)?$scope.filial.id:""
         );
     }
     $scope.selecionarMeta = function(filial_id){

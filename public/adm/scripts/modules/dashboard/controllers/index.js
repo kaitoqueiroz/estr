@@ -52,7 +52,6 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
             $scope.dados_chart.financeira.data.push(data_financeira);
 
             var filial = $scope.getCookie('filial');
-            console.log(filial);
             var result = null;
             if(filial){
                 result = $http.get("/metas_filial",{
@@ -69,10 +68,11 @@ app.controller('DashboardCtrl', function($scope,$position,$http,$rootScope,Notif
                 });
             }
 
-            result.then(function(result) {
-                data_meta.y = result.data.dados.valor_total;
-                data_produtos.y = result.data.dados.valor_total_meta;
-                data_financeira.y = result.data.dados.valor_total_financeira;
+            result.then(function(res) {
+                console.log(res);
+                data_meta.y = res.data.dados.valor_total;
+                data_produtos.y = res.data.dados.valor_total_meta;
+                data_financeira.y = res.data.dados.valor_total_financeira;
 
 
 

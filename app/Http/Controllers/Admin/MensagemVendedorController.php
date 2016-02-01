@@ -43,7 +43,6 @@ class MensagemVendedorController extends Controller {
 		$mensagemvendedor->mensagem_id = $request->input("mensagem_id");
         $mensagemvendedor->mensagem_id = $request->input("mensagem_id");
         $mensagemvendedor->vendedor_id = $request->input("vendedor_id");
-        $mensagemvendedor->vendedor_id = $request->input("vendedor_id");
 
 		$mensagemvendedor->save();
 
@@ -89,7 +88,6 @@ class MensagemVendedorController extends Controller {
 
 		$mensagemvendedor->mensagem_id = $request->input("mensagem_id");
         $mensagemvendedor->mensagem_id = $request->input("mensagem_id");
-        $mensagemvendedor->vendedor_id = $request->input("vendedor_id");
         $mensagemvendedor->vendedor_id = $request->input("vendedor_id");
 
 		$mensagemvendedor->save();

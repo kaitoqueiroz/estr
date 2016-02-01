@@ -12,7 +12,7 @@ app.controller('MensagemShowCtrl', function($scope,$position,$http,$rootScope,No
     $scope.enviarMensagem = function(){
         var mensagem = {
             mensagem : $scope.inserir_mensagem,
-            vendedor : $stateParams.id,
+            vendedor_id : $stateParams.id,
         };
         $http.post("/admin/mensagem",mensagem).then(function(result) {
             $scope.initialize();

@@ -357,7 +357,6 @@ class MetaController extends Controller {
                     foreach ($venda->produtos as $produto) {
                         if(isset($produtos_meta[$produto->id])){
                             $filiais[$filial->id]['valor_total_meta']+=$produto->valor*$produto->pivot->quantidade;
-                            var_dump($filiais[$filial->id]['valor_total_meta']);
                         }
                         $filiais[$filial->id]['valor_total_financeira']+=$produto->valor*$produto->pivot->quantidade;
                     }

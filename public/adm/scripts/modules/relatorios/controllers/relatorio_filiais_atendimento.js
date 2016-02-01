@@ -95,7 +95,7 @@ app.controller('RelatorioFiliaisAtendimentoCtrl', function($scope,$state,$positi
             $scope.orderField,
             $scope.de,
             $scope.ate,
-            $scope.vendedor.id
+            ($scope.vendedor)?$scope.vendedor.id:""
         );
     }
     $scope.initialize();
