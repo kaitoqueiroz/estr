@@ -14,7 +14,7 @@ class CreateAtendimentosTable extends Migration {
 	{
 		Schema::create('atendimento', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('outro_dia');
+            $table->string('outro_dia')->nullable;
             $table->string('motivo');
             $table->integer('produto_id')->unsigned();
             $table->foreign('produto_id')->references('id')->on('produto')->onDelete('cascade');

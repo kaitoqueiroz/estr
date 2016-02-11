@@ -44,7 +44,7 @@ app.service('sincronizarService', function($rootScope,$resource,$http,mensagemSe
 
             var vendedor = result.data.vendedor[0];
 
-            result.data.mensagens.forEach(function(obj){
+            result.data.vendedor.forEach(function(obj){
                 lib.insert("vendedor", {id: vendedor.id, nome: vendedor.nome});
             });
 

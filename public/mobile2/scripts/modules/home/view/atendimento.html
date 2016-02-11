@@ -19,6 +19,11 @@
                      </select>
                 </div>
 
+                <div ng-show="motivo.descricao == 'Outro'" class="form-group col-xs-12">
+                    <label>Descreva o motivo:</label>
+                    <input ng-model="motivo.descricao_outro" type="text" class="form-control"/>
+                </div>
+
                 <div class="form-group col-xs-12">
                     <label>Vai comprar na seguinte data:</label>
                     <input ui-mask="99/99/9999" ng-model="outro_dia" type="text" class="form-control"/>

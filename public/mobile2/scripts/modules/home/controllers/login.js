@@ -12,13 +12,11 @@ app.controller('LoginCtrl', function($scope,$state,$position,$http,$rootScope,No
                 login: $scope.login,
                 senha: $scope.senha            }
         }).then(function(result){
-            console.log(result);
             if(result.data.result == "OK"){
                 try{
                     localStorage.usuario = result.data.usuario;
 
                     sincronizarService.sincronizar();
-
                     $window.location.href = "#/home";
                 }catch(e){
                     $scope.erros = e;
