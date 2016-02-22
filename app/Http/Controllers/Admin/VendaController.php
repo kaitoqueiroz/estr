@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 
 use DB;
 use App\Venda;
+use App\ProdutoVenda;
+use App\Vendedor;
+use App\Filial;
 use Illuminate\Http\Request;
 
 class VendaController extends Controller {
@@ -59,8 +62,16 @@ class VendaController extends Controller {
 	public function show($id)
 	{
 		$venda = Venda::findOrFail($id);
+		
+		
+		$venda->vendedor_id = Vendedor::findOrFail($venda->vendedor_id);
+		$venda->filial = Filial::findOrFail($venda->vendedor_id->filial_id);
+		
+		$venda->produtos_venda = DB::table('produtovenda')
+			->join('produto', 'produto.id', '=', 'produtovenda.produto_id')
+			->where('venda_id','=',$venda->id)->get();
 
-		return view('admin.venda.show', compact('venda'));
+		return response()->json($venda);
 	}
 
 	/**
@@ -87,13 +98,29 @@ class VendaController extends Controller {
 	{
 		$venda = Venda::findOrFail($id);
 
-		$venda->vendedor_id = $request->input("vendedor_id");
-        $venda->vendedor_id = $request->input("vendedor_id");
-        $venda->data = $request->input("data");
+        $venda->data = null;
+        if($request->input("data")){
+            $data_dia = substr($request->input("data"),0,2);
+            $data_mes = substr($request->input("data"),2,2);
+            $data_ano = substr($request->input("data"),-4);
+            $venda->data = $data_ano."-".$data_mes."-".$data_dia;
+        }
+
+        $venda->vendedor_id = $request->input("vendedor_id")["id"];
+        $produtos_venda = $request->input("produtos_venda");
 
 		$venda->save();
 
-		return redirect()->action('Admin\VendaController@index')->with('message', 'Item updated successfully.');
+		DB::table('produtovenda')->where('venda_id', '=', $venda->id)->delete();
+        foreach ($produtos_venda as $key => $produto_venda) {
+        	$produtoVenda = new ProdutoVenda();
+			$produtoVenda->venda_id = $venda->id;
+			$produtoVenda->produto_id = $produto_venda["id"];
+			$produtoVenda->quantidade = $produto_venda["quantidade"];
+			$produtoVenda->save();
+        }
+
+		return response()->json($venda);
 	}
 
 	/**
@@ -107,7 +134,7 @@ class VendaController extends Controller {
 		$venda = Venda::findOrFail($id);
 		$venda->delete();
 
-		return redirect()->action('Admin\VendaController@index')->with('message', 'Item deleted successfully.');
+		return response()->json(array());
 	}
 	public function vendas(Request $request)
 	{
@@ -117,6 +144,7 @@ class VendaController extends Controller {
 		$pagina = $request->input('pagina');
 		$orderBy = $request->input('orderBy');
 		$orderByField = $request->input('orderByField');
+        $filial_id = $request->input('filial_id');
 
 		$skip = $take*$pagina;
 		$qb = DB::table('venda')
@@ -136,6 +164,16 @@ class VendaController extends Controller {
 			$valor_total_periodo+=$venda->valor_total;
 		}
 
+        $filial = "";
+        if(isset($_COOKIE['filial'])){
+            $filial = $_COOKIE['filial'];
+        }
+        if($filial){
+            $qb = $qb->where('vendedor.filial_id', '=', $filial);
+        }
+        if($filial_id){
+            $qb = $qb->where('vendedor.filial_id', '=', $filial_id);
+        }
 		if($take){
 			$qb = $qb->take($take);
 		}

@@ -22,6 +22,7 @@ Route::resource("admin/produto","Admin\ProdutoController");
 Route::resource("admin/mensagem","Admin\MensagemController");
 Route::resource("admin/usuario","Admin\UsuarioController");
 Route::resource("admin/atendimento","Admin\AtendimentoController");
+Route::resource("admin/venda","Admin\VendaController");
 
 Route::get("admin/meta/valor/diario","Admin\MetaController@metaValorDiario");
 Route::get("admin/meta/valor/all","Admin\MetaController@metaValorAll");

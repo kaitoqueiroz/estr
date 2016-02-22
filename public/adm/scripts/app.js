@@ -358,6 +358,66 @@ var app = angular
 					}
 				}
 			})
+			.state('dashboard.vendas_list',{
+				url:'/vendas_list',
+				controller:'VendaListCtrl',
+				templateUrl:'scripts/modules/vendas/view/index.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/vendas/controllers/index.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.vendas_create',{
+				url:'/vendas/create',
+				controller:'VendaCreateCtrl',
+				templateUrl:'scripts/modules/vendas/view/create.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/vendas/controllers/create.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.vendas_show',{
+				url:'/vendas/show/:id',
+				controller:'VendaShowCtrl',
+				templateUrl:'scripts/modules/vendas/view/show.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/vendas/controllers/show.js',
+							]
+						})
+					}
+				}
+			})
+			.state('dashboard.vendas_edit',{
+				url:'/vendas/edit/:id',
+				controller:'VendaEditCtrl',
+				templateUrl:'scripts/modules/vendas/view/edit.html',
+				resolve: {
+					loadMyFile:function($ocLazyLoad) {
+						return $ocLazyLoad.load({
+							name:'sbAdminApp',
+							files:[
+								'scripts/modules/vendas/controllers/edit.js',
+							]
+						})
+					}
+				}
+			})
 			.state('dashboard.vendedores',{
 				url:'/vendedores',
 				controller:'VendedorListCtrl',

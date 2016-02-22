@@ -1,0 +1,27 @@
+<div class="page-header">
+    <h1>Visualizar Venda</h1>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form action="#">
+            <div class="form-group">
+                <label for="nome">ID</label>
+                <p class="form-control-static">{{venda.id}}</p>
+            </div>
+            <div class="form-group">
+                 <label for="nome">Tipo da Venda</label>
+                 <p class="form-control-static">{{venda.tipo_venda}}</p>
+            </div>
+            <div class="form-group">
+                 <label for="nome">Valor</label>
+                 <p class="form-control-static">{{venda.valor | currency:"R$ ":2}}</p>
+            </div>
+        </form>
+        <a class="btn btn-default" href="#/vendas">Voltar</a>
+        <a class="btn btn-warning" href="#/vendas/edit/{{venda.id}}">Editar</a>
+        <a class="btn btn-danger" ng-click="excluir(venda.id)">Excluir</a>
+    </div>
+</div>
