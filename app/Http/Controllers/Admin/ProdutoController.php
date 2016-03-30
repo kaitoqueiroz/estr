@@ -30,6 +30,8 @@ class ProdutoController extends Controller {
 		}
 		if($orderByField && $orderBy){
 			$qb = $qb->orderBy($orderByField, $orderBy);
+		}else {
+			$qb = $qb->orderBy("descricao", "ASC");
 		}
 		$list = $qb->get();
 
