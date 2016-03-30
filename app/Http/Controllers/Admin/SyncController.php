@@ -198,7 +198,7 @@ class SyncController extends Controller {
 		$dados["mensagens"] = $mensagens;
 
 
-		$dados["produtos"] = DB::table('produto')->get();
+		$dados["produtos"] = DB::table('produto')->orderBy('descricao', 'asc')->get();
 		$dados["vendedor"] = DB::table('vendedor')->where("id","=",$id)->get();
 		
 		$dados["metas"] = DB::table('meta')->where("vendedor_id","=",$id)->get();
